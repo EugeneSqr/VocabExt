@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VX.Web", "VX.Web\VX.Web.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VX.Service", "VX.Service\VX.Service.csproj", "{322B7A69-17E3-45F0-9D11-2BEB27B5BD72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VX.Domain", "VX.Domain\VX.Domain.csproj", "{D7E6BB4C-19E1-40E8-88F9-597754311E52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{322B7A69-17E3-45F0-9D11-2BEB27B5BD72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{322B7A69-17E3-45F0-9D11-2BEB27B5BD72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{322B7A69-17E3-45F0-9D11-2BEB27B5BD72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7E6BB4C-19E1-40E8-88F9-597754311E52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7E6BB4C-19E1-40E8-88F9-597754311E52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7E6BB4C-19E1-40E8-88F9-597754311E52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7E6BB4C-19E1-40E8-88F9-597754311E52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
