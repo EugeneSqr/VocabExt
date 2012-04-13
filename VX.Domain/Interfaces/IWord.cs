@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace VX.Domain.Interfaces
+﻿namespace VX.Domain.Interfaces
 {
     public interface IWord
     {
+        int Id { get; set; }
+
         string Spelling { get; set; }
 
         string Transcription { get; set; }
