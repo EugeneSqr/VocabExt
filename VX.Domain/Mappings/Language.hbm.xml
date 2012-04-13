@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2"
-                   assembly="VX"
-                   namespace="VX.Domain">
-  <class name="Language">
+                   assembly="VX.Domain"
+                   namespace="VX.Domain"
+                   schema="domain">
+  <class name="Language" table="LANGUAGES">
     <id name="Id" column="PK_ID">
       <generator class="identity"></generator>
     </id>

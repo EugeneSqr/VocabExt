@@ -34,6 +34,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NHibernate">
+      <HintPath>..\.Libraries\Nhibernate\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -63,6 +66,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LanguageRepository.cs" />
+    <Compile Include="NHibernateHelper.cs" />
     <Compile Include="VocabExtService.svc.cs">
       <DependentUpon>VocabExtService.svc</DependentUpon>
     </Compile>
@@ -71,6 +76,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VX.Domain\VX.Domain.csproj">
+      <Project>{D7E6BB4C-19E1-40E8-88F9-597754311E52}</Project>
+      <Name>VX.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

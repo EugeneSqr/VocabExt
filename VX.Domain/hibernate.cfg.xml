@@ -2,7 +2,7 @@
 <hibernate-configuration  xmlns="urn:nhibernate-configuration-2.2" >
   <session-factory name="NHibernate.Test">
     <property name="connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
-    <property name="connection.connection_string">Server=.;Database=VX;User ID=sa;Password=sa"</property>
+    <property name="connection.connection_string">Server=.;Database=VX;User ID=sa;Password=sa</property>
     <property name="adonet.batch_size">10</property>
     <property name="show_sql">false</property>
     <property name="dialect">NHibernate.Dialect.MsSql2000Dialect</property>

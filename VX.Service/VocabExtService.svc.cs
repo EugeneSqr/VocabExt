@@ -6,7 +6,8 @@ namespace VX.Service
     {
         public string GetData(int value)
         {
-            return string.Format("You entered: {0}", value);
+            // return string.Format("You entered: {0}", value);
+            return new LanguageRepository().GetById(1).Name;
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
