@@ -34,9 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="NHibernate">
-      <HintPath>..\.Libraries\Nhibernate\NHibernate.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -66,8 +64,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LanguageRepository.cs" />
-    <Compile Include="NHibernateHelper.cs" />
+    <Compile Include="Repositories\LanguageRepository.cs" />
     <Compile Include="VocabExtService.svc.cs">
       <DependentUpon>VocabExtService.svc</DependentUpon>
     </Compile>

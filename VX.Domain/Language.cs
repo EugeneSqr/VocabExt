@@ -1,13 +1,48 @@
-﻿using VX.Domain.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using VX.Domain.Interfaces;
 
 namespace VX.Domain
 {
     public class Language : ILanguage
     {
-        public virtual int Id { get; set; }
+        public int Id
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public virtual string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public virtual string Abbreviation { get; set; }
+        public string Abbreviation
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }
