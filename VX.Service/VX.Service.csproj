@@ -64,7 +64,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repositories\LanguageRepository.cs" />
+    <Compile Include="Repositories\LanguagesRepository.cs" />
+    <Compile Include="Repositories\WordRepository.cs" />
     <Compile Include="VocabExtService.svc.cs">
       <DependentUpon>VocabExtService.svc</DependentUpon>
     </Compile>

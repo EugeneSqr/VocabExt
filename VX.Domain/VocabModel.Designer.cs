@@ -18,7 +18,7 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("VocabModel", "FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(VX.Domain.EntityLanguage), "WORDS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.EntityWord), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Languages), "WORDS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.Words), true)]
 
 #endregion
 
@@ -29,32 +29,32 @@ namespace VX.Domain
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    public partial class VXEntities : ObjectContext
+    public partial class Entities : ObjectContext
     {
         #region Constructors
     
         /// <summary>
-        /// Initializes a new VXEntities object using the connection string found in the 'VXEntities' section of the application configuration file.
+        /// Initializes a new Entities object using the connection string found in the 'Entities' section of the application configuration file.
         /// </summary>
-        public VXEntities() : base("name=VXEntities", "VXEntities")
+        public Entities() : base("name=Entities", "Entities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new VXEntities object.
+        /// Initialize a new Entities object.
         /// </summary>
-        public VXEntities(string connectionString) : base(connectionString, "VXEntities")
+        public Entities(string connectionString) : base(connectionString, "Entities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new VXEntities object.
+        /// Initialize a new Entities object.
         /// </summary>
-        public VXEntities(EntityConnection connection) : base(connection, "VXEntities")
+        public Entities(EntityConnection connection) : base(connection, "Entities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -73,52 +73,52 @@ namespace VX.Domain
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<EntityLanguage> EntityLanguages
+        public ObjectSet<Languages> Languages
         {
             get
             {
-                if ((_EntityLanguages == null))
+                if ((_Languages == null))
                 {
-                    _EntityLanguages = base.CreateObjectSet<EntityLanguage>("EntityLanguages");
+                    _Languages = base.CreateObjectSet<Languages>("Languages");
                 }
-                return _EntityLanguages;
+                return _Languages;
             }
         }
-        private ObjectSet<EntityLanguage> _EntityLanguages;
+        private ObjectSet<Languages> _Languages;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<EntityWord> EntityWords
+        public ObjectSet<Words> Words
         {
             get
             {
-                if ((_EntityWords == null))
+                if ((_Words == null))
                 {
-                    _EntityWords = base.CreateObjectSet<EntityWord>("EntityWords");
+                    _Words = base.CreateObjectSet<Words>("Words");
                 }
-                return _EntityWords;
+                return _Words;
             }
         }
-        private ObjectSet<EntityWord> _EntityWords;
+        private ObjectSet<Words> _Words;
 
         #endregion
         #region AddTo Methods
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the EntityLanguages EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Languages EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToEntityLanguages(EntityLanguage entityLanguage)
+        public void AddToLanguages(Languages languages)
         {
-            base.AddObject("EntityLanguages", entityLanguage);
+            base.AddObject("Languages", languages);
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the EntityWords EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Words EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToEntityWords(EntityWord entityWord)
+        public void AddToWords(Words words)
         {
-            base.AddObject("EntityWords", entityWord);
+            base.AddObject("Words", words);
         }
 
         #endregion
@@ -132,22 +132,22 @@ namespace VX.Domain
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="VocabModel", Name="EntityLanguage")]
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="Languages")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class EntityLanguage : EntityObject
+    public partial class Languages : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new EntityLanguage object.
+        /// Create a new Languages object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        public static EntityLanguage CreateEntityLanguage(global::System.Int32 id)
+        public static Languages CreateLanguages(global::System.Int32 id)
         {
-            EntityLanguage entityLanguage = new EntityLanguage();
-            entityLanguage.Id = id;
-            return entityLanguage;
+            Languages languages = new Languages();
+            languages.Id = id;
+            return languages;
         }
 
         #endregion
@@ -238,18 +238,18 @@ namespace VX.Domain
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("VocabModel", "FK__WORDS__LANGUAGE___0519C6AF", "WORDS")]
-        public EntityCollection<EntityWord> Words
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__WORDS__LANGUAGE___0519C6AF", "WORDS")]
+        public EntityCollection<Words> Word
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<EntityWord>("VocabModel.FK__WORDS__LANGUAGE___0519C6AF", "WORDS");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Words>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "WORDS");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<EntityWord>("VocabModel.FK__WORDS__LANGUAGE___0519C6AF", "WORDS", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Words>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "WORDS", value);
                 }
             }
         }
@@ -260,22 +260,24 @@ namespace VX.Domain
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="VocabModel", Name="EntityWord")]
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="Words")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class EntityWord : EntityObject
+    public partial class Words : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new EntityWord object.
+        /// Create a new Words object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        public static EntityWord CreateEntityWord(global::System.Int32 id)
+        /// <param name="languageId">Initial value of the LanguageId property.</param>
+        public static Words CreateWords(global::System.Int32 id, global::System.Int32 languageId)
         {
-            EntityWord entityWord = new EntityWord();
-            entityWord.Id = id;
-            return entityWord;
+            Words words = new Words();
+            words.Id = id;
+            words.LanguageId = languageId;
+            return words;
         }
 
         #endregion
@@ -359,9 +361,9 @@ namespace VX.Domain
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> LanguageId
+        public global::System.Int32 LanguageId
         {
             get
             {
@@ -376,8 +378,8 @@ namespace VX.Domain
                 OnLanguageIdChanged();
             }
         }
-        private Nullable<global::System.Int32> _LanguageId;
-        partial void OnLanguageIdChanging(Nullable<global::System.Int32> value);
+        private global::System.Int32 _LanguageId;
+        partial void OnLanguageIdChanging(global::System.Int32 value);
         partial void OnLanguageIdChanged();
 
         #endregion
@@ -390,16 +392,16 @@ namespace VX.Domain
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("VocabModel", "FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES")]
-        public EntityLanguage Languages
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES")]
+        public Languages Language
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EntityLanguage>("VocabModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Languages>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EntityLanguage>("VocabModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Languages>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES").Value = value;
             }
         }
         /// <summary>
@@ -407,17 +409,17 @@ namespace VX.Domain
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<EntityLanguage> LanguagesReference
+        public EntityReference<Languages> LanguageReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<EntityLanguage>("VocabModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Languages>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<EntityLanguage>("VocabModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Languages>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES", value);
                 }
             }
         }
