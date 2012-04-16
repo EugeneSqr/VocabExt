@@ -6,3 +6,6 @@ VX.Domain/bin/
 VX.Domain/obj/
 VX.Desktop/bin/
 VX.Desktop/obj/
+VX.Tests/bin/
+VX.Tests/obj/
+_ReSharper.VX/
