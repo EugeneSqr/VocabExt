@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using VX.Web.VocabExtServiceReference;
+using VX.ServiceFacade;
 
 namespace VX.Web.Controllers
 {
@@ -8,8 +8,9 @@ namespace VX.Web.Controllers
     {
         public ActionResult Index()
         {
-            var service = new VocabExtServiceClient();
-            ViewData["Message"] = service.GetData(1);
+            var service = new VocabServiceFacade();
+            /*ViewData["Message"] = service.GetData(1);*/
+            ViewData["Message"] = service.GetLanguage(1).Name;
 
             return View();
         }

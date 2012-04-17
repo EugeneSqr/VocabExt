@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VX.Web.VocabExtServiceReference {
+namespace VX.ServiceFacade.VocabServiceReference {
     using System.Runtime.Serialization;
     using System;
     
@@ -75,23 +75,23 @@ namespace VX.Web.VocabExtServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="VocabExtServiceReference.IVocabExtService")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="VocabServiceReference.IVocabExtService")]
     public interface IVocabExtService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVocabExtService/GetData", ReplyAction="http://tempuri.org/IVocabExtService/GetDataResponse")]
         string GetData(int value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVocabExtService/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IVocabExtService/GetDataUsingDataContractResponse")]
-        VX.Web.VocabExtServiceReference.CompositeType GetDataUsingDataContract(VX.Web.VocabExtServiceReference.CompositeType composite);
+        VX.ServiceFacade.VocabServiceReference.CompositeType GetDataUsingDataContract(VX.ServiceFacade.VocabServiceReference.CompositeType composite);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IVocabExtServiceChannel : VX.Web.VocabExtServiceReference.IVocabExtService, System.ServiceModel.IClientChannel {
+    public interface IVocabExtServiceChannel : VX.ServiceFacade.VocabServiceReference.IVocabExtService, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class VocabExtServiceClient : System.ServiceModel.ClientBase<VX.Web.VocabExtServiceReference.IVocabExtService>, VX.Web.VocabExtServiceReference.IVocabExtService {
+    public partial class VocabExtServiceClient : System.ServiceModel.ClientBase<VX.ServiceFacade.VocabServiceReference.IVocabExtService>, VX.ServiceFacade.VocabServiceReference.IVocabExtService {
         
         public VocabExtServiceClient() {
         }
@@ -116,7 +116,7 @@ namespace VX.Web.VocabExtServiceReference {
             return base.Channel.GetData(value);
         }
         
-        public VX.Web.VocabExtServiceReference.CompositeType GetDataUsingDataContract(VX.Web.VocabExtServiceReference.CompositeType composite) {
+        public VX.ServiceFacade.VocabServiceReference.CompositeType GetDataUsingDataContract(VX.ServiceFacade.VocabServiceReference.CompositeType composite) {
             return base.Channel.GetDataUsingDataContract(composite);
         }
     }

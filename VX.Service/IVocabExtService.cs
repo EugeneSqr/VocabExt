@@ -6,7 +6,6 @@ namespace VX.Service
     [ServiceContract]
     public interface IVocabExtService
     {
-
         [OperationContract]
         string GetData(int value);
 

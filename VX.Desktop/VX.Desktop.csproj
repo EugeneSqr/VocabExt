@@ -49,6 +49,9 @@
     <Reference Include="VX.Domain">
       <HintPath>..\.Libraries\VX.Domain.dll</HintPath>
     </Reference>
+    <Reference Include="VX.ServiceFacade">
+      <HintPath>..\.Libraries\VX.ServiceFacade.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
