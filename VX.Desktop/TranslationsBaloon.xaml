@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="VX.Desktop.TranslationsBaloon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="358" d:DesignWidth="296" Loaded="UserControlLoaded">
+    <UserControl.Resources>
+        <Style x:Key="wordToTranslate" TargetType="Label">
+            <Setter Property="FontWeight" Value="bold" />
+        </Style>
+        <Style x:Key="translationsList" TargetType="ListBox">
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid Height="358" Width="296">
+        <ListBox Style="{StaticResource translationsList}" 
+                 Height="233" HorizontalAlignment="Left" Margin="12,55,0,0" 
+                 Name="translationsList" VerticalAlignment="Top" Width="276" SelectionChanged="translationsList_SelectionChanged">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Spelling}"></TextBlock>
+                        <TextBlock Text="{Binding Transcription}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Style="{StaticResource wordToTranslate}" 
+               Height="39" HorizontalAlignment="Left" Margin="13,9,0,0" Name="wordToTranslate" VerticalAlignment="Top" Width="275" />
+    </Grid>
+</UserControl>
