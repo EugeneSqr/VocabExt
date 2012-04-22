@@ -7,6 +7,8 @@ namespace VX.Desktop
 {
     public partial class TranslationsPopup
     {
+        private const string TaskFormat = "{0} [{1}]";
+        
         public TranslationsPopup()
         {
             InitializeComponent();
@@ -15,17 +17,19 @@ namespace VX.Desktop
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
             translationsList.ItemsSource = GetTranslations();
-            wordToTranslate.Content = GetTask().Spelling;
+            wordToTranslate.Content = GetTask();
         }
 
-        private static IWord GetTask()
+        private static string GetTask()
         {
-            return new Word
+            var word = new Word
             {
                 Id = 1,
                 Spelling = "Dog",
                 Transcription = "Dog"
             };
+
+            return string.Format(TaskFormat, word.Spelling, word.Transcription);
         }
 
         private static IEnumerable<IWord> GetTranslations()

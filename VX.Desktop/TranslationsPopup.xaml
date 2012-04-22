@@ -7,54 +7,68 @@
              Loaded="UserControlLoaded">
     <UserControl.Resources>
         <Style x:Key="wordToTranslate" TargetType="Label">
-            <Setter Property="FontWeight" Value="bold" />
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
         </Style>
         <Style x:Key="translationsList" TargetType="ListBox">
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         </Style>
-        <Style x:Key="mainBorder" TargetType="Border">
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Stretch" />
-            <Setter Property="Width" Value="Auto" />
-            <Setter Property="Height" Value="Auto" />
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="CornerRadius" Value="10,10,10,10" />
-            <Setter Property="BorderThickness" Value="3" />
-            <Setter Property="BorderBrush" Value="CadetBlue" />
+        <Style x:Key="translationItemBorder" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="#728D26"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Margin" Value="0,2,0,2"/>
+        </Style>
+        <Style x:Key="translationItemText" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#728D26"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style x:Key="titleBorder" TargetType="Border">
+            <Setter Property="CornerRadius" Value="10,10,0,0"/>
+            <Setter Property="Background" Value="#FF5A9AE0"/>
+        </Style>
+        <Style x:Key="contentBorder" TargetType="Border">
+            <Setter Property="CornerRadius" Value="0,0,10,10"/>
+            <Setter Property="Background" Value="#D4E59F"/>
         </Style>
     </UserControl.Resources>
-    <Grid Height="160" Width="250">
-        <Border Style="{StaticResource mainBorder}" Margin="0">
-            <Border.Effect>
-                <DropShadowEffect
-          Color="#FF474747" />
-            </Border.Effect>
-            <Border.Background>
-                <LinearGradientBrush
-          EndPoint="0.5,1"
-          StartPoint="0.5,0">
-                    <GradientStop
-            Color="#FF58C2FF"
-            Offset="0" />
-                    <GradientStop
-            Color="#FFFFFFFF"
-            Offset="1" />
-                </LinearGradientBrush>
-            </Border.Background>
-            <ListBox Style="{StaticResource translationsList}" Height="100" Name="translationsList" Width="Auto" SelectionChanged="translationsList_SelectionChanged" VerticalAlignment="Bottom" Margin="5">
+    <Grid MinWidth="150">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Style="{StaticResource titleBorder}">
+            <Label Name="wordToTranslate" Style="{StaticResource wordToTranslate}"/>
+        </Border>
+        <Border Grid.Row="1" Style="{StaticResource contentBorder}">
+            <ListBox Name="translationsList" Style="{StaticResource translationsList}" SelectionChanged="translationsList_SelectionChanged">
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Spelling}"></TextBlock>
-                            <TextBlock Text="{Binding Transcription}"></TextBlock>
-                        </StackPanel>
+                    <DataTemplate>                        
+                        <Border x:Name="ListItem" Style="{StaticResource translationItemBorder}">
+                            <TextBlock Style="{StaticResource translationItemText}" Text="{Binding Spelling}"/>
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}"
+                                 Value="True">
+                                <Setter Property="Background" TargetName="ListItem">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                            <GradientStop Color="#728D26"/>
+                                            <GradientStop Color="White" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </Border>
-        <Label Style="{StaticResource wordToTranslate}" 
-               Height="30" HorizontalAlignment="Stretch" Margin="8" Name="wordToTranslate" VerticalAlignment="Top" Width="Auto" Padding="0" />
     </Grid>
 </UserControl>
