@@ -5,9 +5,9 @@ using VX.Domain.Interfaces;
 
 namespace VX.Desktop
 {
-    public partial class TranslationsBaloon
+    public partial class TranslationsPopup
     {
-        public TranslationsBaloon()
+        public TranslationsPopup()
         {
             InitializeComponent();
         }

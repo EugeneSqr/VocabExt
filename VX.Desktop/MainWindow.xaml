@@ -7,9 +7,8 @@
             Name="taskbarIcon"
             IconSource="Icons/tray.ico">
             <tb:TaskbarIcon.TrayPopup>
-                <Local:TranslationsBaloon></Local:TranslationsBaloon>
+                <Local:TranslationsPopup></Local:TranslationsPopup>
             </tb:TaskbarIcon.TrayPopup>
         </tb:TaskbarIcon>
-        <Local:TranslationsBaloon></Local:TranslationsBaloon>
     </Grid>
 </Window>
