@@ -1,0 +1,278 @@
+<Project>
+  <Name>VX</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Domain.Dictionary</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Word</Name>
+        <Access>Public</Access>
+        <Location left="481" top="80" />
+        <Size width="304" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string Spelling { get; set; }</Member>
+        <Member type="Property">public string Transcription { get; set; }</Member>
+        <Member type="Property">public ILanguage Language { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IWord</Name>
+        <Access>Public</Access>
+        <Location left="204" top="80" />
+        <Size width="205" height="112" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string Spelling { get; set; }</Member>
+        <Member type="Property">string Transcription { get; set; }</Member>
+        <Member type="Property">ILanguage Language { get; set; }</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITranslation</Name>
+        <Access>Public</Access>
+        <Location left="204" top="277" />
+        <Size width="205" height="95" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">IWord Source { get; set; }</Member>
+        <Member type="Property">IList&lt;IWord&gt; Target { get; set; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>Translation</Name>
+        <Access>Public</Access>
+        <Location left="481" top="277" />
+        <Size width="304" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Translation(IWord source, IWord target)</Member>
+        <Member type="Property">public IWord Source { get; set; }</Member>
+        <Member type="Property">public IList&lt;IWord&gt; Target { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILanguage</Name>
+        <Access>Public</Access>
+        <Location left="1022" top="80" />
+        <Size width="203" height="216" />
+        <Collapsed>True</Collapsed>
+        <Member type="Property">string Name { get; set; }</Member>
+        <Member type="Property">string Abbreviation { get; set; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>Language</Name>
+        <Access>Public</Access>
+        <Location left="823" top="80" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string Name { get; set; }</Member>
+        <Member type="Property">public string Abbreviation { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ITranslationDirection</Name>
+        <Access>Public</Access>
+        <Location left="1036" top="458" />
+        <Size width="189" height="112" />
+        <Collapsed>True</Collapsed>
+        <Member type="Property">string Name { get; set; }</Member>
+        <Member type="Property">ILanguage Source { get; set; }</Member>
+        <Member type="Property">ILanguage Target { get; set; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>TranslationDirection</Name>
+        <Access>Public</Access>
+        <Location left="823" top="458" />
+        <Size width="174" height="128" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string Name { get; set; }</Member>
+        <Member type="Property">public ILanguage Source { get; set; }</Member>
+        <Member type="Property">public ILanguage Target { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDictionary</Name>
+        <Access>Public</Access>
+        <Location left="204" top="458" />
+        <Size width="205" height="129" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string Name { get; set; }</Member>
+        <Member type="Property">ITranslationDirection TranslationDirection { get; }</Member>
+        <Member type="Property">int Size { get; }</Member>
+        <Member type="Property">IList&lt;ITranslation&gt; Items { get; set; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>Dictionary</Name>
+        <Access>Public</Access>
+        <Location left="481" top="458" />
+        <Size width="304" height="162" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Dictionary(IList&lt;ITranslation&gt; items)</Member>
+        <Member type="Property">public string Name { get; set; }</Member>
+        <Member type="Property">public ITranslationDirection TranslationDirection { get; set; }</Member>
+        <Member type="Property">public IList&lt;ITranslation&gt; Items { get; }</Member>
+        <Member type="Property">public int Size { get; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IVocabulary</Name>
+        <Access>Public</Access>
+        <Location left="823" top="670" />
+        <Size width="174" height="129" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">IPerson Person { get; set; }</Member>
+        <Member type="Property">int MaxSize { get; }</Member>
+        <Member type="Property">string Name { get; set; }</Member>
+        <Member type="Property">IList&lt;ITag&gt; Tags { get; set; }</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>Vocabulary</Name>
+        <Access>Public</Access>
+        <Location left="481" top="670" />
+        <Size width="304" height="179" />
+        <Collapsed>False</Collapsed>
+        <Member type="Constructor">public Vocabulary(IVocabulary first, IVocabulary second, int maxSize)</Member>
+        <Member type="Constructor">public Vocabulary(IVocabulary vocabulary, int maxSize)</Member>
+        <Member type="Property">public IPerson Person { get; set; }</Member>
+        <Member type="Property">public int MaxSize { get; }</Member>
+        <Member type="Property">public string Name { get; set; }</Member>
+        <Member type="Property">public IList&lt;ITag&gt; Tags { get; set; }</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Realization" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>456</X>
+          <Y>156</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>443</X>
+          <Y>156</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Realization" first="3" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="5" second="4">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1011</X>
+          <Y>104</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Realization" first="7" second="6">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1022</X>
+          <Y>482</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Realization" first="9" second="8">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>461</X>
+          <Y>484</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>434</X>
+          <Y>484</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Dependency" first="9" second="7">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>798</X>
+          <Y>531</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Dependency" first="7" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="1" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="3" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>2</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="9" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Aggregation</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Generalization" first="11" second="9">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>631</X>
+          <Y>645</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Realization" first="11" second="10">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>798</X>
+          <Y>691</Y>
+        </BendPoint>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Domain.Person</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Person</Name>
+        <Access>Public</Access>
+        <Location left="20" top="17" />
+        <Size width="162" height="196" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public string NickName { get; set; }</Member>
+        <Member type="Property">public string FirstName { get; set; }</Member>
+        <Member type="Property">public string LastName { get; set; }</Member>
+        <Member type="Property">public string Photo { get; set; }</Member>
+        <Member type="Property">public int Identifier { get; }</Member>
+        <Member type="Property">public string Email { get; }</Member>
+        <Member type="Method">public void ChangeEmail()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IPerson</Name>
+        <Access>Public</Access>
+        <Location left="253" top="17" />
+        <Size width="193" height="180" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">string NickName { get; set; }</Member>
+        <Member type="Property">string FirstName { get; set; }</Member>
+        <Member type="Property">string LastName { get; set; }</Member>
+        <Member type="Property">string Photo { get; set; }</Member>
+        <Member type="Property">int Identifier { get; }</Member>
+        <Member type="Property">string Email { get; }</Member>
+        <Member type="Method">void ChangeEmail()</Member>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Realization" first="0" second="1">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
