@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\.Libraries\Autofac\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web.DynamicData" />
@@ -64,8 +67,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Initializer.cs" />
+    <Compile Include="IServiceSettings.cs" />
     <Compile Include="Repositories\LanguagesRepository.cs" />
     <Compile Include="Repositories\WordRepository.cs" />
+    <Compile Include="ServiceSettings.cs" />
     <Compile Include="VocabExtService.svc.cs">
       <DependentUpon>VocabExtService.svc</DependentUpon>
     </Compile>
