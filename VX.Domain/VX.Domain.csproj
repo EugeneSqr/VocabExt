@@ -62,9 +62,6 @@
       <LastGenOutput>VocabModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetDir)VX.Domain.dll $(SolutionDir).Libraries\</PostBuildEvent>
