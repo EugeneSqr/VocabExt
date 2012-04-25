@@ -20,6 +20,10 @@ namespace VX.Service
                 .As<ILanguagesRepository>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<EntitiesFactory>()
+                .As<IEntitiesFactory>()
+                .InstancePerLifetimeScope();
+
             Container = builder.Build();
         }
     }

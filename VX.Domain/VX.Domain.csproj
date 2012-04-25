@@ -43,12 +43,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IEntitiesFactory.cs" />
     <Compile Include="Interfaces\ILanguage.cs" />
     <Compile Include="Interfaces\ILanguagesRepository.cs" />
+    <Compile Include="Interfaces\ITag.cs" />
+    <Compile Include="Interfaces\ITranslation.cs" />
+    <Compile Include="Interfaces\IVocabBank.cs" />
+    <Compile Include="Interfaces\IVocabBanksRepository.cs" />
     <Compile Include="Interfaces\IWord.cs" />
     <Compile Include="Interfaces\IWordsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Surrogates\LanguageSurrogate.cs" />
+    <Compile Include="Surrogates\VocabBankSurrogate.cs" />
     <Compile Include="Surrogates\WordSurrogate.cs" />
     <Compile Include="VocabModel.Designer.cs">
       <AutoGen>True</AutoGen>

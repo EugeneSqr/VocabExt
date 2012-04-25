@@ -7,11 +7,11 @@ using VX.Service.Repositories;
 namespace VX.Tests
 {
     [TestFixture]
-    internal class LanguageRepositoryTests
+    internal class LanguagesRepositoryTests
     {
         private readonly IContainer container;
         
-        public LanguageRepositoryTests()
+        public LanguagesRepositoryTests()
         {
             var builder = new ContainerBuilder();
 
@@ -21,6 +21,10 @@ namespace VX.Tests
 
             builder.RegisterType<ServiceSettingsMock>()
                 .As<IServiceSettings>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<EntitiesFactoryMock>()
+                .As<IEntitiesFactory>()
                 .InstancePerLifetimeScope();
 
             container = builder.Build();
