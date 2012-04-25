@@ -2,6 +2,7 @@
 
 using VX.Domain.Interfaces;
 using VX.Domain;
+using VX.Domain.Surrogates;
 
 namespace VX.Service.Repositories
 {
@@ -21,12 +22,12 @@ namespace VX.Service.Repositories
             {
                 result = context.Languages
                     .Where(lang => lang.Id == languageId)
-                    .Select(item => new Language 
-                    { 
-                        Id = item.Id,
-                        Name = item.Name,
-                        Abbreviation = item.Abbreviation
-                    })
+                    .Select(lang => new LanguageSurrogate
+                                        {
+                                            Id = languageId,
+                                            Name = lang.Name,
+                                            Abbreviation = lang.Abbreviation
+                                        })
                     .FirstOrDefault();
             }
 

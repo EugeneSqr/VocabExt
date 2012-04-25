@@ -1,8 +1,8 @@
 ﻿using VX.Domain.Interfaces;
 
-namespace VX.Domain
+namespace VX.Domain.Surrogates
 {
-    public class Language : ILanguage
+    public class LanguageSurrogate : ILanguage
     {
         public int Id { get; set; }
 
@@ -10,7 +10,7 @@ namespace VX.Domain
 
         public string Abbreviation { get; set; }
 
-        public bool Equals(Language other)
+        public bool Equals(LanguageSurrogate other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -21,7 +21,7 @@ namespace VX.Domain
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            return obj.GetType() == typeof (Language) && Equals((Language) obj);
+            return obj.GetType() == typeof (LanguageSurrogate) && Equals((LanguageSurrogate) obj);
         }
 
         public override int GetHashCode()

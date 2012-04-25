@@ -1,8 +1,8 @@
 ﻿using VX.Domain.Interfaces;
 
-namespace VX.Domain
+namespace VX.Domain.Surrogates
 {
-    public class Word : IWord
+    public class WordSurrogate : IWord
     {
         public int Id { get; set; }
 

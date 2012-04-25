@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using VX.Domain;
 using VX.Domain.Interfaces;
+using Word = VX.Domain.Surrogates.WordSurrogate;
 
 namespace VX.Service.Repositories
 {

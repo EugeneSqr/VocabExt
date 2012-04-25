@@ -1,5 +1,5 @@
-﻿using VX.Domain;
-using VX.Domain.Interfaces;
+﻿using VX.Domain.Interfaces;
+using VX.Domain.Surrogates;
 using VX.ServiceFacade.VocabServiceReference;
 
 namespace VX.ServiceFacade
@@ -10,10 +10,11 @@ namespace VX.ServiceFacade
 
         public ILanguage GetLanguage(int languageId)
         {
-            return new Language
+            return new LanguageSurrogate
                        {
                            Name = service.GetData(1)
                        };
+            
         }
     }
 }

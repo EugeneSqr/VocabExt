@@ -4,105 +4,451 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VXModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="VXModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="VXModelStoreContainer">
-          <EntitySet Name="LANGUAGES" EntityType="VXModel.Store.LANGUAGES" store:Type="Tables" Schema="domain" />
-          <EntitySet Name="WORDS" EntityType="VXModel.Store.WORDS" store:Type="Tables" Schema="domain" />
-          <AssociationSet Name="FK__WORDS__LANGUAGE___0519C6AF" Association="VXModel.Store.FK__WORDS__LANGUAGE___0519C6AF">
-            <End Role="LANGUAGES" EntitySet="LANGUAGES" />
-            <End Role="WORDS" EntitySet="WORDS" />
+          <EntitySet Name="Languages" EntityType="VXModel.Store.Languages" store:Type="Tables" Schema="domain" />
+          <EntitySet Name="Tags" EntityType="VXModel.Store.Tags" store:Type="Tables" Schema="domain" />
+          <EntitySet Name="Translations" EntityType="VXModel.Store.Translations" store:Type="Tables" Schema="domain" />
+          <EntitySet Name="VocabBanks" EntityType="VXModel.Store.VocabBanks" store:Type="Tables" Schema="domain" />
+          <EntitySet Name="VocabBanksTags" EntityType="VXModel.Store.VocabBanksTags" store:Type="Tables" Schema="domain" />
+          <EntitySet Name="VocabBanksTranslations" EntityType="VXModel.Store.VocabBanksTranslations" store:Type="Tables" Schema="domain" />
+          <EntitySet Name="Words" EntityType="VXModel.Store.Words" store:Type="Tables" Schema="domain" />
+          <AssociationSet Name="FK__Translati__SOURC__09DE7BCC" Association="VXModel.Store.FK__Translati__SOURC__09DE7BCC">
+            <End Role="Words" EntitySet="Words" />
+            <End Role="Translations" EntitySet="Translations" />
           </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="LANGUAGES">
-          <Key>
-            <PropertyRef Name="PK_ID" />
-          </Key>
-          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="NAME" Type="nvarchar" MaxLength="50" />
-          <Property Name="ABBREVIATION" Type="varchar" MaxLength="2" />
-        </EntityType>
-        <EntityType Name="WORDS">
-          <Key>
-            <PropertyRef Name="PK_ID" />
-          </Key>
-          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="SPELLING" Type="nvarchar" MaxLength="50" />
-          <Property Name="TRANSCRIPTION" Type="nvarchar" MaxLength="50" />
-          <Property Name="LANGUAGE_ID" Type="int" Nullable="false" />
-        </EntityType>
-        <Association Name="FK__WORDS__LANGUAGE___0519C6AF">
-          <End Role="LANGUAGES" Type="VXModel.Store.LANGUAGES" Multiplicity="1" />
-          <End Role="WORDS" Type="VXModel.Store.WORDS" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="LANGUAGES">
-              <PropertyRef Name="PK_ID" />
-            </Principal>
-            <Dependent Role="WORDS">
-              <PropertyRef Name="LANGUAGE_ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
-    </edmx:StorageModels>
-    <!-- CSDL content -->
-    <edmx:ConceptualModels>
-      <Schema Namespace="VXModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Languages" EntityType="VXModel.Languages" />
-          <EntitySet Name="Words" EntityType="VXModel.Words" />
-          <AssociationSet Name="FK__WORDS__LANGUAGE___0519C6AF" Association="VXModel.FK__WORDS__LANGUAGE___0519C6AF">
-            <End Role="LANGUAGES" EntitySet="Languages" />
-            <End Role="WORDS" EntitySet="Words" />
+          <AssociationSet Name="FK__Translati__TARGE__0AD2A005" Association="VXModel.Store.FK__Translati__TARGE__0AD2A005">
+            <End Role="Words" EntitySet="Words" />
+            <End Role="Translations" EntitySet="Translations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VocabBank__TAG_I__182C9B23" Association="VXModel.Store.FK__VocabBank__TAG_I__182C9B23">
+            <End Role="Tags" EntitySet="Tags" />
+            <End Role="VocabBanksTags" EntitySet="VocabBanksTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VocabBank__TRANS__1DE57479" Association="VXModel.Store.FK__VocabBank__TRANS__1DE57479">
+            <End Role="Translations" EntitySet="Translations" />
+            <End Role="VocabBanksTranslations" EntitySet="VocabBanksTranslations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VocabBank__VOCAB__173876EA" Association="VXModel.Store.FK__VocabBank__VOCAB__173876EA">
+            <End Role="VocabBanks" EntitySet="VocabBanks" />
+            <End Role="VocabBanksTags" EntitySet="VocabBanksTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VocabBank__VOCAB__1CF15040" Association="VXModel.Store.FK__VocabBank__VOCAB__1CF15040">
+            <End Role="VocabBanks" EntitySet="VocabBanks" />
+            <End Role="VocabBanksTranslations" EntitySet="VocabBanksTranslations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Words__LANGUAGE___0519C6AF" Association="VXModel.Store.FK__Words__LANGUAGE___0519C6AF">
+            <End Role="Languages" EntitySet="Languages" />
+            <End Role="Words" EntitySet="Words" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Languages">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="PK_ID" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Abbreviation" Type="String" MaxLength="2" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="Word" Relationship="VXModel.FK__WORDS__LANGUAGE___0519C6AF" FromRole="LANGUAGES" ToRole="WORDS" />
+          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Abbreviation" Type="varchar" MaxLength="2" />
+        </EntityType>
+        <EntityType Name="Tags">
+          <Key>
+            <PropertyRef Name="PK_ID" />
+          </Key>
+          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" />
+        </EntityType>
+        <EntityType Name="Translations">
+          <Key>
+            <PropertyRef Name="PK_ID" />
+          </Key>
+          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SOURCE_ID" Type="int" Nullable="false" />
+          <Property Name="TARGET_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VocabBanks">
+          <Key>
+            <PropertyRef Name="PK_ID" />
+          </Key>
+          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Description" Type="nvarchar" />
+        </EntityType>
+        <EntityType Name="VocabBanksTags">
+          <Key>
+            <PropertyRef Name="PK_ID" />
+          </Key>
+          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="VOCABULARY_ID" Type="int" Nullable="false" />
+          <Property Name="TAG_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="VocabBanksTranslations">
+          <Key>
+            <PropertyRef Name="PK_ID" />
+          </Key>
+          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="VOCABULARY_ID" Type="int" Nullable="false" />
+          <Property Name="TRANSLATION_ID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Words">
           <Key>
+            <PropertyRef Name="PK_ID" />
+          </Key>
+          <Property Name="PK_ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Spelling" Type="nvarchar" MaxLength="50" />
+          <Property Name="Transcription" Type="nvarchar" MaxLength="50" />
+          <Property Name="LANGUAGE_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Translati__SOURC__09DE7BCC">
+          <End Role="Words" Type="VXModel.Store.Words" Multiplicity="1" />
+          <End Role="Translations" Type="VXModel.Store.Translations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Words">
+              <PropertyRef Name="PK_ID" />
+            </Principal>
+            <Dependent Role="Translations">
+              <PropertyRef Name="SOURCE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Translati__TARGE__0AD2A005">
+          <End Role="Words" Type="VXModel.Store.Words" Multiplicity="1" />
+          <End Role="Translations" Type="VXModel.Store.Translations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Words">
+              <PropertyRef Name="PK_ID" />
+            </Principal>
+            <Dependent Role="Translations">
+              <PropertyRef Name="TARGET_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VocabBank__TAG_I__182C9B23">
+          <End Role="Tags" Type="VXModel.Store.Tags" Multiplicity="1" />
+          <End Role="VocabBanksTags" Type="VXModel.Store.VocabBanksTags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tags">
+              <PropertyRef Name="PK_ID" />
+            </Principal>
+            <Dependent Role="VocabBanksTags">
+              <PropertyRef Name="TAG_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VocabBank__TRANS__1DE57479">
+          <End Role="Translations" Type="VXModel.Store.Translations" Multiplicity="1" />
+          <End Role="VocabBanksTranslations" Type="VXModel.Store.VocabBanksTranslations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Translations">
+              <PropertyRef Name="PK_ID" />
+            </Principal>
+            <Dependent Role="VocabBanksTranslations">
+              <PropertyRef Name="TRANSLATION_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VocabBank__VOCAB__173876EA">
+          <End Role="VocabBanks" Type="VXModel.Store.VocabBanks" Multiplicity="1" />
+          <End Role="VocabBanksTags" Type="VXModel.Store.VocabBanksTags" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VocabBanks">
+              <PropertyRef Name="PK_ID" />
+            </Principal>
+            <Dependent Role="VocabBanksTags">
+              <PropertyRef Name="VOCABULARY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VocabBank__VOCAB__1CF15040">
+          <End Role="VocabBanks" Type="VXModel.Store.VocabBanks" Multiplicity="1" />
+          <End Role="VocabBanksTranslations" Type="VXModel.Store.VocabBanksTranslations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VocabBanks">
+              <PropertyRef Name="PK_ID" />
+            </Principal>
+            <Dependent Role="VocabBanksTranslations">
+              <PropertyRef Name="VOCABULARY_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Words__LANGUAGE___0519C6AF">
+          <End Role="Languages" Type="VXModel.Store.Languages" Multiplicity="1" />
+          <End Role="Words" Type="VXModel.Store.Words" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Languages">
+              <PropertyRef Name="PK_ID" />
+            </Principal>
+            <Dependent Role="Words">
+              <PropertyRef Name="LANGUAGE_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VXModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Languages" EntityType="VXModel.Language" />
+          <EntitySet Name="Tags" EntityType="VXModel.Tag" />
+          <EntitySet Name="Translations" EntityType="VXModel.Translation" />
+          <EntitySet Name="VocabBanks" EntityType="VXModel.VocabBank" />
+          <EntitySet Name="VocabBanksTags" EntityType="VXModel.VocabBanksTag" />
+          <EntitySet Name="VocabBanksTranslations" EntityType="VXModel.VocabBanksTranslation" />
+          <EntitySet Name="Words" EntityType="VXModel.Word" />
+          <AssociationSet Name="FK__Words__LANGUAGE___0519C6AF" Association="VXModel.FK__Words__LANGUAGE___0519C6AF">
+            <End Role="Language" EntitySet="Languages" />
+            <End Role="Word" EntitySet="Words" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VocabBank__TAG_I__182C9B23" Association="VXModel.FK__VocabBank__TAG_I__182C9B23">
+            <End Role="Tag" EntitySet="Tags" />
+            <End Role="VocabBanksTag" EntitySet="VocabBanksTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Translati__SOURC__09DE7BCC" Association="VXModel.FK__Translati__SOURC__09DE7BCC">
+            <End Role="Word" EntitySet="Words" />
+            <End Role="Translation" EntitySet="Translations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Translati__TARGE__0AD2A005" Association="VXModel.FK__Translati__TARGE__0AD2A005">
+            <End Role="Word" EntitySet="Words" />
+            <End Role="Translation" EntitySet="Translations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VocabBank__TRANS__1DE57479" Association="VXModel.FK__VocabBank__TRANS__1DE57479">
+            <End Role="Translation" EntitySet="Translations" />
+            <End Role="VocabBanksTranslation" EntitySet="VocabBanksTranslations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VocabBank__VOCAB__173876EA" Association="VXModel.FK__VocabBank__VOCAB__173876EA">
+            <End Role="VocabBank" EntitySet="VocabBanks" />
+            <End Role="VocabBanksTag" EntitySet="VocabBanksTags" />
+          </AssociationSet>
+          <AssociationSet Name="FK__VocabBank__VOCAB__1CF15040" Association="VXModel.FK__VocabBank__VOCAB__1CF15040">
+            <End Role="VocabBank" EntitySet="VocabBanks" />
+            <End Role="VocabBanksTranslation" EntitySet="VocabBanksTranslations" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Language">
+          <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Spelling" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Transcription" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="LanguageId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Language" Relationship="VXModel.FK__WORDS__LANGUAGE___0519C6AF" FromRole="WORDS" ToRole="LANGUAGES" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Abbreviation" MaxLength="2" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Words" Relationship="VXModel.FK__Words__LANGUAGE___0519C6AF" FromRole="Language" ToRole="Word" />
         </EntityType>
-        <Association Name="FK__WORDS__LANGUAGE___0519C6AF">
-          <End Role="LANGUAGES" Type="VXModel.Languages" Multiplicity="1" />
-          <End Role="WORDS" Type="VXModel.Words" Multiplicity="*" />
+        <EntityType Name="Tag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VocabBanksTags" Relationship="VXModel.FK__VocabBank__TAG_I__182C9B23" FromRole="Tag" ToRole="VocabBanksTag" />
+        </EntityType>
+        <EntityType Name="Translation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="SourceId" Nullable="false" />
+          <Property Type="Int32" Name="TargetId" Nullable="false" />
+          <NavigationProperty Name="Source" Relationship="VXModel.FK__Translati__SOURC__09DE7BCC" FromRole="Translation" ToRole="Word" />
+          <NavigationProperty Name="Target" Relationship="VXModel.FK__Translati__TARGE__0AD2A005" FromRole="Translation" ToRole="Word" />
+          <NavigationProperty Name="VocabBanksTranslations" Relationship="VXModel.FK__VocabBank__TRANS__1DE57479" FromRole="Translation" ToRole="VocabBanksTranslation" />
+        </EntityType>
+        <EntityType Name="VocabBank">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="VocabBanksTags" Relationship="VXModel.FK__VocabBank__VOCAB__173876EA" FromRole="VocabBank" ToRole="VocabBanksTag" />
+          <NavigationProperty Name="VocabBanksTranslations" Relationship="VXModel.FK__VocabBank__VOCAB__1CF15040" FromRole="VocabBank" ToRole="VocabBanksTranslation" />
+        </EntityType>
+        <EntityType Name="VocabBanksTag">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="VocabularyId" Nullable="false" />
+          <Property Type="Int32" Name="TagId" Nullable="false" />
+          <NavigationProperty Name="Tag" Relationship="VXModel.FK__VocabBank__TAG_I__182C9B23" FromRole="VocabBanksTag" ToRole="Tag" />
+          <NavigationProperty Name="VocabBank" Relationship="VXModel.FK__VocabBank__VOCAB__173876EA" FromRole="VocabBanksTag" ToRole="VocabBank" />
+        </EntityType>
+        <EntityType Name="VocabBanksTranslation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="VocabularyId" Nullable="false" />
+          <Property Type="Int32" Name="TranslationId" Nullable="false" />
+          <NavigationProperty Name="Translation" Relationship="VXModel.FK__VocabBank__TRANS__1DE57479" FromRole="VocabBanksTranslation" ToRole="Translation" />
+          <NavigationProperty Name="VocabBank" Relationship="VXModel.FK__VocabBank__VOCAB__1CF15040" FromRole="VocabBanksTranslation" ToRole="VocabBank" />
+        </EntityType>
+        <EntityType Name="Word">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Spelling" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Transcription" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="LanguageId" Nullable="false" />
+          <NavigationProperty Name="Language" Relationship="VXModel.FK__Words__LANGUAGE___0519C6AF" FromRole="Word" ToRole="Language" />
+          <NavigationProperty Name="TranslationSources" Relationship="VXModel.FK__Translati__SOURC__09DE7BCC" FromRole="Word" ToRole="Translation" />
+          <NavigationProperty Name="TranslationTargets" Relationship="VXModel.FK__Translati__TARGE__0AD2A005" FromRole="Word" ToRole="Translation" />
+        </EntityType>
+        <Association Name="FK__Words__LANGUAGE___0519C6AF">
+          <End Type="VXModel.Language" Role="Language" Multiplicity="1" />
+          <End Type="VXModel.Word" Role="Word" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="LANGUAGES">
+            <Principal Role="Language">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="WORDS">
+            <Dependent Role="Word">
               <PropertyRef Name="LanguageId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK__VocabBank__TAG_I__182C9B23">
+          <End Type="VXModel.Tag" Role="Tag" Multiplicity="1" />
+          <End Type="VXModel.VocabBanksTag" Role="VocabBanksTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tag">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VocabBanksTag">
+              <PropertyRef Name="TagId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Translati__SOURC__09DE7BCC">
+          <End Type="VXModel.Word" Role="Word" Multiplicity="1" />
+          <End Type="VXModel.Translation" Role="Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Word">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Translation">
+              <PropertyRef Name="SourceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Translati__TARGE__0AD2A005">
+          <End Type="VXModel.Word" Role="Word" Multiplicity="1" />
+          <End Type="VXModel.Translation" Role="Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Word">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Translation">
+              <PropertyRef Name="TargetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VocabBank__TRANS__1DE57479">
+          <End Type="VXModel.Translation" Role="Translation" Multiplicity="1" />
+          <End Type="VXModel.VocabBanksTranslation" Role="VocabBanksTranslation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Translation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VocabBanksTranslation">
+              <PropertyRef Name="TranslationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VocabBank__VOCAB__173876EA">
+          <End Type="VXModel.VocabBank" Role="VocabBank" Multiplicity="1" />
+          <End Type="VXModel.VocabBanksTag" Role="VocabBanksTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VocabBank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VocabBanksTag">
+              <PropertyRef Name="VocabularyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__VocabBank__VOCAB__1CF15040">
+          <End Type="VXModel.VocabBank" Role="VocabBank" Multiplicity="1" />
+          <End Type="VXModel.VocabBanksTranslation" Role="VocabBanksTranslation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="VocabBank">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="VocabBanksTranslation">
+              <PropertyRef Name="VocabularyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="VXModelStoreContainer" CdmEntityContainer="Entities">
-          <EntitySetMapping Name="Languages"><EntityTypeMapping TypeName="VXModel.Languages"><MappingFragment StoreEntitySet="LANGUAGES">
-            <ScalarProperty Name="Id" ColumnName="PK_ID" />
-            <ScalarProperty Name="Name" ColumnName="NAME" />
-            <ScalarProperty Name="Abbreviation" ColumnName="ABBREVIATION" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Words"><EntityTypeMapping TypeName="VXModel.Words"><MappingFragment StoreEntitySet="WORDS">
-            <ScalarProperty Name="Id" ColumnName="PK_ID" />
-            <ScalarProperty Name="Spelling" ColumnName="SPELLING" />
-            <ScalarProperty Name="Transcription" ColumnName="TRANSCRIPTION" />
-            <ScalarProperty Name="LanguageId" ColumnName="LANGUAGE_ID" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Languages">
+            <EntityTypeMapping TypeName="VXModel.Language">
+              <MappingFragment StoreEntitySet="Languages">
+                <ScalarProperty Name="Abbreviation" ColumnName="Abbreviation" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="PK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tags">
+            <EntityTypeMapping TypeName="VXModel.Tag">
+              <MappingFragment StoreEntitySet="Tags">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="PK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Translations">
+            <EntityTypeMapping TypeName="VXModel.Translation">
+              <MappingFragment StoreEntitySet="Translations">
+                <ScalarProperty Name="TargetId" ColumnName="TARGET_ID" />
+                <ScalarProperty Name="SourceId" ColumnName="SOURCE_ID" />
+                <ScalarProperty Name="Id" ColumnName="PK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VocabBanks">
+            <EntityTypeMapping TypeName="VXModel.VocabBank">
+              <MappingFragment StoreEntitySet="VocabBanks">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="PK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VocabBanksTags">
+            <EntityTypeMapping TypeName="VXModel.VocabBanksTag">
+              <MappingFragment StoreEntitySet="VocabBanksTags">
+                <ScalarProperty Name="TagId" ColumnName="TAG_ID" />
+                <ScalarProperty Name="VocabularyId" ColumnName="VOCABULARY_ID" />
+                <ScalarProperty Name="Id" ColumnName="PK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VocabBanksTranslations">
+            <EntityTypeMapping TypeName="VXModel.VocabBanksTranslation">
+              <MappingFragment StoreEntitySet="VocabBanksTranslations">
+                <ScalarProperty Name="TranslationId" ColumnName="TRANSLATION_ID" />
+                <ScalarProperty Name="VocabularyId" ColumnName="VOCABULARY_ID" />
+                <ScalarProperty Name="Id" ColumnName="PK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Words">
+            <EntityTypeMapping TypeName="VXModel.Word">
+              <MappingFragment StoreEntitySet="Words">
+                <ScalarProperty Name="LanguageId" ColumnName="LANGUAGE_ID" />
+                <ScalarProperty Name="Transcription" ColumnName="Transcription" />
+                <ScalarProperty Name="Spelling" ColumnName="Spelling" />
+                <ScalarProperty Name="Id" ColumnName="PK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -117,18 +463,47 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
       </DesignerInfoPropertySet>
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="VocabModel">
-        <EntityTypeShape EntityType="VXModel.Languages" Width="1.5" PointX="0.75" PointY="1" Height="1.7879850260416668" IsExpanded="true" />
-        <EntityTypeShape EntityType="VXModel.Words" Width="1.5" PointX="3" PointY="0.875" Height="1.9802864583333335" IsExpanded="true" />
-        <AssociationConnector Association="VXModel.FK__WORDS__LANGUAGE___0519C6AF" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="1.8939925130208333" />
-          <ConnectorPoint PointX="3" PointY="1.8939925130208333" />
+        <EntityTypeShape EntityType="VXModel.Language" Width="1.5" PointX="6.5" PointY="5.75" Height="1.7879850260416745" />
+        <EntityTypeShape EntityType="VXModel.Tag" Width="1.5" PointX="4.5" PointY="0.5" Height="1.7879850260416674" />
+        <EntityTypeShape EntityType="VXModel.Translation" Width="1.5" PointX="4.5" PointY="2.875" Height="2.1725878906250031" />
+        <EntityTypeShape EntityType="VXModel.VocabBank" Width="1.5" PointX="0.625" PointY="1.875" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="VXModel.VocabBanksTag" Width="1.5" PointX="2.625" PointY="0.5" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="VXModel.VocabBanksTranslation" Width="1.5" PointX="2.625" PointY="2.875" Height="1.9802864583333388" />
+        <EntityTypeShape EntityType="VXModel.Word" Width="1.5" PointX="6.5" PointY="2.875" Height="2.3648893229166674" />
+        <AssociationConnector Association="VXModel.FK__Words__LANGUAGE___0519C6AF" >
+          <ConnectorPoint PointX="7.25" PointY="5.75" />
+          <ConnectorPoint PointX="7.25" PointY="5.2398893229166674" />
+        </AssociationConnector>
+        <AssociationConnector Association="VXModel.FK__VocabBank__TAG_I__182C9B23" >
+          <ConnectorPoint PointX="4.5" PointY="1.3939925130208337" />
+          <ConnectorPoint PointX="4.125" PointY="1.3939925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="VXModel.FK__Translati__SOURC__09DE7BCC" >
+          <ConnectorPoint PointX="6.5" PointY="3.9612939453125016" />
+          <ConnectorPoint PointX="6" PointY="3.9612939453125016" />
+        </AssociationConnector>
+        <AssociationConnector Association="VXModel.FK__Translati__TARGE__0AD2A005" >
+          <ConnectorPoint PointX="6.5" PointY="3.3556469726562508" />
+          <ConnectorPoint PointX="6" PointY="3.3556469726562508" />
+        </AssociationConnector>
+        <AssociationConnector Association="VXModel.FK__VocabBank__TRANS__1DE57479" >
+          <ConnectorPoint PointX="4.5" PointY="3.8651432291666694" />
+          <ConnectorPoint PointX="4.125" PointY="3.8651432291666694" />
+        </AssociationConnector>
+        <AssociationConnector Association="VXModel.FK__VocabBank__VOCAB__173876EA" >
+          <ConnectorPoint PointX="2.125" PointY="2.1776432291666694" />
+          <ConnectorPoint PointX="2.625" PointY="2.1776432291666694" />
+        </AssociationConnector>
+        <AssociationConnector Association="VXModel.FK__VocabBank__VOCAB__1CF15040" >
+          <ConnectorPoint PointX="2.125" PointY="3.3651432291666694" />
+          <ConnectorPoint PointX="2.625" PointY="3.3651432291666694" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

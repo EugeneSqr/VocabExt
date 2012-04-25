@@ -18,7 +18,13 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("VXModel", "FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Languages), "WORDS", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.Words), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__Words__LANGUAGE___0519C6AF", "Language", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Language), "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.Word), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__TAG_I__182C9B23", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Tag), "VocabBanksTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.VocabBanksTag), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__Translati__SOURC__09DE7BCC", "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Word), "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.Translation), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__Translati__TARGE__0AD2A005", "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Word), "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.Translation), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__TRANS__1DE57479", "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Translation), "VocabBanksTranslation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.VocabBanksTranslation), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__VOCAB__173876EA", "VocabBank", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.VocabBank), "VocabBanksTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.VocabBanksTag), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__VOCAB__1CF15040", "VocabBank", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.VocabBank), "VocabBanksTranslation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.VocabBanksTranslation), true)]
 
 #endregion
 
@@ -73,34 +79,114 @@ namespace VX.Domain
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Languages> Languages
+        public ObjectSet<Language> Languages
         {
             get
             {
                 if ((_Languages == null))
                 {
-                    _Languages = base.CreateObjectSet<Languages>("Languages");
+                    _Languages = base.CreateObjectSet<Language>("Languages");
                 }
                 return _Languages;
             }
         }
-        private ObjectSet<Languages> _Languages;
+        private ObjectSet<Language> _Languages;
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Words> Words
+        public ObjectSet<Tag> Tags
+        {
+            get
+            {
+                if ((_Tags == null))
+                {
+                    _Tags = base.CreateObjectSet<Tag>("Tags");
+                }
+                return _Tags;
+            }
+        }
+        private ObjectSet<Tag> _Tags;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Translation> Translations
+        {
+            get
+            {
+                if ((_Translations == null))
+                {
+                    _Translations = base.CreateObjectSet<Translation>("Translations");
+                }
+                return _Translations;
+            }
+        }
+        private ObjectSet<Translation> _Translations;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<VocabBank> VocabBanks
+        {
+            get
+            {
+                if ((_VocabBanks == null))
+                {
+                    _VocabBanks = base.CreateObjectSet<VocabBank>("VocabBanks");
+                }
+                return _VocabBanks;
+            }
+        }
+        private ObjectSet<VocabBank> _VocabBanks;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<VocabBanksTag> VocabBanksTags
+        {
+            get
+            {
+                if ((_VocabBanksTags == null))
+                {
+                    _VocabBanksTags = base.CreateObjectSet<VocabBanksTag>("VocabBanksTags");
+                }
+                return _VocabBanksTags;
+            }
+        }
+        private ObjectSet<VocabBanksTag> _VocabBanksTags;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<VocabBanksTranslation> VocabBanksTranslations
+        {
+            get
+            {
+                if ((_VocabBanksTranslations == null))
+                {
+                    _VocabBanksTranslations = base.CreateObjectSet<VocabBanksTranslation>("VocabBanksTranslations");
+                }
+                return _VocabBanksTranslations;
+            }
+        }
+        private ObjectSet<VocabBanksTranslation> _VocabBanksTranslations;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Word> Words
         {
             get
             {
                 if ((_Words == null))
                 {
-                    _Words = base.CreateObjectSet<Words>("Words");
+                    _Words = base.CreateObjectSet<Word>("Words");
                 }
                 return _Words;
             }
         }
-        private ObjectSet<Words> _Words;
+        private ObjectSet<Word> _Words;
 
         #endregion
         #region AddTo Methods
@@ -108,17 +194,57 @@ namespace VX.Domain
         /// <summary>
         /// Deprecated Method for adding a new object to the Languages EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToLanguages(Languages languages)
+        public void AddToLanguages(Language language)
         {
-            base.AddObject("Languages", languages);
+            base.AddObject("Languages", language);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Tags EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTags(Tag tag)
+        {
+            base.AddObject("Tags", tag);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Translations EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToTranslations(Translation translation)
+        {
+            base.AddObject("Translations", translation);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the VocabBanks EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToVocabBanks(VocabBank vocabBank)
+        {
+            base.AddObject("VocabBanks", vocabBank);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the VocabBanksTags EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToVocabBanksTags(VocabBanksTag vocabBanksTag)
+        {
+            base.AddObject("VocabBanksTags", vocabBanksTag);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the VocabBanksTranslations EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToVocabBanksTranslations(VocabBanksTranslation vocabBanksTranslation)
+        {
+            base.AddObject("VocabBanksTranslations", vocabBanksTranslation);
         }
     
         /// <summary>
         /// Deprecated Method for adding a new object to the Words EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToWords(Words words)
+        public void AddToWords(Word word)
         {
-            base.AddObject("Words", words);
+            base.AddObject("Words", word);
         }
 
         #endregion
@@ -132,22 +258,22 @@ namespace VX.Domain
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="Languages")]
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="Language")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class Languages : EntityObject
+    public partial class Language : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new Languages object.
+        /// Create a new Language object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        public static Languages CreateLanguages(global::System.Int32 id)
+        public static Language CreateLanguage(global::System.Int32 id)
         {
-            Languages languages = new Languages();
-            languages.Id = id;
-            return languages;
+            Language language = new Language();
+            language.Id = id;
+            return language;
         }
 
         #endregion
@@ -238,18 +364,18 @@ namespace VX.Domain
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__WORDS__LANGUAGE___0519C6AF", "WORDS")]
-        public EntityCollection<Words> Word
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__Words__LANGUAGE___0519C6AF", "Word")]
+        public EntityCollection<Word> Words
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Words>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "WORDS");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Word>("VXModel.FK__Words__LANGUAGE___0519C6AF", "Word");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Words>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "WORDS", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Word>("VXModel.FK__Words__LANGUAGE___0519C6AF", "Word", value);
                 }
             }
         }
@@ -260,24 +386,882 @@ namespace VX.Domain
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="Words")]
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="Tag")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class Words : EntityObject
+    public partial class Tag : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new Words object.
+        /// Create a new Tag object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        public static Tag CreateTag(global::System.Int32 id)
+        {
+            Tag tag = new Tag();
+            tag.Id = id;
+            return tag;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__VocabBank__TAG_I__182C9B23", "VocabBanksTag")]
+        public EntityCollection<VocabBanksTag> VocabBanksTags
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<VocabBanksTag>("VXModel.FK__VocabBank__TAG_I__182C9B23", "VocabBanksTag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<VocabBanksTag>("VXModel.FK__VocabBank__TAG_I__182C9B23", "VocabBanksTag", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="Translation")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Translation : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Translation object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="sourceId">Initial value of the SourceId property.</param>
+        /// <param name="targetId">Initial value of the TargetId property.</param>
+        public static Translation CreateTranslation(global::System.Int32 id, global::System.Int32 sourceId, global::System.Int32 targetId)
+        {
+            Translation translation = new Translation();
+            translation.Id = id;
+            translation.SourceId = sourceId;
+            translation.TargetId = targetId;
+            return translation;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 SourceId
+        {
+            get
+            {
+                return _SourceId;
+            }
+            set
+            {
+                OnSourceIdChanging(value);
+                ReportPropertyChanging("SourceId");
+                _SourceId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("SourceId");
+                OnSourceIdChanged();
+            }
+        }
+        private global::System.Int32 _SourceId;
+        partial void OnSourceIdChanging(global::System.Int32 value);
+        partial void OnSourceIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TargetId
+        {
+            get
+            {
+                return _TargetId;
+            }
+            set
+            {
+                OnTargetIdChanging(value);
+                ReportPropertyChanging("TargetId");
+                _TargetId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TargetId");
+                OnTargetIdChanged();
+            }
+        }
+        private global::System.Int32 _TargetId;
+        partial void OnTargetIdChanging(global::System.Int32 value);
+        partial void OnTargetIdChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__Translati__SOURC__09DE7BCC", "Word")]
+        public Word Source
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Word>("VXModel.FK__Translati__SOURC__09DE7BCC", "Word").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Word>("VXModel.FK__Translati__SOURC__09DE7BCC", "Word").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Word> SourceReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Word>("VXModel.FK__Translati__SOURC__09DE7BCC", "Word");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Word>("VXModel.FK__Translati__SOURC__09DE7BCC", "Word", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__Translati__TARGE__0AD2A005", "Word")]
+        public Word Target
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Word>("VXModel.FK__Translati__TARGE__0AD2A005", "Word").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Word>("VXModel.FK__Translati__TARGE__0AD2A005", "Word").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Word> TargetReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Word>("VXModel.FK__Translati__TARGE__0AD2A005", "Word");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Word>("VXModel.FK__Translati__TARGE__0AD2A005", "Word", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__VocabBank__TRANS__1DE57479", "VocabBanksTranslation")]
+        public EntityCollection<VocabBanksTranslation> VocabBanksTranslations
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<VocabBanksTranslation>("VXModel.FK__VocabBank__TRANS__1DE57479", "VocabBanksTranslation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<VocabBanksTranslation>("VXModel.FK__VocabBank__TRANS__1DE57479", "VocabBanksTranslation", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="VocabBank")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class VocabBank : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new VocabBank object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        public static VocabBank CreateVocabBank(global::System.Int32 id)
+        {
+            VocabBank vocabBank = new VocabBank();
+            vocabBank.Id = id;
+            return vocabBank;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                OnNameChanging(value);
+                ReportPropertyChanging("Name");
+                _Name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Name");
+                OnNameChanged();
+            }
+        }
+        private global::System.String _Name;
+        partial void OnNameChanging(global::System.String value);
+        partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                OnDescriptionChanging(value);
+                ReportPropertyChanging("Description");
+                _Description = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Description");
+                OnDescriptionChanged();
+            }
+        }
+        private global::System.String _Description;
+        partial void OnDescriptionChanging(global::System.String value);
+        partial void OnDescriptionChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__VocabBank__VOCAB__173876EA", "VocabBanksTag")]
+        public EntityCollection<VocabBanksTag> VocabBanksTags
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<VocabBanksTag>("VXModel.FK__VocabBank__VOCAB__173876EA", "VocabBanksTag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<VocabBanksTag>("VXModel.FK__VocabBank__VOCAB__173876EA", "VocabBanksTag", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__VocabBank__VOCAB__1CF15040", "VocabBanksTranslation")]
+        public EntityCollection<VocabBanksTranslation> VocabBanksTranslations
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<VocabBanksTranslation>("VXModel.FK__VocabBank__VOCAB__1CF15040", "VocabBanksTranslation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<VocabBanksTranslation>("VXModel.FK__VocabBank__VOCAB__1CF15040", "VocabBanksTranslation", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="VocabBanksTag")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class VocabBanksTag : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new VocabBanksTag object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="vocabularyId">Initial value of the VocabularyId property.</param>
+        /// <param name="tagId">Initial value of the TagId property.</param>
+        public static VocabBanksTag CreateVocabBanksTag(global::System.Int32 id, global::System.Int32 vocabularyId, global::System.Int32 tagId)
+        {
+            VocabBanksTag vocabBanksTag = new VocabBanksTag();
+            vocabBanksTag.Id = id;
+            vocabBanksTag.VocabularyId = vocabularyId;
+            vocabBanksTag.TagId = tagId;
+            return vocabBanksTag;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 VocabularyId
+        {
+            get
+            {
+                return _VocabularyId;
+            }
+            set
+            {
+                OnVocabularyIdChanging(value);
+                ReportPropertyChanging("VocabularyId");
+                _VocabularyId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VocabularyId");
+                OnVocabularyIdChanged();
+            }
+        }
+        private global::System.Int32 _VocabularyId;
+        partial void OnVocabularyIdChanging(global::System.Int32 value);
+        partial void OnVocabularyIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TagId
+        {
+            get
+            {
+                return _TagId;
+            }
+            set
+            {
+                OnTagIdChanging(value);
+                ReportPropertyChanging("TagId");
+                _TagId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TagId");
+                OnTagIdChanged();
+            }
+        }
+        private global::System.Int32 _TagId;
+        partial void OnTagIdChanging(global::System.Int32 value);
+        partial void OnTagIdChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__VocabBank__TAG_I__182C9B23", "Tag")]
+        public Tag Tag
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("VXModel.FK__VocabBank__TAG_I__182C9B23", "Tag").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("VXModel.FK__VocabBank__TAG_I__182C9B23", "Tag").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Tag> TagReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Tag>("VXModel.FK__VocabBank__TAG_I__182C9B23", "Tag");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Tag>("VXModel.FK__VocabBank__TAG_I__182C9B23", "Tag", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__VocabBank__VOCAB__173876EA", "VocabBank")]
+        public VocabBank VocabBank
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VocabBank>("VXModel.FK__VocabBank__VOCAB__173876EA", "VocabBank").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VocabBank>("VXModel.FK__VocabBank__VOCAB__173876EA", "VocabBank").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<VocabBank> VocabBankReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VocabBank>("VXModel.FK__VocabBank__VOCAB__173876EA", "VocabBank");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<VocabBank>("VXModel.FK__VocabBank__VOCAB__173876EA", "VocabBank", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="VocabBanksTranslation")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class VocabBanksTranslation : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new VocabBanksTranslation object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="vocabularyId">Initial value of the VocabularyId property.</param>
+        /// <param name="translationId">Initial value of the TranslationId property.</param>
+        public static VocabBanksTranslation CreateVocabBanksTranslation(global::System.Int32 id, global::System.Int32 vocabularyId, global::System.Int32 translationId)
+        {
+            VocabBanksTranslation vocabBanksTranslation = new VocabBanksTranslation();
+            vocabBanksTranslation.Id = id;
+            vocabBanksTranslation.VocabularyId = vocabularyId;
+            vocabBanksTranslation.TranslationId = translationId;
+            return vocabBanksTranslation;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 VocabularyId
+        {
+            get
+            {
+                return _VocabularyId;
+            }
+            set
+            {
+                OnVocabularyIdChanging(value);
+                ReportPropertyChanging("VocabularyId");
+                _VocabularyId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("VocabularyId");
+                OnVocabularyIdChanged();
+            }
+        }
+        private global::System.Int32 _VocabularyId;
+        partial void OnVocabularyIdChanging(global::System.Int32 value);
+        partial void OnVocabularyIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 TranslationId
+        {
+            get
+            {
+                return _TranslationId;
+            }
+            set
+            {
+                OnTranslationIdChanging(value);
+                ReportPropertyChanging("TranslationId");
+                _TranslationId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TranslationId");
+                OnTranslationIdChanged();
+            }
+        }
+        private global::System.Int32 _TranslationId;
+        partial void OnTranslationIdChanging(global::System.Int32 value);
+        partial void OnTranslationIdChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__VocabBank__TRANS__1DE57479", "Translation")]
+        public Translation Translation
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Translation>("VXModel.FK__VocabBank__TRANS__1DE57479", "Translation").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Translation>("VXModel.FK__VocabBank__TRANS__1DE57479", "Translation").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Translation> TranslationReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Translation>("VXModel.FK__VocabBank__TRANS__1DE57479", "Translation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Translation>("VXModel.FK__VocabBank__TRANS__1DE57479", "Translation", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__VocabBank__VOCAB__1CF15040", "VocabBank")]
+        public VocabBank VocabBank
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VocabBank>("VXModel.FK__VocabBank__VOCAB__1CF15040", "VocabBank").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VocabBank>("VXModel.FK__VocabBank__VOCAB__1CF15040", "VocabBank").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<VocabBank> VocabBankReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<VocabBank>("VXModel.FK__VocabBank__VOCAB__1CF15040", "VocabBank");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<VocabBank>("VXModel.FK__VocabBank__VOCAB__1CF15040", "VocabBank", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="VXModel", Name="Word")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Word : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Word object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="languageId">Initial value of the LanguageId property.</param>
-        public static Words CreateWords(global::System.Int32 id, global::System.Int32 languageId)
+        public static Word CreateWord(global::System.Int32 id, global::System.Int32 languageId)
         {
-            Words words = new Words();
-            words.Id = id;
-            words.LanguageId = languageId;
-            return words;
+            Word word = new Word();
+            word.Id = id;
+            word.LanguageId = languageId;
+            return word;
         }
 
         #endregion
@@ -392,16 +1376,16 @@ namespace VX.Domain
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES")]
-        public Languages Language
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__Words__LANGUAGE___0519C6AF", "Language")]
+        public Language Language
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Languages>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Language>("VXModel.FK__Words__LANGUAGE___0519C6AF", "Language").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Languages>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Language>("VXModel.FK__Words__LANGUAGE___0519C6AF", "Language").Value = value;
             }
         }
         /// <summary>
@@ -409,17 +1393,61 @@ namespace VX.Domain
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<Languages> LanguageReference
+        public EntityReference<Language> LanguageReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Languages>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Language>("VXModel.FK__Words__LANGUAGE___0519C6AF", "Language");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Languages>("VXModel.FK__WORDS__LANGUAGE___0519C6AF", "LANGUAGES", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Language>("VXModel.FK__Words__LANGUAGE___0519C6AF", "Language", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__Translati__SOURC__09DE7BCC", "Translation")]
+        public EntityCollection<Translation> TranslationSources
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Translation>("VXModel.FK__Translati__SOURC__09DE7BCC", "Translation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Translation>("VXModel.FK__Translati__SOURC__09DE7BCC", "Translation", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("VXModel", "FK__Translati__TARGE__0AD2A005", "Translation")]
+        public EntityCollection<Translation> TranslationTargets
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Translation>("VXModel.FK__Translati__TARGE__0AD2A005", "Translation");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Translation>("VXModel.FK__Translati__TARGE__0AD2A005", "Translation", value);
                 }
             }
         }
