@@ -54,6 +54,8 @@
     <Compile Include="Interfaces\IWordsRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Surrogates\LanguageSurrogate.cs" />
+    <Compile Include="Surrogates\TagSurrogate.cs" />
+    <Compile Include="Surrogates\TranslationSurrogate.cs" />
     <Compile Include="Surrogates\VocabBankSurrogate.cs" />
     <Compile Include="Surrogates\WordSurrogate.cs" />
     <Compile Include="VocabModel.Designer.cs">

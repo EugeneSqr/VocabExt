@@ -3,6 +3,7 @@ using NUnit.Framework;
 using VX.Domain.Interfaces;
 using VX.Service;
 using VX.Service.Repositories;
+using VX.Tests.Mocks;
 
 namespace VX.Tests
 {
@@ -37,7 +38,7 @@ namespace VX.Tests
         {
             const int testId = 1;
             var repositoryUnderTest = container.Resolve<ILanguagesRepository>();
-            Assert.AreEqual(repositoryUnderTest.GetLanguage(testId).Id, testId);
+            Assert.AreNotEqual(repositoryUnderTest.GetLanguage(testId), null);
         }
 
         [Test]

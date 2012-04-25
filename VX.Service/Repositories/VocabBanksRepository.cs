@@ -2,34 +2,43 @@
 using System.Linq;
 using VX.Domain;
 using VX.Domain.Interfaces;
-using VX.Domain.Surrogates;
 
 namespace VX.Service.Repositories
 {
     public class VocabBanksRepository : IVocabBanksRepository
     {
         private readonly IServiceSettings serviceSettings;
+        private readonly IEntitiesFactory entitiesFactory;
         
-        public VocabBanksRepository(IServiceSettings serviceSettings)
+        public VocabBanksRepository(
+            IServiceSettings serviceSettings,
+            IEntitiesFactory entitiesFactory)
         {
             this.serviceSettings = serviceSettings;
+            this.entitiesFactory = entitiesFactory;
         }
 
-        public IList<IVocabBank> GetVocabularies()
+        public IList<IVocabBank> GetVocabBanks()
         {
-            throw new System.NotImplementedException();
+            IList<IVocabBank> result;
+            using (Entities context = new Entities(serviceSettings.ConnectionString))
+            {
+                result = context.VocabBanks
+                    .ToList()
+                    .Select(entity => entitiesFactory.BuildVocabBank(entity))
+                    .ToList();
+            }
+
+            return result;
         }
 
-        public IVocabBank GetVocabulary(int vocabularyId)
+        public IVocabBank GetVocabBank(int vocabularyId)
         {
             IVocabBank result;
             using(Entities context = new Entities(serviceSettings.ConnectionString))
             {
                 result = context.VocabBanks.Where(item => item.Id == vocabularyId)
-                    .Select(bank => new VocabBankSurrogate
-                                        {
-
-                                        })
+                    .Select(entity => entitiesFactory.BuildVocabBank(entity))
                     .FirstOrDefault();
             }
             return result;

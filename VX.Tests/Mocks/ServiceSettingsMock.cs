@@ -1,6 +1,6 @@
 ﻿using VX.Service;
 
-namespace VX.Tests
+namespace VX.Tests.Mocks
 {
     internal class ServiceSettingsMock : IServiceSettings
     {

@@ -4,8 +4,8 @@ namespace VX.Domain.Interfaces
 {
     public interface IVocabBanksRepository
     {
-        IList<IVocabBank> GetVocabularies();
+        IList<IVocabBank> GetVocabBanks();
 
-        IVocabBank GetVocabulary(int vocabularyId);
+        IVocabBank GetVocabBank(int vocabularyId);
     }
 }
