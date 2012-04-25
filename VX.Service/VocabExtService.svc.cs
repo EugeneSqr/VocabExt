@@ -16,7 +16,7 @@ namespace VX.Service
         public string GetData(int value)
         {
             // return string.Format("You entered: {0}", value);            
-            return languagesRepository.GetById(1).Name;
+            return languagesRepository.GetLanguage(1).Name;
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)

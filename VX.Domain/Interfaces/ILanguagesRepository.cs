@@ -2,6 +2,6 @@
 {
     public interface ILanguagesRepository
     {
-        ILanguage GetById(int languageId);
+        ILanguage GetLanguage(int languageId);
     }
 }

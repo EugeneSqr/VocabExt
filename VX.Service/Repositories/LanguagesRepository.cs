@@ -14,9 +14,9 @@ namespace VX.Service.Repositories
             this.serviceSettings = serviceSettings;
         }
 
-        public ILanguage GetById(int languageId)
+        public ILanguage GetLanguage(int languageId)
         {
-            var result = new Language();
+            ILanguage result;
             using (var context = new Entities(serviceSettings.ConnectionString))
             {
                 result = context.Languages

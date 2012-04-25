@@ -26,7 +26,7 @@ namespace VX.Service.Repositories
                                      Id = entityWord.Id,
                                      Spelling = entityWord.Spelling,
                                      Transcription = entityWord.Transcription,
-                                     Language = languagesRepository.GetById(entityWord.LanguageId)
+                                     Language = languagesRepository.GetLanguage(entityWord.LanguageId)
                                  };
                 }
             }

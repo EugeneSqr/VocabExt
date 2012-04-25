@@ -2,7 +2,7 @@
 {
     public interface ILanguage
     {
-        int Id { get; set; }
+        int Id { get; }
         
         string Name { get; set; }
 

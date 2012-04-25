@@ -1,14 +1,48 @@
-﻿using NUnit.Framework;
+﻿using Autofac;
+using NUnit.Framework;
+using VX.Domain.Interfaces;
+using VX.Service;
+using VX.Service.Repositories;
 
 namespace VX.Tests
 {
     [TestFixture]
-    public class LanguageRepositoryTests
+    internal class LanguageRepositoryTests
     {
-        [Test]
-        public void MyFirstTest()
+        private readonly IContainer container;
+        
+        public LanguageRepositoryTests()
         {
-            Assert.IsFalse(false);
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<LanguagesRepository>()
+                .As<ILanguagesRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<ServiceSettingsMock>()
+                .As<IServiceSettings>()
+                .InstancePerLifetimeScope();
+
+            container = builder.Build();
+        }
+
+        [Test]
+        [Category("LanguageRepository")]
+        [Description("Checks GetLanguage method returns correct value")]
+        public void LanguageRepositoryGetLanguageTest()
+        {
+            const int testId = 1;
+            var repositoryUnderTest = container.Resolve<ILanguagesRepository>();
+            Assert.AreEqual(repositoryUnderTest.GetLanguage(testId).Id, testId);
+        }
+
+        [Test]
+        [Category("LanguageRepository")]
+        [Description("Checks GetLanguage method returns empty value if language doesn't exist")]
+        public void LanguageRepositoryGetLanguageEmptyTest()
+        {
+            var repositoyUnderTest = container.Resolve<ILanguagesRepository>();
+            Assert.AreEqual(repositoyUnderTest.GetLanguage(-1), null);
         }
     }
 }
