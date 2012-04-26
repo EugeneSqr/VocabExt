@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using VX.Domain.Interfaces;
+using VX.Domain.Interfaces.Repositories;
 
 namespace VX.Service
 {

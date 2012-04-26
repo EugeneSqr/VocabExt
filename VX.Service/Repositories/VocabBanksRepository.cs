@@ -2,6 +2,9 @@
 using System.Linq;
 using VX.Domain;
 using VX.Domain.Interfaces;
+using VX.Domain.Interfaces.Entities;
+using VX.Domain.Interfaces.Factories;
+using VX.Domain.Interfaces.Repositories;
 
 namespace VX.Service.Repositories
 {

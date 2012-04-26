@@ -1,5 +1,8 @@
 ﻿using Autofac;
 using VX.Domain.Interfaces;
+using VX.Domain.Interfaces.Factories;
+using VX.Domain.Interfaces.Repositories;
+using VX.Service.Factories;
 using VX.Service.Repositories;
 
 namespace VX.Service
@@ -22,6 +25,10 @@ namespace VX.Service
 
             builder.RegisterType<EntitiesFactory>()
                 .As<IEntitiesFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<TasksFactory>()
+                .As<ITasksFactory>()
                 .InstancePerLifetimeScope();
 
             Container = builder.Build();

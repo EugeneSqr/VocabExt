@@ -1,4 +1,6 @@
-﻿namespace VX.Domain.Interfaces
+﻿using VX.Domain.Interfaces.Entities;
+
+namespace VX.Domain.Interfaces.Repositories
 {
     public interface ILanguagesRepository
     {

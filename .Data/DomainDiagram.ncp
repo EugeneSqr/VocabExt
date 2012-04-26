@@ -32,7 +32,7 @@
         <Size width="205" height="95" />
         <Collapsed>False</Collapsed>
         <Member type="Property">IWord Source { get; set; }</Member>
-        <Member type="Property">IList&lt;IWord&gt; Target { get; set; }</Member>
+        <Member type="Property">IWord Target { get; set; }</Member>
       </Entity>
       <Entity type="Class">
         <Name>Translation</Name>
@@ -42,7 +42,7 @@
         <Collapsed>False</Collapsed>
         <Member type="Constructor">public Translation(IWord source, IWord target)</Member>
         <Member type="Property">public IWord Source { get; set; }</Member>
-        <Member type="Property">public IList&lt;IWord&gt; Target { get; set; }</Member>
+        <Member type="Property">public IWord Target { get; set; }</Member>
         <Modifier>None</Modifier>
       </Entity>
       <Entity type="Interface">
@@ -149,18 +149,16 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="7" second="5">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="1" second="5">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Association" first="3" second="0">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -177,6 +175,8 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="9" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">

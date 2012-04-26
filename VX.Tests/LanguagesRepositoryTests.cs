@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using NUnit.Framework;
 using VX.Domain.Interfaces;
+using VX.Domain.Interfaces.Factories;
+using VX.Domain.Interfaces.Repositories;
 using VX.Service;
 using VX.Service.Repositories;
 using VX.Tests.Mocks;

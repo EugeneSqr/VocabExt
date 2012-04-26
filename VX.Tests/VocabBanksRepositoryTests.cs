@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using NUnit.Framework;
 using VX.Domain.Interfaces;
+using VX.Domain.Interfaces.Factories;
+using VX.Domain.Interfaces.Repositories;
 using VX.Service;
 using VX.Service.Repositories;
 using VX.Tests.Mocks;
@@ -39,14 +41,6 @@ namespace VX.Tests
             var repositoryUnderTest = container.Resolve<IVocabBanksRepository>();
             var actual = repositoryUnderTest.GetVocabBanks();
             Assert.AreEqual(actual.Count, 1);
-        }
-
-        [Test]
-        [Category("VocabBanksRepositoryTests")]
-        [Description("Checks if method returns not empty collection even if list is empty")]
-        public void GetVocabBanksEmptyTest()
-        {
-            
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace VX.Domain.Interfaces
+﻿namespace VX.Domain.Interfaces.Entities
 {
     public interface IWord
     {

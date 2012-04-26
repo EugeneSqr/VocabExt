@@ -1,4 +1,5 @@
 ﻿using VX.Domain.Interfaces;
+using VX.Domain.Interfaces.Entities;
 
 namespace VX.Domain.Surrogates
 {

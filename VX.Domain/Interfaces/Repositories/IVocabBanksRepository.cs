@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using VX.Domain.Interfaces.Entities;
 
-namespace VX.Domain.Interfaces
+namespace VX.Domain.Interfaces.Repositories
 {
     public interface IVocabBanksRepository
     {

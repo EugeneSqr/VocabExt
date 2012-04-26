@@ -52,6 +52,7 @@
     <Compile Include="LanguagesRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mocks\ServiceSettingsMock.cs" />
+    <Compile Include="TaskTests.cs" />
     <Compile Include="VocabBanksRepositoryTests.cs" />
     <Compile Include="WordsRepositoryTests.cs" />
   </ItemGroup>
