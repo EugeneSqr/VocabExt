@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using VX.Domain.Interfaces;
 using VX.Domain.Interfaces.Factories;
 using VX.Domain.Interfaces.Repositories;
 using VX.Service.Factories;
@@ -21,6 +20,14 @@ namespace VX.Service
 
             builder.RegisterType<LanguagesRepository>()
                 .As<ILanguagesRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<RandomFacade>()
+                .As<IRandomFacade>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<QuestionPicker>()
+                .As<IQuestionPicker>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<EntitiesFactory>()

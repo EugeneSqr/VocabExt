@@ -3,7 +3,7 @@
 namespace VX.Tests
 {
     [TestFixture]
-    internal class WordsRepositoryTests
+    internal class WordsRepositoryTests : RepositoryTestsBase
     {
         /*private readonly IContainer container;
 

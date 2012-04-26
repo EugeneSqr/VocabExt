@@ -1,36 +1,22 @@
 ﻿using Autofac;
 using NUnit.Framework;
-using VX.Domain.Interfaces;
-using VX.Domain.Interfaces.Factories;
+
 using VX.Domain.Interfaces.Repositories;
-using VX.Service;
 using VX.Service.Repositories;
-using VX.Tests.Mocks;
+
 
 namespace VX.Tests
 {
     [TestFixture]
-    internal class LanguagesRepositoryTests
+    internal class LanguagesRepositoryTests : RepositoryTestsBase
     {
-        private readonly IContainer container;
-        
         public LanguagesRepositoryTests()
         {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterType<LanguagesRepository>()
+            ContainerBuilder.RegisterType<LanguagesRepository>()
                 .As<ILanguagesRepository>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<ServiceSettingsMock>()
-                .As<IServiceSettings>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<EntitiesFactoryMock>()
-                .As<IEntitiesFactory>()
-                .InstancePerLifetimeScope();
-
-            container = builder.Build();
+            BuildContainer();
         }
 
         [Test]
@@ -39,7 +25,7 @@ namespace VX.Tests
         public void LanguageRepositoryGetLanguageTest()
         {
             const int testId = 1;
-            var repositoryUnderTest = container.Resolve<ILanguagesRepository>();
+            var repositoryUnderTest = Container.Resolve<ILanguagesRepository>();
             Assert.AreNotEqual(repositoryUnderTest.GetLanguage(testId), null);
         }
 
@@ -48,7 +34,7 @@ namespace VX.Tests
         [Description("Checks GetLanguage method returns empty value if language doesn't exist")]
         public void LanguageRepositoryGetLanguageEmptyTest()
         {
-            var repositoyUnderTest = container.Resolve<ILanguagesRepository>();
+            var repositoyUnderTest = Container.Resolve<ILanguagesRepository>();
             Assert.AreEqual(repositoyUnderTest.GetLanguage(-1), null);
         }
     }

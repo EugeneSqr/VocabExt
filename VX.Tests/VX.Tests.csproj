@@ -50,9 +50,12 @@
   <ItemGroup>
     <Compile Include="Mocks\EntitiesFactoryMock.cs" />
     <Compile Include="LanguagesRepositoryTests.cs" />
+    <Compile Include="QuestionPickerTests.cs" />
+    <Compile Include="Mocks\RandomFacadeMock.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mocks\ServiceSettingsMock.cs" />
     <Compile Include="TaskTests.cs" />
+    <Compile Include="RepositoryTestsBase.cs" />
     <Compile Include="VocabBanksRepositoryTests.cs" />
     <Compile Include="WordsRepositoryTests.cs" />
   </ItemGroup>

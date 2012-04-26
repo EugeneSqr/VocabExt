@@ -69,8 +69,12 @@
   <ItemGroup>
     <Compile Include="Factories\EntitiesFactory.cs" />
     <Compile Include="Initializer.cs" />
+    <Compile Include="IQuestionPicker.cs" />
     <Compile Include="IServiceSettings.cs" />
     <Compile Include="Factories\TasksFactory.cs" />
+    <Compile Include="IRandomFacade.cs" />
+    <Compile Include="QuestionPicker.cs" />
+    <Compile Include="RandomFacade.cs" />
     <Compile Include="Repositories\LanguagesRepository.cs" />
     <Compile Include="Repositories\VocabBanksRepository.cs" />
     <Compile Include="Repositories\WordRepository.cs" />
