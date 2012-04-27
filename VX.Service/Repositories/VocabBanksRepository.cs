@@ -5,10 +5,11 @@ using VX.Domain.Interfaces;
 using VX.Domain.Interfaces.Entities;
 using VX.Domain.Interfaces.Factories;
 using VX.Domain.Interfaces.Repositories;
+using VX.Service.Interfaces;
 
 namespace VX.Service.Repositories
 {
-    public class VocabBanksRepository : IVocabBanksRepository
+    internal class VocabBanksRepository : IVocabBanksRepository
     {
         private readonly IServiceSettings serviceSettings;
         private readonly IEntitiesFactory entitiesFactory;

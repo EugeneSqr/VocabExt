@@ -1,8 +1,9 @@
 ﻿using System.Configuration;
+using VX.Service.Interfaces;
 
 namespace VX.Service
 {
-    public class ServiceSettings : IServiceSettings
+    internal class ServiceSettings : IServiceSettings
     {
         public string ConnectionString
         {

@@ -1,8 +1,9 @@
 ﻿using System;
+using VX.Service.Interfaces;
 
 namespace VX.Service
 {
-    public class RandomFacade : IRandomFacade
+    internal class RandomFacade : IRandomFacade
     {
         private readonly Random generator;
 

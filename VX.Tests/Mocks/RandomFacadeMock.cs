@@ -1,4 +1,5 @@
 ﻿using VX.Service;
+using VX.Service.Interfaces;
 
 namespace VX.Tests.Mocks
 {

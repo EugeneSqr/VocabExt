@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using VX.Domain.Interfaces.Entities;
+using VX.Service.Interfaces;
 
 namespace VX.Service
 {
-    public class QuestionPicker : IQuestionPicker
+    internal class QuestionPicker : IQuestionPicker
     {
         private readonly IRandomFacade randomFacade;
         
@@ -15,6 +16,12 @@ namespace VX.Service
 
         public IWord PickQuestion(IVocabBank vocabBank)
         {
+            if (vocabBank == null)
+            {
+                // TODO: licalize
+                throw new ArgumentNullException("vocabBank", "Input VocabBank is empty");
+            }
+
             var translation = PickOneFromList(vocabBank.Translations);
             return translation.Source;
         }

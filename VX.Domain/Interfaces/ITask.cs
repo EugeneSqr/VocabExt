@@ -7,9 +7,9 @@ namespace VX.Domain.Interfaces
     {
         IWord Question { get; set; }
 
-        IWord Answer { get; set; }
+        IWord CorrectAnswer { get; set; }
 
-        IList<IWord> TranslationOptions { get; set; }
+        IList<IWord> Answers { get; set; }
 
         bool IsValidTask();
 

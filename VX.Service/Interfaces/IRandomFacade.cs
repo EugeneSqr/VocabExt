@@ -1,6 +1,6 @@
-﻿namespace VX.Service
+﻿namespace VX.Service.Interfaces
 {
-    public interface IRandomFacade
+    internal interface IRandomFacade
     {
         int PickRandomValue(int minValue, int maxValue);
     }

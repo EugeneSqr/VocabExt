@@ -65,9 +65,9 @@ namespace VX.Tests
         {
             var taskUnderTest = BuildTask(null, null, null);
             Assert.IsFalse(taskUnderTest.IsValidTask());
-            taskUnderTest.Answer = AnswerWord;
+            taskUnderTest.CorrectAnswer = AnswerWord;
             Assert.IsFalse(taskUnderTest.IsValidTask());
-            taskUnderTest.Answer = null;
+            taskUnderTest.CorrectAnswer = null;
             taskUnderTest.Question = QuestionWord;
             Assert.IsFalse(taskUnderTest.IsValidTask());
         }
@@ -95,8 +95,8 @@ namespace VX.Tests
             return new Task
                        {
                            Question = question,
-                           Answer = answer,
-                           TranslationOptions = options
+                           CorrectAnswer = answer,
+                           Answers = options
                        };
         }
     }

@@ -2,6 +2,7 @@
 using VX.Domain.Interfaces.Factories;
 using VX.Domain.Interfaces.Repositories;
 using VX.Service.Factories;
+using VX.Service.Interfaces;
 using VX.Service.Repositories;
 
 namespace VX.Service

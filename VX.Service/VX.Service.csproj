@@ -69,10 +69,11 @@
   <ItemGroup>
     <Compile Include="Factories\EntitiesFactory.cs" />
     <Compile Include="Initializer.cs" />
-    <Compile Include="IQuestionPicker.cs" />
-    <Compile Include="IServiceSettings.cs" />
+    <Compile Include="Interfaces\IAnswersPicker.cs" />
+    <Compile Include="Interfaces\IQuestionPicker.cs" />
+    <Compile Include="Interfaces\IServiceSettings.cs" />
     <Compile Include="Factories\TasksFactory.cs" />
-    <Compile Include="IRandomFacade.cs" />
+    <Compile Include="Interfaces\IRandomFacade.cs" />
     <Compile Include="QuestionPicker.cs" />
     <Compile Include="RandomFacade.cs" />
     <Compile Include="Repositories\LanguagesRepository.cs" />
@@ -82,7 +83,7 @@
     <Compile Include="VocabExtService.svc.cs">
       <DependentUpon>VocabExtService.svc</DependentUpon>
     </Compile>
-    <Compile Include="IVocabExtService.cs" />
+    <Compile Include="Interfaces\IVocabExtService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

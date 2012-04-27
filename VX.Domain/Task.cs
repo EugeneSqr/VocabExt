@@ -8,18 +8,18 @@ namespace VX.Domain
     {
         public IWord Question { get; set; }
 
-        public IWord Answer { get; set; }
+        public IWord CorrectAnswer { get; set; }
 
-        public IList<IWord> TranslationOptions { get; set; }
+        public IList<IWord> Answers { get; set; }
 
         public bool IsValidTask()
         {
-            return Question != null && Answer != null && TranslationOptions.Contains(Answer);
+            return Question != null && CorrectAnswer != null && Answers.Contains(CorrectAnswer);
         }
 
         public bool IsCorrectAnswer(IWord answer)
         {
-            return IsValidTask() && answer.Id == Answer.Id;
+            return IsValidTask() && answer.Id == CorrectAnswer.Id;
         }
     }
 }

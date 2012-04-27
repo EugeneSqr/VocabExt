@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using VX.Domain.Interfaces.Entities;
 
-namespace VX.Service
+namespace VX.Service.Interfaces
 {
-    public interface IQuestionPicker
+    internal interface IQuestionPicker
     {
         IWord PickQuestion(IVocabBank vocabBank);
 

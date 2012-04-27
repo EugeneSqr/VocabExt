@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.ServiceModel;
 
-namespace VX.Service
+namespace VX.Service.Interfaces
 {
     [ServiceContract]
     public interface IVocabExtService
