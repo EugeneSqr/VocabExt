@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\Factories\IContractItemsFactory.cs" />
     <Compile Include="Interfaces\Factories\IEntitiesFactory.cs" />
     <Compile Include="Interfaces\Entities\ILanguage.cs" />
     <Compile Include="Interfaces\ITask.cs" />

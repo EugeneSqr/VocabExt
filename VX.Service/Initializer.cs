@@ -23,8 +23,20 @@ namespace VX.Service
                 .As<ILanguagesRepository>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<WordRepository>()
+                .As<IWordsRepository>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<VocabBanksRepository>()
+                .As<IVocabBanksRepository>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<RandomFacade>()
                 .As<IRandomFacade>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<RandomPicker>()
+                .As<IRandomPicker>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<QuestionPicker>()
@@ -37,6 +49,10 @@ namespace VX.Service
 
             builder.RegisterType<TasksFactory>()
                 .As<ITasksFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<ContractItemsFactory>()
+                .As<IContractItemsFactory>()
                 .InstancePerLifetimeScope();
 
             Container = builder.Build();

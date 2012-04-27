@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/VX.Service" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/VX.Service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:complexType name="CompositeType">
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/VX.Domain.Surrogates" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/VX.Domain.Surrogates" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="LanguageSurrogate">
     <xs:sequence>
-      <xs:element minOccurs="0" name="BoolValue" type="xs:boolean" />
-      <xs:element minOccurs="0" name="StringValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Abbreviation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Name" nillable="true" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="CompositeType" nillable="true" type="tns:CompositeType" />
+  <xs:element name="LanguageSurrogate" nillable="true" type="tns:LanguageSurrogate" />
+  <xs:complexType name="WordSurrogate">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Id" type="xs:int" />
+      <xs:element minOccurs="0" name="Language" nillable="true" type="xs:anyType" />
+      <xs:element minOccurs="0" name="Spelling" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Transcription" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="WordSurrogate" nillable="true" type="tns:WordSurrogate" />
 </xs:schema>

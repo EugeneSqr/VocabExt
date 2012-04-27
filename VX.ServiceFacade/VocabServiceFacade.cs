@@ -1,6 +1,5 @@
-﻿using VX.Domain.Interfaces;
+﻿
 using VX.Domain.Interfaces.Entities;
-using VX.Domain.Surrogates;
 using VX.ServiceFacade.VocabServiceReference;
 
 namespace VX.ServiceFacade
@@ -9,13 +8,14 @@ namespace VX.ServiceFacade
     {
         private readonly IVocabExtService service = new VocabExtServiceClient();
 
-        public ILanguage GetLanguage(int languageId)
+        public ILanguage GetLanguage()
         {
-            return new LanguageSurrogate
-                       {
-                           Name = service.GetData(1)
-                       };
-            
+            return service.GetLanguage();
+        }
+
+        public IWord GerWord()
+        {
+            return service.GetWord();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace VX.Service.Factories
                        };
         }
 
-        public ITask BuilTask(IList<IVocabBank> vocabBanks)
+        public ITask BuildTask(IList<IVocabBank> vocabBanks)
         {
             var singleBank = randomPicker.PickItem(vocabBanks);
             return BuildTask(singleBank);

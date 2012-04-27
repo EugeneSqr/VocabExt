@@ -7,6 +7,6 @@ namespace VX.Domain.Interfaces.Factories
     {
         ITask BuildTask(IVocabBank vocabBank);
 
-        ITask BuilTask(IList<IVocabBank> vocabBanks);
+        ITask BuildTask(IList<IVocabBank> vocabBanks);
     }
 }

@@ -1,35 +1,40 @@
 ﻿using System.Linq;
 using VX.Domain;
-using VX.Domain.Interfaces;
 using VX.Domain.Interfaces.Entities;
+using VX.Domain.Interfaces.Factories;
 using VX.Domain.Interfaces.Repositories;
-using Word = VX.Domain.Surrogates.WordSurrogate;
+using VX.Domain.Surrogates;
+using VX.Service.Interfaces;
 
 namespace VX.Service.Repositories
 {
     public class WordRepository : IWordsRepository
     {
-        private readonly ILanguagesRepository languagesRepository;
+        private readonly IServiceSettings serviceSettings;
+        private readonly IEntitiesFactory entitiesFactory;
         
-        public WordRepository(ILanguagesRepository languagesRepository)
+        public WordRepository(
+            IServiceSettings serviceSettings,
+            IEntitiesFactory entitiesFactory)
         {
-            this.languagesRepository = languagesRepository;
+            this.serviceSettings = serviceSettings;
+            this.entitiesFactory = entitiesFactory;
         }
 
         public IWord GetById(int wordId)
         {
-            var result = new Word();
-            using (Entities context = new Entities())
+            var result = new WordSurrogate();
+            using (Entities context = new Entities(serviceSettings.ConnectionString))
             {
                 var entityWord = context.Words.FirstOrDefault(item => item.Id == wordId);
                 if (entityWord != null)
                 {
-                    result = new Word
+                    result = new WordSurrogate
                                  {
                                      Id = entityWord.Id,
                                      Spelling = entityWord.Spelling,
                                      Transcription = entityWord.Transcription,
-                                     Language = languagesRepository.GetLanguage(entityWord.LanguageId)
+                                     Language = entitiesFactory.BuildLanguage(entityWord.Language)
                                  };
                 }
             }

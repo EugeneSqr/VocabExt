@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnswersPicker.cs" />
+    <Compile Include="Factories\ContractItemsFactory.cs" />
     <Compile Include="Factories\EntitiesFactory.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Interfaces\IAnswersPicker.cs" />

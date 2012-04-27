@@ -1,14 +1,18 @@
-﻿using VX.Domain.Interfaces;
+﻿using System.Runtime.Serialization;
 using VX.Domain.Interfaces.Entities;
 
 namespace VX.Domain.Surrogates
 {
+    [DataContract]
     public class LanguageSurrogate : ILanguage
     {
+        [DataMember]
         public int Id { get; set; }
 
+        [DataMember]
         public string Name { get; set; }
 
+        [DataMember]
         public string Abbreviation { get; set; }
 
         public bool Equals(LanguageSurrogate other)
