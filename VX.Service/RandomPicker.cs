@@ -24,20 +24,46 @@ namespace VX.Service
             }
 
             if (numberOfItems == 1)
-                return new List<T> { PickItem(list) };
+            {
+                return new List<T> {PickItem(list)};
+            }
 
-            var workList = list;
             var resultList = new List<T>();
             int itemsSelected = 0;
-            while(itemsSelected < Math.Min(numberOfItems, workList.Count))
+            int itemsCount = list.Count;
+            while(itemsSelected < Math.Min(numberOfItems, itemsCount))
             {
-                var item = PickRandomItem(workList);
+                var item = PickRandomItem(list);
                 resultList.Add(item);
-                workList.Remove(item);
+                list.Remove(item);
                 itemsSelected++;
             }
 
             return resultList;
+        }
+
+        public IList<T> PickItems<T>(IList<T> list, int numberOfItems, IList<T> blackList)
+        {
+            CheckIfInputListEmpty(list);
+            if (blackList == null || blackList.Count == 0)
+            {
+                return PickItems(list, numberOfItems);
+            }
+            
+            if (list.Equals(blackList))
+            {
+                return new List<T>();
+            }
+
+            foreach (var blackListItem in blackList)
+            {
+                list.Remove(blackListItem);
+            }
+
+            return list.Count == 0 
+                ? new List<T>() 
+                : PickItems(list, numberOfItems);
+
         }
 
         public T PickItem<T>(IList<T> list)
