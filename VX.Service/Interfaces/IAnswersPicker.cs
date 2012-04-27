@@ -3,8 +3,8 @@ using VX.Domain.Interfaces.Entities;
 
 namespace VX.Service.Interfaces
 {
-    internal interface IAnswersPicker
+    public interface IAnswersPicker
     {
-        IList<IWord> PickAnswers();
+        IList<IWord> PickAnswers(IWord question, IVocabBank vocabBank);
     }
 }

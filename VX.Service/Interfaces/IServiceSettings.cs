@@ -1,6 +1,6 @@
 ﻿namespace VX.Service.Interfaces
 {
-    internal interface IServiceSettings
+    public interface IServiceSettings
     {
         string ConnectionString { get; }
     }

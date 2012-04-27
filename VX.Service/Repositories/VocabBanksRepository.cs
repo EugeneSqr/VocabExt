@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using VX.Domain;
-using VX.Domain.Interfaces;
 using VX.Domain.Interfaces.Entities;
 using VX.Domain.Interfaces.Factories;
 using VX.Domain.Interfaces.Repositories;
@@ -9,7 +8,7 @@ using VX.Service.Interfaces;
 
 namespace VX.Service.Repositories
 {
-    internal class VocabBanksRepository : IVocabBanksRepository
+    public class VocabBanksRepository : IVocabBanksRepository
     {
         private readonly IServiceSettings serviceSettings;
         private readonly IEntitiesFactory entitiesFactory;

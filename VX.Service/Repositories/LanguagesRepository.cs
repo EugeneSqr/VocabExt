@@ -8,7 +8,7 @@ using VX.Service.Interfaces;
 
 namespace VX.Service.Repositories
 {
-    internal class LanguagesRepository : ILanguagesRepository
+    public class LanguagesRepository : ILanguagesRepository
     {
         private readonly IServiceSettings serviceSettings;
         private readonly IEntitiesFactory entitiesFactory;

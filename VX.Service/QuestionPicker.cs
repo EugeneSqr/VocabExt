@@ -1,49 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using VX.Domain.Interfaces.Entities;
 using VX.Service.Interfaces;
 
 namespace VX.Service
 {
-    internal class QuestionPicker : IQuestionPicker
+    public class QuestionPicker : IQuestionPicker
     {
-        private readonly IRandomFacade randomFacade;
+        private readonly IRandomPicker randomPicker;
         
-        public QuestionPicker(IRandomFacade randomFacade)
+        public QuestionPicker(IRandomPicker randomPicker)
         {
-            this.randomFacade = randomFacade;
+            this.randomPicker = randomPicker;
         }
 
         public IWord PickQuestion(IVocabBank vocabBank)
         {
-            if (vocabBank == null)
+            if (vocabBank == null || vocabBank.Translations == null || vocabBank.Translations.Count == 0)
             {
                 // TODO: licalize
                 throw new ArgumentNullException("vocabBank", "Input VocabBank is empty");
             }
 
-            var translation = PickOneFromList(vocabBank.Translations);
+            var translation = randomPicker.PickItem(vocabBank.Translations);
             return translation.Source;
-        }
-
-        public IWord PickQuestion(IList<IVocabBank> vocabBanks)
-        {
-            var vocabBank = PickOneFromList(vocabBanks);
-            return PickQuestion(vocabBank);
-        }
-
-        private T PickOneFromList<T>(IList<T> list)
-        {
-            if (list == null || list.Count == 0)
-            {
-                // TODO: localize
-                throw new ArgumentNullException(
-                    "list", 
-                    string.Format("Can't pick an item from empty list. Type: {0}", typeof(T)));
-            }
-
-            int position = randomFacade.PickRandomValue(0, list.Count);
-            return list[position];
         }
     }
 }
