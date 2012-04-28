@@ -132,10 +132,6 @@
       <Project>{D7E6BB4C-19E1-40E8-88F9-597754311E52}</Project>
       <Name>VX.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VX.ServiceFacade\VX.ServiceFacade.csproj">
-      <Project>{C501C275-644D-4B60-A639-FEC9B249CC97}</Project>
-      <Name>VX.ServiceFacade</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

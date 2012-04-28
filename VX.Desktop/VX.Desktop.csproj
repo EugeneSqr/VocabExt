@@ -42,6 +42,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,9 +54,6 @@
     </Reference>
     <Reference Include="VX.Domain">
       <HintPath>..\.Libraries\VX.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="VX.ServiceFacade">
-      <HintPath>..\.Libraries\VX.ServiceFacade.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -104,13 +102,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\VX.Desktop.ServiceFacade\VX.Desktop.ServiceFacade.csproj">
+      <Project>{C501C275-644D-4B60-A639-FEC9B249CC97}</Project>
+      <Name>VX.Desktop.ServiceFacade</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\tray.ico" />
   </ItemGroup>

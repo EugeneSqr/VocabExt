@@ -8,8 +8,8 @@
     <ProjectGuid>{C501C275-644D-4B60-A639-FEC9B249CC97}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VX.ServiceFacade</RootNamespace>
-    <AssemblyName>VX.ServiceFacade</AssemblyName>
+    <RootNamespace>VX.Desktop.ServiceFacade</RootNamespace>
+    <AssemblyName>VX.Desktop.ServiceFacade</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,6 +40,10 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="VX.Domain, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\.Libraries\VX.Domain.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IVocabServiceFacade.cs" />
@@ -87,15 +91,10 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VX.Domain\VX.Domain.csproj">
-      <Project>{D7E6BB4C-19E1-40E8-88F9-597754311E52}</Project>
-      <Name>VX.Domain</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy $(TargetDir)VX.ServiceFacade.dll $(SolutionDir).Libraries\</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

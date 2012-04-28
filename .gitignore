@@ -8,8 +8,8 @@ VX.Desktop/bin/
 VX.Desktop/obj/
 VX.Tests/bin/
 VX.Tests/obj/
-VX.ServiceFacade/bin/
-VX.ServiceFacade/obj/
+VX.Desktop.ServiceFacade/bin/
+VX.Desktop.ServiceFacade/obj/
 _ReSharper.VX/
 VX.Desktop/_Resharper.VX.Desktop/
 VX.suo

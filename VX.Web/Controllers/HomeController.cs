@@ -1,5 +1,4 @@
 ﻿using System.Web.Mvc;
-using VX.ServiceFacade;
 
 namespace VX.Web.Controllers
 {
@@ -8,10 +7,10 @@ namespace VX.Web.Controllers
     {
         public ActionResult Index()
         {
-            var service = new VocabServiceFacade();
+            /*var service = new VocabServiceFacade();*/
             /*ViewData["Message"] = service.GetData(1);*/
             /*ViewData["Message"] = service.GetLanguage().Name;*/
-            ViewData["Message"] = service.GetTask().Question.Spelling;
+            /*ViewData["Message"] = service.GetTask().Question.Spelling;*/
 
             return View();
         }

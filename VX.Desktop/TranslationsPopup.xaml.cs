@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using VX.Domain;
-using VX.Domain.Interfaces;
+﻿using System.Windows;
+using VX.Desktop.ServiceFacade;
+using VX.Desktop.ServiceFacade.VocabServiceReference;
 
 namespace VX.Desktop
 {
     public partial class TranslationsPopup
     {
         private const string TaskFormat = "{0} [{1}]";
+
+        private readonly IVocabServiceFacade serviceFacade = new VocabServiceFacade();
         
         public TranslationsPopup()
         {
@@ -16,42 +17,14 @@ namespace VX.Desktop
 
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
-            translationsList.ItemsSource = GetTranslations();
-            wordToTranslate.Content = GetTask();
+            TaskContract task = serviceFacade.GetTask();
+            wordToTranslate.Content = FormatQuestion((WordContract)task.Question);
+            translationsList.ItemsSource = task.Answers;
         }
 
-        private static string GetTask()
+        private static string FormatQuestion(WordContract word)
         {
-            var word = new Word
-            {
-                Id = 1,
-                Spelling = "Dog",
-                Transcription = "Dog"
-            };
-
             return string.Format(TaskFormat, word.Spelling, word.Transcription);
-        }
-
-        private static IEnumerable<IWord> GetTranslations()
-        {
-            IList<IWord> words = new List<IWord>();
-            words.Add(new Word
-            {
-                Spelling = "Cat",
-                Transcription = "Cat"
-            });
-            words.Add(new Word
-            {
-                Spelling = "Dog",
-                Transcription = "Dog"
-            });
-            words.Add(new Word
-            {
-                Spelling = "Cow",
-                Transcription = "Cow"
-            });
-
-            return words;
         }
 
         private void translationsList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
