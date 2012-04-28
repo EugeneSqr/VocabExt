@@ -4,8 +4,6 @@ namespace VX.ServiceFacade
 {
     public interface IVocabServiceFacade
     {
-        ILanguage GetLanguage();
-
-        IWord GerWord();
+        ITask GetTask();
     }
 }

@@ -11,7 +11,7 @@ namespace VX.Web.Controllers
             var service = new VocabServiceFacade();
             /*ViewData["Message"] = service.GetData(1);*/
             /*ViewData["Message"] = service.GetLanguage().Name;*/
-            ViewData["Message"] = service.GerWord().Language.Name;
+            ViewData["Message"] = service.GetTask().Question.Spelling;
 
             return View();
         }

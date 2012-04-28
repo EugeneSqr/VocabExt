@@ -1,4 +1,5 @@
-﻿using VX.Domain;
+﻿using System.Linq;
+using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
@@ -28,6 +29,12 @@ namespace VX.Service.Factories
                                  Id = vocabBank.Id,
                                  Name = vocabBank.Name,
                                  Description = vocabBank.Description,
+                                 Tags = vocabBank.VocabBanksTags
+                                    .Select(item => BuildTag(item.Tag))
+                                    .ToList(),
+                                 Translations = vocabBank.VocabBanksTranslations
+                                    .Select(item => BuildTranslation(item.Translation))
+                                    .ToList()
                              };
         }
 

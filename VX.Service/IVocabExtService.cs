@@ -2,17 +2,13 @@
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 
-namespace VX.Service.Interfaces
+namespace VX.Service
 {
     [ServiceContract]
     public interface IVocabExtService
     {
         [OperationContract]
-        [ServiceKnownType(typeof(LanguageContract))]
-        ILanguage GetLanguage();
-
-        [OperationContract]
-        [ServiceKnownType(typeof(WordContract))]
-        IWord GetWord();
+        [ServiceKnownType(typeof(TaskContract))]
+        ITask GetTask();
     }
 }

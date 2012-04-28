@@ -7,14 +7,9 @@ namespace VX.ServiceFacade
     {
         private readonly IVocabExtService service = new VocabExtServiceClient();
 
-        public ILanguage GetLanguage()
+        public ITask GetTask()
         {
-            return (ILanguage)service.GetLanguage();
-        }
-
-        public IWord GerWord()
-        {
-            return (IWord)service.GetWord();
+            return (ITask)service.GetTask();
         }
     }
 }

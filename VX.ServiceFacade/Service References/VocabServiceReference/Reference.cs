@@ -15,15 +15,13 @@ namespace VX.ServiceFacade.VocabServiceReference {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="VocabServiceReference.IVocabExtService")]
     public interface IVocabExtService {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVocabExtService/GetLanguage", ReplyAction="http://tempuri.org/IVocabExtService/GetLanguageResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.LanguageContract))]
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVocabExtService/GetTask", ReplyAction="http://tempuri.org/IVocabExtService/GetTaskResponse")]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.TaskContract))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.WordContract[]))]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.WordContract))]
-        object GetLanguage();
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVocabExtService/GetWord", ReplyAction="http://tempuri.org/IVocabExtService/GetWordResponse")]
         [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.LanguageContract))]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.WordContract))]
-        object GetWord();
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(object[]))]
+        object GetTask();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -53,12 +51,8 @@ namespace VX.ServiceFacade.VocabServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public object GetLanguage() {
-            return base.Channel.GetLanguage();
-        }
-        
-        public object GetWord() {
-            return base.Channel.GetWord();
+        public object GetTask() {
+            return base.Channel.GetTask();
         }
     }
 }

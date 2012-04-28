@@ -1,29 +1,25 @@
 ﻿using Autofac;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Interfaces;
+using VX.Service.Factories.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service
 {
     public class VocabExtService : IVocabExtService
     {
-        private readonly ILanguagesRepository languagesRepository;
-        private readonly IWordsRepository wordsRepository;
-
+        private readonly ITasksFactory tasksFactory;
+        private readonly IVocabBanksRepository vocabBanksRepository;
+        
         public VocabExtService()
         {
-            languagesRepository = Initializer.Container.Resolve<ILanguagesRepository>();
-            wordsRepository = Initializer.Container.Resolve<IWordsRepository>();
+            tasksFactory = Initializer.Container.Resolve<ITasksFactory>();
+            vocabBanksRepository = Initializer.Container.Resolve<IVocabBanksRepository>();
         }
 
-        public ILanguage GetLanguage()
+        public ITask GetTask()
         {
-            return languagesRepository.GetLanguage(1);
-        }
-
-        public IWord GetWord()
-        {
-            return wordsRepository.GetById(1);
+            var vocabBanks = vocabBanksRepository.GetVocabBanks();
+            return tasksFactory.BuildTask(vocabBanks);
         }
     }
 }

@@ -4,7 +4,6 @@ using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
-using VX.Service.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service.Repositories

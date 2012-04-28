@@ -21,11 +21,12 @@
     <MetadataSource Address="http://vx.com/VocabExtService/VocabExtService.svc" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="VocabExtService.xsd" MetadataType="Schema" ID="0f42c970-fcc9-4d2d-85b4-5939d9fa7f7d" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?xsd=xsd2" />
-    <MetadataFile FileName="VocabExtService.disco" MetadataType="Disco" ID="098bb9ef-4dd3-4b01-b454-e352a0106662" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?disco" />
+    <MetadataFile FileName="VocabExtService3.xsd" MetadataType="Schema" ID="5cfaeeb6-1710-419c-83d0-8d821e3d56fb" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?xsd=xsd3" />
     <MetadataFile FileName="VocabExtService1.xsd" MetadataType="Schema" ID="2edb5b25-f7cf-4c5a-bf3c-b76c11feffce" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?xsd=xsd0" />
-    <MetadataFile FileName="VocabExtService.wsdl" MetadataType="Wsdl" ID="bc31792d-1785-4ecc-bcf6-2399e46f3e55" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?wsdl" />
     <MetadataFile FileName="VocabExtService2.xsd" MetadataType="Schema" ID="37314d8e-8a50-4e14-96d0-a423215a7ea9" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?xsd=xsd1" />
+    <MetadataFile FileName="VocabExtService.wsdl" MetadataType="Wsdl" ID="bc31792d-1785-4ecc-bcf6-2399e46f3e55" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?wsdl" />
+    <MetadataFile FileName="VocabExtService.disco" MetadataType="Disco" ID="098bb9ef-4dd3-4b01-b454-e352a0106662" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?disco" />
+    <MetadataFile FileName="VocabExtService.xsd" MetadataType="Schema" ID="0f42c970-fcc9-4d2d-85b4-5939d9fa7f7d" SourceId="1" SourceUrl="http://vx.com/VocabExtService/VocabExtService.svc?xsd=xsd2" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
