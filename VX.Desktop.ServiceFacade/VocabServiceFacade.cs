@@ -1,4 +1,6 @@
-﻿using VX.Desktop.ServiceFacade.VocabServiceReference;
+﻿using VX.Desktop.ServiceFacade.VocabExtService;
+using VX.Domain.DataContracts.Interfaces;
+
 
 namespace VX.Desktop.ServiceFacade
 {
@@ -6,9 +8,9 @@ namespace VX.Desktop.ServiceFacade
     {
         private readonly IVocabExtService service = new VocabExtServiceClient();
 
-        public TaskContract GetTask()
+        public ITask GetTask()
         {
-            return (TaskContract)service.GetTask();
+            return (ITask)service.GetTask();
         }
     }
 }

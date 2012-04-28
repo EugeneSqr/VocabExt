@@ -6,7 +6,6 @@ namespace VX.Domain.DataContracts
 {
     [DataContract]
     [KnownType(typeof(WordContract))]
-    [KnownType(typeof(List<WordContract>))]
     public class TaskContract : ITask
     {
         [DataMember]

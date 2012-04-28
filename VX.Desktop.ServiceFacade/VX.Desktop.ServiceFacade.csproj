@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IVocabServiceFacade.cs" />
-    <Compile Include="Service References\VocabServiceReference\Reference.cs">
+    <Compile Include="Service References\VocabExtService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -56,37 +56,37 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\VocabExtService\VocabExtService.wsdl" />
+    <None Include="Service References\VocabExtService\VocabExtService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VocabExtService\VocabExtService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VocabExtService\VocabExtService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\VocabExtService\VocabExtService3.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\VocabServiceReference\VocabExtService.wsdl" />
-    <None Include="Service References\VocabServiceReference\VocabExtService.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\VocabServiceReference\VocabExtService1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\VocabServiceReference\VocabExtService2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\VocabServiceReference\VocabExtService3.xsd">
-      <SubType>Designer</SubType>
-    </None>
+    <WCFMetadataStorage Include="Service References\VocabExtService\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\VocabServiceReference\" />
+    <None Include="Service References\VocabExtService\VocabExtService.disco" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\VocabServiceReference\VocabExtService.disco" />
+    <None Include="Service References\VocabExtService\configuration91.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\VocabServiceReference\configuration91.svcinfo" />
+    <None Include="Service References\VocabExtService\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Service References\VocabServiceReference\configuration.svcinfo" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Service References\VocabServiceReference\Reference.svcmap">
+    <None Include="Service References\VocabExtService\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>

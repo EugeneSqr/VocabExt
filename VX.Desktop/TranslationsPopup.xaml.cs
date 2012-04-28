@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 using VX.Desktop.ServiceFacade;
-using VX.Desktop.ServiceFacade.VocabServiceReference;
+using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Desktop
 {
@@ -17,12 +17,12 @@ namespace VX.Desktop
 
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
-            TaskContract task = serviceFacade.GetTask();
-            wordToTranslate.Content = FormatQuestion((WordContract)task.Question);
+            ITask task = serviceFacade.GetTask();
+            wordToTranslate.Content = FormatQuestion(task.Question);
             translationsList.ItemsSource = task.Answers;
         }
 
-        private static string FormatQuestion(WordContract word)
+        private static string FormatQuestion(IWord word)
         {
             return string.Format(TaskFormat, word.Spelling, word.Transcription);
         }

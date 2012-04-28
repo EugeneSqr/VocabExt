@@ -11,7 +11,7 @@ namespace VX.Service.Factories
 {
     public class TasksFactory : ITasksFactory
     {
-        private const int DefaultAnswersCount = 4;
+        private const int DefaultAnswersCount = 3;
         
         private readonly IRandomPicker randomPicker;
         private readonly ITaskValidator taskValidator;
@@ -24,17 +24,19 @@ namespace VX.Service.Factories
 
         public ITask BuildTask(IVocabBank vocabBank)
         {
-            var translation = randomPicker.PickItem(vocabBank.Translations);
+            var question = randomPicker.PickItem(vocabBank.Translations);
             var answers = randomPicker
-                .PickItems(vocabBank.Translations, DefaultAnswersCount, new List<ITranslation> { translation })
+                .PickItems(vocabBank.Translations, DefaultAnswersCount, new List<ITranslation> { question })
                 .Select(answer => answer.Target)
                 .ToList();
+
+            answers.Add(question.Target);
 
             var result = new TaskContract
                        {
                            Answers = answers,
-                           CorrectAnswer = translation.Target,
-                           Question = translation.Source
+                           CorrectAnswer = question.Target,
+                           Question = question.Source
                        };
 
             if (taskValidator.IsValidTask(result))

@@ -1,9 +1,9 @@
-﻿using VX.Desktop.ServiceFacade.VocabServiceReference;
+﻿using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Desktop.ServiceFacade
 {
     public interface IVocabServiceFacade
     {
-        TaskContract GetTask();
+        ITask GetTask();
     }
 }

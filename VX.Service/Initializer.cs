@@ -44,6 +44,10 @@ namespace VX.Service
                 .As<IEntitiesFactory>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<TaskValidator>()
+                .As<ITaskValidator>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<TasksFactory>()
                 .As<ITasksFactory>()
                 .InstancePerLifetimeScope();
