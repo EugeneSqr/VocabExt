@@ -1,7 +1,7 @@
 ﻿using VX.Domain;
-using VX.Domain.Interfaces.Entities;
-using VX.Domain.Interfaces.Factories;
-using VX.Domain.Surrogates;
+using VX.Domain.DataContracts;
+using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Factories.Interfaces;
 
 namespace VX.Tests.Mocks
 {
@@ -11,7 +11,7 @@ namespace VX.Tests.Mocks
         {
             return language == null
                        ? null
-                       : new LanguageSurrogate();
+                       : new LanguageContract();
 
         }
 
@@ -19,7 +19,7 @@ namespace VX.Tests.Mocks
         {
             return vocabBank == null
                        ? null
-                       : new VocabBankSurrogate();
+                       : new VocabBankContract();
         }
 
         public ITag BuildTag(Tag tag)

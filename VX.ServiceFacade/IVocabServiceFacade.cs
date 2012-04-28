@@ -1,4 +1,4 @@
-﻿using VX.Domain.Interfaces.Entities;
+﻿using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.ServiceFacade
 {

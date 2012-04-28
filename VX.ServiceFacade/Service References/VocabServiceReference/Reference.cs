@@ -16,11 +16,14 @@ namespace VX.ServiceFacade.VocabServiceReference {
     public interface IVocabExtService {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVocabExtService/GetLanguage", ReplyAction="http://tempuri.org/IVocabExtService/GetLanguageResponse")]
-        VX.Domain.Surrogates.LanguageSurrogate GetLanguage();
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.LanguageContract))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.WordContract))]
+        object GetLanguage();
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IVocabExtService/GetWord", ReplyAction="http://tempuri.org/IVocabExtService/GetWordResponse")]
-        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.Surrogates.LanguageSurrogate))]
-        VX.Domain.Surrogates.WordSurrogate GetWord();
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.LanguageContract))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VX.Domain.DataContracts.WordContract))]
+        object GetWord();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -50,11 +53,11 @@ namespace VX.ServiceFacade.VocabServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public VX.Domain.Surrogates.LanguageSurrogate GetLanguage() {
+        public object GetLanguage() {
             return base.Channel.GetLanguage();
         }
         
-        public VX.Domain.Surrogates.WordSurrogate GetWord() {
+        public object GetWord() {
             return base.Channel.GetWord();
         }
     }

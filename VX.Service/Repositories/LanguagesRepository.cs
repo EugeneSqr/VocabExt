@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 
 using VX.Domain;
-using VX.Domain.Interfaces.Entities;
-using VX.Domain.Interfaces.Factories;
-using VX.Domain.Interfaces.Repositories;
+using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Interfaces;
+using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service.Repositories
 {

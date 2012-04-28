@@ -55,9 +55,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\DataSources\VX.Domain.Surrogates.LanguageSurrogate.datasource" />
-    <None Include="Properties\DataSources\VX.Domain.Surrogates.WordSurrogate.datasource" />
     <None Include="Service References\VocabServiceReference\VocabExtService.wsdl" />
     <None Include="Service References\VocabServiceReference\VocabExtService.xsd">
       <SubType>Designer</SubType>

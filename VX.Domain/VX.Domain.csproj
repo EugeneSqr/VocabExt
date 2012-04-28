@@ -43,25 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\Factories\IContractItemsFactory.cs" />
-    <Compile Include="Interfaces\Factories\IEntitiesFactory.cs" />
-    <Compile Include="Interfaces\Entities\ILanguage.cs" />
-    <Compile Include="Interfaces\ITask.cs" />
-    <Compile Include="Interfaces\Factories\ITasksFactory.cs" />
-    <Compile Include="Interfaces\Repositories\ILanguagesRepository.cs" />
-    <Compile Include="Interfaces\Entities\ITag.cs" />
-    <Compile Include="Interfaces\Entities\ITranslation.cs" />
-    <Compile Include="Interfaces\Entities\IVocabBank.cs" />
-    <Compile Include="Interfaces\Repositories\IVocabBanksRepository.cs" />
-    <Compile Include="Interfaces\Entities\IWord.cs" />
-    <Compile Include="Interfaces\Repositories\IWordsRepository.cs" />
+    <Compile Include="DataContracts\Interfaces\ILanguage.cs" />
+    <Compile Include="DataContracts\Interfaces\ITask.cs" />
+    <Compile Include="DataContracts\Interfaces\ITag.cs" />
+    <Compile Include="DataContracts\Interfaces\ITranslation.cs" />
+    <Compile Include="DataContracts\Interfaces\IVocabBank.cs" />
+    <Compile Include="DataContracts\Interfaces\IWord.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Surrogates\LanguageSurrogate.cs" />
-    <Compile Include="Surrogates\TagSurrogate.cs" />
-    <Compile Include="Surrogates\TranslationSurrogate.cs" />
-    <Compile Include="Surrogates\VocabBankSurrogate.cs" />
-    <Compile Include="Surrogates\WordSurrogate.cs" />
-    <Compile Include="Task.cs" />
+    <Compile Include="DataContracts\LanguageContract.cs" />
+    <Compile Include="DataContracts\TagContract.cs" />
+    <Compile Include="DataContracts\TranslationContract.cs" />
+    <Compile Include="DataContracts\VocabBankContract.cs" />
+    <Compile Include="DataContracts\WordContract.cs" />
+    <Compile Include="DataContracts\TaskContract.cs" />
     <Compile Include="VocabModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -74,6 +68,7 @@
       <LastGenOutput>VocabModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy $(TargetDir)VX.Domain.dll $(SolutionDir).Libraries\</PostBuildEvent>

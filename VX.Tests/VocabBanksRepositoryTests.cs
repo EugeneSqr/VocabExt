@@ -1,8 +1,7 @@
 ﻿using Autofac;
 using NUnit.Framework;
-
-using VX.Domain.Interfaces.Repositories;
 using VX.Service.Repositories;
+using VX.Service.Repositories.Interfaces;
 
 namespace VX.Tests
 {

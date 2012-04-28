@@ -1,5 +1,4 @@
-﻿
-using VX.Domain.Interfaces.Entities;
+﻿using VX.Domain.DataContracts.Interfaces;
 using VX.ServiceFacade.VocabServiceReference;
 
 namespace VX.ServiceFacade
@@ -10,12 +9,12 @@ namespace VX.ServiceFacade
 
         public ILanguage GetLanguage()
         {
-            return service.GetLanguage();
+            return (ILanguage)service.GetLanguage();
         }
 
         public IWord GerWord()
         {
-            return service.GetWord();
+            return (IWord)service.GetWord();
         }
     }
 }

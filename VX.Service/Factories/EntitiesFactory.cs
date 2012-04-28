@@ -1,8 +1,7 @@
 ﻿using VX.Domain;
-using VX.Domain.Interfaces;
-using VX.Domain.Interfaces.Entities;
-using VX.Domain.Interfaces.Factories;
-using VX.Domain.Surrogates;
+using VX.Domain.DataContracts;
+using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Factories.Interfaces;
 
 namespace VX.Service.Factories
 {
@@ -12,7 +11,7 @@ namespace VX.Service.Factories
         {
             return language == null
                        ? null
-                       : new LanguageSurrogate
+                       : new LanguageContract
                              {
                                  Id = language.Id,
                                  Name = language.Name,
@@ -24,7 +23,7 @@ namespace VX.Service.Factories
         {
             return vocabBank == null
                        ? null
-                       : new VocabBankSurrogate
+                       : new VocabBankContract
                              {
                                  Id = vocabBank.Id,
                                  Name = vocabBank.Name,
@@ -36,7 +35,7 @@ namespace VX.Service.Factories
         {
             return tag == null
                        ? null
-                       : new TagSurrogate
+                       : new TagContract
                              {
                                  Id = tag.Id,
                                  Name = tag.Name,
@@ -48,7 +47,7 @@ namespace VX.Service.Factories
         {
             return translation == null
                        ? null
-                       : new TranslationSurrogate
+                       : new TranslationContract
                              {
                                  Id = translation.Id,
                                  Source = BuildWord(translation.Source),
@@ -60,7 +59,7 @@ namespace VX.Service.Factories
         {
             return word == null
                        ? null
-                       : new WordSurrogate
+                       : new WordContract
                              {
                                  Id = word.Id,
                                  Spelling = word.Spelling,

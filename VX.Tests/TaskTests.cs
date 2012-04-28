@@ -1,28 +1,27 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using VX.Domain;
-using VX.Domain.Interfaces;
-using VX.Domain.Interfaces.Entities;
-using VX.Domain.Surrogates;
+using VX.Domain.DataContracts;
+using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Tests
 {
     [TestFixture]
     internal class TaskTests
     {
-        private static readonly IWord QuestionWord = new WordSurrogate
+        private static readonly IWord QuestionWord = new WordContract
                                                          {
                                                              Id = 1
                                                          };
 
-        private static readonly IWord AnswerWord = new WordSurrogate
+        private static readonly IWord AnswerWord = new WordContract
                                                        {
                                                            Id = 2
                                                        };
 
         private static readonly IList<IWord> TranslationOptionsWithAnswer = new List<IWord>
                                                                                 {
-                                                                                    new WordSurrogate
+                                                                                    new WordContract
                                                                                         {
                                                                                             Id = 3
                                                                                         },
@@ -31,11 +30,11 @@ namespace VX.Tests
 
         private static readonly IList<IWord> TranslationOptionsNoAnswer = new List<IWord>
                                                                               {
-                                                                                  new WordSurrogate
+                                                                                  new WordContract
                                                                                       {
                                                                                           Id = 3
                                                                                       },
-                                                                                  new WordSurrogate
+                                                                                  new WordContract
                                                                                       {
                                                                                           Id = 4
                                                                                       },
@@ -92,7 +91,7 @@ namespace VX.Tests
 
         private ITask BuildTask(IWord question, IWord answer, IList<IWord> options)
         {
-            return new Task
+            return new TaskContract
                        {
                            Question = question,
                            CorrectAnswer = answer,

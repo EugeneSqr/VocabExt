@@ -1,9 +1,10 @@
 ﻿using Autofac;
-using VX.Domain.Interfaces.Factories;
-using VX.Domain.Interfaces.Repositories;
 using VX.Service.Factories;
-using VX.Service.Interfaces;
+using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure;
+using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
+using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service
 {
@@ -39,20 +40,12 @@ namespace VX.Service
                 .As<IRandomPicker>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<QuestionPicker>()
-                .As<IQuestionPicker>()
-                .InstancePerLifetimeScope();
-
             builder.RegisterType<EntitiesFactory>()
                 .As<IEntitiesFactory>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<TasksFactory>()
                 .As<ITasksFactory>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<ContractItemsFactory>()
-                .As<IContractItemsFactory>()
                 .InstancePerLifetimeScope();
 
             Container = builder.Build();

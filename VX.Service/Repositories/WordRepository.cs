@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using VX.Domain;
-using VX.Domain.Interfaces.Entities;
-using VX.Domain.Interfaces.Factories;
-using VX.Domain.Interfaces.Repositories;
-using VX.Domain.Surrogates;
+using VX.Domain.DataContracts;
+using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Interfaces;
+using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service.Repositories
 {
@@ -23,13 +24,13 @@ namespace VX.Service.Repositories
 
         public IWord GetById(int wordId)
         {
-            var result = new WordSurrogate();
+            var result = new WordContract();
             using (Entities context = new Entities(serviceSettings.ConnectionString))
             {
                 var entityWord = context.Words.FirstOrDefault(item => item.Id == wordId);
                 if (entityWord != null)
                 {
-                    result = new WordSurrogate
+                    result = new WordContract
                                  {
                                      Id = entityWord.Id,
                                      Spelling = entityWord.Spelling,

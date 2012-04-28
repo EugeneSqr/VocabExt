@@ -1,6 +1,7 @@
 ﻿using Autofac;
-using VX.Domain.Interfaces.Factories;
 using VX.Service;
+using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Interfaces;
 using VX.Tests.Mocks;
 

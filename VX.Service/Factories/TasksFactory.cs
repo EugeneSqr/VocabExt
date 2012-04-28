@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using VX.Domain;
-using VX.Domain.Interfaces;
-using VX.Domain.Interfaces.Entities;
-using VX.Domain.Interfaces.Factories;
-using VX.Service.Interfaces;
+using VX.Domain.DataContracts;
+using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Factories
 {
@@ -28,7 +27,7 @@ namespace VX.Service.Factories
                 .Select(answer => answer.Target)
                 .ToList();
 
-            return new Task
+            return new TaskContract
                        {
                            Answers = answers,
                            CorrectAnswer = translation.Target,
