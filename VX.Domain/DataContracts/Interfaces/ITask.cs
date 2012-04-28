@@ -9,9 +9,5 @@ namespace VX.Domain.DataContracts.Interfaces
         IWord CorrectAnswer { get; set; }
 
         IList<IWord> Answers { get; set; }
-
-        bool IsValidTask();
-
-        bool IsCorrectAnswer(IWord answer);
     }
 }

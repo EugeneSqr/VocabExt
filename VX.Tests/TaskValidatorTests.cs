@@ -1,23 +1,25 @@
 ﻿using System.Collections.Generic;
+using Autofac;
 using NUnit.Framework;
-using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Infrastructure;
+using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Tests
 {
     [TestFixture]
-    internal class TaskTests
+    internal class TaskValidatorTests
     {
         private static readonly IWord QuestionWord = new WordContract
-                                                         {
-                                                             Id = 1
-                                                         };
+        {
+            Id = 1
+        };
 
         private static readonly IWord AnswerWord = new WordContract
-                                                       {
-                                                           Id = 2
-                                                       };
+        {
+            Id = 2
+        };
 
         private static readonly IList<IWord> TranslationOptionsWithAnswer = new List<IWord>
                                                                                 {
@@ -39,13 +41,27 @@ namespace VX.Tests
                                                                                           Id = 4
                                                                                       },
                                                                               };
+
+        private readonly IContainer container;
+
+        public TaskValidatorTests()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterType<TaskValidator>()
+                .As<ITaskValidator>()
+                .InstancePerLifetimeScope();
+
+            container = builder.Build();
+        }
+
         [Test]
         [Category("TaskTest")]
         [Description("Checks if validation of task returns true if answer presents in options")]
         public void IsValidTaskPositiveTest()
         {
-            var taskUnderTest = BuildTask(QuestionWord, AnswerWord, TranslationOptionsWithAnswer);
-            Assert.IsTrue(taskUnderTest.IsValidTask());
+            var validatorUnderTest = container.Resolve<ITaskValidator>();
+            Assert.IsTrue(validatorUnderTest.IsValidTask(
+                BuildTask(QuestionWord, AnswerWord, TranslationOptionsWithAnswer)));
         }
 
         [Test]
@@ -53,8 +69,9 @@ namespace VX.Tests
         [Description("Checks if validation of the task fails if no answer in options")]
         public void IsValidTaskNegativeTest()
         {
-            var taskUnderTest = BuildTask(QuestionWord, AnswerWord, TranslationOptionsNoAnswer);
-            Assert.IsFalse(taskUnderTest.IsValidTask());
+            var validatorUnderTest = container.Resolve<ITaskValidator>();
+            Assert.IsFalse(validatorUnderTest.IsValidTask(
+                BuildTask(QuestionWord, AnswerWord, TranslationOptionsNoAnswer)));
         }
 
         [Test]
@@ -62,41 +79,24 @@ namespace VX.Tests
         [Description("Check if validation fails if question or answer is null")]
         public void IsValidTaskNegativeNullsTest()
         {
-            var taskUnderTest = BuildTask(null, null, null);
-            Assert.IsFalse(taskUnderTest.IsValidTask());
-            taskUnderTest.CorrectAnswer = AnswerWord;
-            Assert.IsFalse(taskUnderTest.IsValidTask());
-            taskUnderTest.CorrectAnswer = null;
-            taskUnderTest.Question = QuestionWord;
-            Assert.IsFalse(taskUnderTest.IsValidTask());
-        }
-        
-        [Test]
-        [Category("TaskTest")]
-        [Description("Checks if correct answer logic returns true if answer is correct")]
-        public void IsCorrectAnswerPositiveTest()
-        {
-            var taskUnderTest = BuildTask(QuestionWord, AnswerWord, TranslationOptionsWithAnswer);
-            Assert.IsTrue(taskUnderTest.IsCorrectAnswer(AnswerWord));
+            var validatorUnderTest = container.Resolve<ITaskValidator>();
+            var task = BuildTask(null, null, null);
+            Assert.IsFalse(validatorUnderTest.IsValidTask(task));
+            task.CorrectAnswer = AnswerWord;
+            Assert.IsFalse(validatorUnderTest.IsValidTask(task));
+            task.CorrectAnswer = null;
+            task.Question = QuestionWord;
+            Assert.IsFalse(validatorUnderTest.IsValidTask(task));
         }
 
-        [Test]
-        [Category("TaskTest")]
-        [Description("Checks if correct answer logic returns false if answer is incorrect")]
-        public void IsCorrectAnswerNegativeTest()
-        {
-            var taskUnderTest = BuildTask(QuestionWord, AnswerWord, TranslationOptionsWithAnswer);
-            Assert.IsFalse(taskUnderTest.IsCorrectAnswer(QuestionWord));
-        }
-
-        private ITask BuildTask(IWord question, IWord answer, IList<IWord> options)
+        private static ITask BuildTask(IWord question, IWord answer, IList<IWord> options)
         {
             return new TaskContract
-                       {
-                           Question = question,
-                           CorrectAnswer = answer,
-                           Answers = options
-                       };
+            {
+                Question = question,
+                CorrectAnswer = answer,
+                Answers = options
+            };
         }
     }
 }

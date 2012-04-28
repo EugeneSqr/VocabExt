@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using VX.Domain.DataContracts;
@@ -13,10 +14,12 @@ namespace VX.Service.Factories
         private const int DefaultAnswersCount = 4;
         
         private readonly IRandomPicker randomPicker;
+        private readonly ITaskValidator taskValidator;
         
-        public TasksFactory(IRandomPicker randomPicker)
+        public TasksFactory(IRandomPicker randomPicker, ITaskValidator taskValidator)
         {
             this.randomPicker = randomPicker;
+            this.taskValidator = taskValidator;
         }
 
         public ITask BuildTask(IVocabBank vocabBank)
@@ -27,12 +30,18 @@ namespace VX.Service.Factories
                 .Select(answer => answer.Target)
                 .ToList();
 
-            return new TaskContract
+            var result = new TaskContract
                        {
                            Answers = answers,
                            CorrectAnswer = translation.Target,
                            Question = translation.Source
                        };
+
+            if (taskValidator.IsValidTask(result))
+                return result;
+            
+            // TODO: localize
+            throw new ArgumentException("Task created incorrectly.", "vocabBank");
         }
 
         public ITask BuildTask(IList<IVocabBank> vocabBanks)

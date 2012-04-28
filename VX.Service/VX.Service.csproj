@@ -70,6 +70,8 @@
     <Compile Include="Factories\EntitiesFactory.cs" />
     <Compile Include="Factories\Interfaces\IEntitiesFactory.cs" />
     <Compile Include="Factories\Interfaces\ITasksFactory.cs" />
+    <Compile Include="Infrastructure\Interfaces\ITaskValidator.cs" />
+    <Compile Include="Infrastructure\TaskValidator.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="Infrastructure\Interfaces\IRandomPicker.cs" />
     <Compile Include="Infrastructure\Interfaces\IServiceSettings.cs" />

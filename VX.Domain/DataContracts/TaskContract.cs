@@ -17,15 +17,5 @@ namespace VX.Domain.DataContracts
 
         [DataMember]
         public IList<IWord> Answers { get; set; }
-
-        public bool IsValidTask()
-        {
-            return Question != null && CorrectAnswer != null && Answers.Contains(CorrectAnswer);
-        }
-
-        public bool IsCorrectAnswer(IWord answer)
-        {
-            return IsValidTask() && answer.Id == CorrectAnswer.Id;
-        }
     }
 }
