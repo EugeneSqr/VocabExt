@@ -24,7 +24,7 @@ namespace VX.Service.Repositories
         public IList<IVocabBank> GetVocabBanks()
         {
             IList<IVocabBank> result;
-            using (Entities context = new Entities(serviceSettings.ConnectionString))
+            using (var context = new Entities(serviceSettings.ConnectionString))
             {
                 result = context.VocabBanks
                     .ToList()
@@ -38,7 +38,7 @@ namespace VX.Service.Repositories
         public IVocabBank GetVocabBank(int vocabularyId)
         {
             IVocabBank result;
-            using(Entities context = new Entities(serviceSettings.ConnectionString))
+            using(var context = new Entities(serviceSettings.ConnectionString))
             {
                 result = context.VocabBanks.Where(item => item.Id == vocabularyId)
                     .Select(entity => entitiesFactory.BuildVocabBank(entity))

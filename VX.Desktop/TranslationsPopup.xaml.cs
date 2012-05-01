@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using VX.Desktop.ServiceFacade;
 using VX.Domain.DataContracts.Interfaces;
 
@@ -6,9 +8,9 @@ namespace VX.Desktop
 {
     public partial class TranslationsPopup
     {
-        private const string TaskFormat = "{0} [{1}]";
-
         private readonly IVocabServiceFacade serviceFacade = new VocabServiceFacade();
+
+        private IWord correctAnswer;
         
         public TranslationsPopup()
         {
@@ -18,18 +20,15 @@ namespace VX.Desktop
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
             ITask task = serviceFacade.GetTask();
-            wordToTranslate.Content = FormatQuestion(task.Question);
-            translationsList.ItemsSource = task.Answers;
+            questionSpelling.Content = task.Question.Spelling;
+            questionTranscription.Content = task.Question.Transcription;
+            answers.ItemsSource = task.Answers;
+            correctAnswer = task.CorrectAnswer;
         }
 
-        private static string FormatQuestion(IWord word)
+        private void AnswersSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            return string.Format(TaskFormat, word.Spelling, word.Transcription);
-        }
-
-        private void translationsList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
+            answers.ItemContainerStyleSelector = new AnswerStyleSelector(correctAnswer);
         }
     }
 }

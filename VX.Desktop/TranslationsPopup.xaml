@@ -2,32 +2,42 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"             
              mc:Ignorable="d" 
              Loaded="UserControlLoaded">
-    <UserControl.Resources>
-        <Style x:Key="wordToTranslate" TargetType="Label">
+    <UserControl.Resources>        
+        <Style x:Key="questionPanel" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+        <Style x:Key="questionSpelling" TargetType="Label">
             <Setter Property="FontWeight" Value="Normal"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
-        <Style x:Key="translationsList" TargetType="ListBox">
+        <Style x:Key="questionTranscription" BasedOn="{StaticResource questionSpelling}" TargetType="Label">
+            <Setter Property="FontStyle" Value="Italic"/>
+        </Style>
+        <Style x:Key="answers" TargetType="ListBox">
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        </Style>
-        <Style x:Key="translationItemBorder" TargetType="Border">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>            
+            <!--<Style.Resources>                
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Transparent" />
+            </Style.Resources>-->
+        </Style>        
+        <Style x:Key="answerItemBorder" TargetType="Border">
             <Setter Property="Background" Value="White"/>
             <Setter Property="BorderBrush" Value="#728D26"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="Margin" Value="0,2,0,2"/>
         </Style>
-        <Style x:Key="translationItemText" TargetType="TextBlock">
+        <Style x:Key="answerItemText" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="#728D26"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="2"/>
         </Style>
         <Style x:Key="titleBorder" TargetType="Border">
             <Setter Property="CornerRadius" Value="10,10,0,0"/>
@@ -44,14 +54,19 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Border Grid.Row="0" Style="{StaticResource titleBorder}">
-            <Label Name="wordToTranslate" Style="{StaticResource wordToTranslate}"/>
+            <StackPanel Style="{StaticResource questionPanel}">
+                <Label Name="questionSpelling" Style="{StaticResource questionSpelling}"/>
+                <Label Style="{StaticResource questionSpelling}">[</Label>
+                <Label Name="questionTranscription" Style="{StaticResource questionTranscription}" />
+                <Label Style="{StaticResource questionSpelling}">]</Label>
+            </StackPanel>
         </Border>
         <Border Grid.Row="1" Style="{StaticResource contentBorder}">
-            <ListBox Name="translationsList" Style="{StaticResource translationsList}" SelectionChanged="translationsList_SelectionChanged">
+            <ListBox Name="answers" Style="{StaticResource answers}" SelectionChanged="AnswersSelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>                        
-                        <Border x:Name="ListItem" Style="{StaticResource translationItemBorder}">
-                            <TextBlock Style="{StaticResource translationItemText}" Text="{Binding Spelling}"/>
+                        <Border x:Name="ListItem" Style="{StaticResource answerItemBorder}">
+                            <TextBlock Style="{StaticResource answerItemText}" Text="{Binding Spelling}"/>
                         </Border>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}"
@@ -59,7 +74,7 @@
                                 <Setter Property="Background" TargetName="ListItem">
                                     <Setter.Value>
                                         <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                            <GradientStop Color="#728D26"/>
+                                            <GradientStop Color="#D4E59F"/>
                                             <GradientStop Color="White" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Setter.Value>

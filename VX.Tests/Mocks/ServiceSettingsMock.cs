@@ -7,7 +7,7 @@ namespace VX.Tests.Mocks
     {
         public string ConnectionString
         {
-            get { return "metadata=res://*/VocabModel.csdl|res://*/VocabModel.ssdl|res://*/VocabModel.msl;provider=System.Data.SqlClient;provider connection string=\"Data Source=.;Initial Catalog=VXTest;User ID=sa;Password=sa;MultipleActiveResultSets=True\""; }
+            get { return "metadata=res://*/VocabModel.csdl|res://*/VocabModel.ssdl|res://*/VocabModel.msl;provider=System.Data.SqlClient;provider connection string=\"Data Source=.\\SQLEXPRESS;Initial Catalog=VXTest;User ID=sa;Password=sasasa;MultipleActiveResultSets=True\""; }
         }
     }
 }
