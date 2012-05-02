@@ -72,6 +72,17 @@ namespace VX.Service.Infrastructure
             return PickRandomItem(list);
         }
 
+        public int PickInsertIndex<T>(IList<T> list)
+        {
+            if (list == null)
+            {
+                // todo localize
+                throw new ArgumentNullException("list", "Can't pick index to insert from null list");
+            }
+
+            return randomFacade.PickRandomValue(0, list.Count);
+        }
+
         private T PickRandomItem<T>(IList<T> list)
         {
             int position = randomFacade.PickRandomValue(0, list.Count);

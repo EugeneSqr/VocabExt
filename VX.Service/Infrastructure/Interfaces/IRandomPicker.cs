@@ -9,5 +9,7 @@ namespace VX.Service.Infrastructure.Interfaces
         IList<T> PickItems<T>(IList<T> list, int numberOfItems, IList<T> blackList);
 
         T PickItem<T>(IList<T> list);
+
+        int PickInsertIndex<T>(IList<T> list);
     }
 }

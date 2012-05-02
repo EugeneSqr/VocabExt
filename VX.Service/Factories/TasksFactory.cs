@@ -30,7 +30,7 @@ namespace VX.Service.Factories
                 .Select(answer => answer.Target)
                 .ToList();
 
-            answers.Add(question.Target);
+            answers.Insert(randomPicker.PickInsertIndex(answers), question.Target);
 
             var result = new TaskContract
                        {

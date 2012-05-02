@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Autofac;
 using NUnit.Framework;
-using VX.Service;
 using VX.Service.Infrastructure;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests.Mocks;
@@ -154,6 +153,22 @@ namespace VX.Tests
             Assert.AreEqual(2, actual.Count);
             Assert.IsTrue(actual.Contains("item2"));
             Assert.IsTrue(actual.Contains("item3"));
+        }
+
+        [Test]
+        [Category("RandomPickerTests")]
+        [Description("Checks if PickInsertIndex throws ArgumentNullException if input list is null")]
+        public void PickInsertIndexNegativeNullListTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => GetSystemUnderTest().PickInsertIndex<string>(null));
+        }
+
+        [Test]
+        [Category("RandomPickerTests")]
+        [Description("Checks if PickInsertIndex returns zero for empty list")]
+        public void PickInsertIndexPositiveEmptyListTest()
+        {
+            Assert.AreEqual(0, GetSystemUnderTest().PickInsertIndex(new List<string>()));
         }
 
         private IRandomPicker GetSystemUnderTest()

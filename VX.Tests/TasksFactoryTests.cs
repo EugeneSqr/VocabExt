@@ -17,12 +17,16 @@ namespace VX.Tests
     {
         private static readonly IWord QuestionWord = new WordContract
         {
-            Id = 1
+            Id = 1,
+            Spelling = "question",
+            Transcription = "question"
         };
 
         private static readonly IWord AnswerWord = new WordContract
         {
-            Id = 2
+            Id = 2,
+            Spelling = "questionAnswer",
+            Transcription = "questionAnswer"
         };
         private readonly IContainer container;
         
@@ -50,8 +54,7 @@ namespace VX.Tests
         [Description("Checks if BuildTask returns correct task")]
         public void BuildTaskPositiveTest()
         {
-            var factoryUnderTest = container.Resolve<ITasksFactory>();
-            Assert.AreEqual(2, factoryUnderTest.BuildTask(new VocabBankContract
+            Assert.AreEqual(2, GetSystemUnderTest().BuildTask(new VocabBankContract
                                                               {
                                                                   Translations = new List<ITranslation>
                                                                                      {
@@ -65,11 +68,10 @@ namespace VX.Tests
 
         [Test]
         [Category("TasksFactoryTests")]
-        [Description("Check if BuildTask throws ArgumentException if generated task is invalid")]
+        [Description("Checks if BuildTask throws ArgumentException if generated task is invalid")]
         public void BuildTaskNegativeTest()
         {
-            var factoryUnderTest = container.Resolve<ITasksFactory>();
-            Assert.Throws<ArgumentException>(() => factoryUnderTest.BuildTask(new VocabBankContract
+            Assert.Throws<ArgumentException>(() => GetSystemUnderTest().BuildTask(new VocabBankContract
                                                               {
                                                                   Translations = new List<ITranslation>
                                                                                      {
@@ -79,6 +81,47 @@ namespace VX.Tests
                                                                                              }
                                                                                      }
                                                               }));
+        }
+
+        [Test]
+        [Category("TasksFactoryTests")]
+        [Description("Checks if BuildTask inserts answer into answers in ranfom order")]
+        public void BuildTaskPositiveInsertAnswerTest()
+        {
+            IVocabBank vocabBank = new VocabBankContract();
+            ITranslation question = new TranslationContract
+                                        {
+                                            Id = 1,
+                                            Source = QuestionWord,
+                                            Target = AnswerWord
+                                        };
+            
+            vocabBank.Translations = new List<ITranslation>
+                                         {
+                                             question,
+
+                                             new TranslationContract
+                                                 {
+                                                     Id = 2,
+                                                     Source = new WordContract
+                                                                  {
+                                                                      Id = 3,
+                                                                      Spelling = "question2"
+                                                                  },
+                                                     Target = new WordContract
+                                                                  {
+                                                                      Id = 4,
+                                                                      Spelling = "question2answer"
+                                                                  }
+                                                 }
+                                         };
+
+            Assert.AreEqual("questionTranslation", GetSystemUnderTest().BuildTask(vocabBank).Answers[1].Spelling);
+        }
+
+        private ITasksFactory GetSystemUnderTest()
+        {
+            return container.Resolve<ITasksFactory>();
         }
 
         private static Mock<IRandomPicker> MockRandomPicker()
@@ -100,6 +143,9 @@ namespace VX.Tests
                                          Target = QuestionWord
                                      }
                              });
+            mock
+                .Setup(item => item.PickInsertIndex(It.IsAny<IList<ITranslation>>()))
+                .Returns(1);
             return mock;
         }
 
