@@ -15,19 +15,6 @@ namespace VX.Tests
     [TestFixture]
     internal class TasksFactoryTests
     {
-        private static readonly IWord QuestionWord = new WordContract
-        {
-            Id = 1,
-            Spelling = "question",
-            Transcription = "question"
-        };
-
-        private static readonly IWord AnswerWord = new WordContract
-        {
-            Id = 2,
-            Spelling = "questionAnswer",
-            Transcription = "questionAnswer"
-        };
         private readonly IContainer container;
         
         public TasksFactoryTests()
@@ -54,16 +41,25 @@ namespace VX.Tests
         [Description("Checks if BuildTask returns correct task")]
         public void BuildTaskPositiveTest()
         {
-            Assert.AreEqual(2, GetSystemUnderTest().BuildTask(new VocabBankContract
-                                                              {
-                                                                  Translations = new List<ITranslation>
-                                                                                     {
-                                                                                         new TranslationContract
-                                                                                             {
-                                                                                                 Source = QuestionWord
-                                                                                             }
-                                                                                     }
-                                                              }).Answers.Count);
+            Assert.AreEqual(
+                2,
+                GetSystemUnderTest().BuildTask(new VocabBankContract
+                                                   {
+                                                       Translations = new List<ITranslation>
+                                                                          {
+                                                                              new TranslationContract
+                                                                                  {
+                                                                                      Source =
+                                                                                          new WordContract
+                                                                                              {
+                                                                                                  Id = 1,
+                                                                                                  Spelling
+                                                                                                      =
+                                                                                                      "Correct"
+                                                                                              }
+                                                                                  }
+                                                                          }
+                                                   }).Answers.Count);
         }
 
         [Test]
@@ -77,7 +73,10 @@ namespace VX.Tests
                                                                                      {
                                                                                          new TranslationContract
                                                                                              {
-                                                                                                 Source = AnswerWord
+                                                                                                 Source = new WordContract
+                                                                                                              {
+                                                                                                                  Id = -1
+                                                                                                              }
                                                                                              }
                                                                                      }
                                                               }));
@@ -89,34 +88,53 @@ namespace VX.Tests
         public void BuildTaskPositiveInsertAnswerTest()
         {
             IVocabBank vocabBank = new VocabBankContract();
-            ITranslation question = new TranslationContract
-                                        {
-                                            Id = 1,
-                                            Source = QuestionWord,
-                                            Target = AnswerWord
-                                        };
-            
             vocabBank.Translations = new List<ITranslation>
                                          {
-                                             question,
-
                                              new TranslationContract
                                                  {
-                                                     Id = 2,
+                                                     Id = 100,
+                                                     Source = new WordContract
+                                                                  {
+                                                                      Id = 1,
+                                                                      Spelling = "question"
+                                                                  },
+                                                     Target = new WordContract
+                                                                  {
+                                                                      Id = 2,
+                                                                      Spelling = "questionAnswer"
+                                                                  }
+                                                 },
+                                             new TranslationContract
+                                                 {
+                                                     Id = 200,
                                                      Source = new WordContract
                                                                   {
                                                                       Id = 3,
-                                                                      Spelling = "question2"
+                                                                      Spelling =  "question2"
                                                                   },
                                                      Target = new WordContract
                                                                   {
                                                                       Id = 4,
                                                                       Spelling = "question2answer"
                                                                   }
+                                                 },
+                                             new TranslationContract
+                                                 {
+                                                     Id = 300,
+                                                     Source = new WordContract
+                                                                  {
+                                                                      Id = 5,
+                                                                      Spelling = "question3"
+                                                                  },
+                                                     Target = new WordContract
+                                                                  {
+                                                                      Id = 6,
+                                                                      Spelling = "question3answer"
+                                                                  }
                                                  }
                                          };
 
-            Assert.AreEqual("questionTranslation", GetSystemUnderTest().BuildTask(vocabBank).Answers[1].Spelling);
+            Assert.AreEqual("questionAnswer", GetSystemUnderTest().BuildTask(vocabBank).Answers[0].Spelling);
         }
 
         private ITasksFactory GetSystemUnderTest()
@@ -130,22 +148,18 @@ namespace VX.Tests
             mock
                 .Setup(item => item.PickItem(It.IsAny<IList<ITranslation>>()))
                 .Returns((IList<ITranslation> item) => item.First());
+            
+            // taking last 2 items of input list
             mock
                 .Setup(
                     item =>
                     item.PickItems(It.IsAny<IList<ITranslation>>(), It.IsAny<int>(), It.IsAny<IList<ITranslation>>()))
-                .Returns(new List<ITranslation>
-                             {
-                                 new TranslationContract
-                                     {
-                                         Id = 2, 
-                                         Source = AnswerWord, 
-                                         Target = QuestionWord
-                                     }
-                             });
+                .Returns(
+                    (IList<ITranslation> list, int numberOfItems, IList<ITranslation> blackList) => 
+                        list.Skip(Math.Max(0, list.Count() - 2)).Take(2).ToList());
             mock
                 .Setup(item => item.PickInsertIndex(It.IsAny<IList<ITranslation>>()))
-                .Returns(1);
+                .Returns(0);
             return mock;
         }
 
@@ -153,10 +167,10 @@ namespace VX.Tests
         {
             var mock = new Mock<ITaskValidator>();
             mock
-                .Setup(item => item.IsValidTask(It.Is<ITask>(task => task.Question.Id == 1)))
+                .Setup(item => item.IsValidTask(It.Is<ITask>(task => task.Question.Id != -1)))
                 .Returns(true);
             mock
-                .Setup(item => item.IsValidTask(It.Is<ITask>(task => task.Question.Id == 2)))
+                .Setup(item => item.IsValidTask(It.Is<ITask>(task => task.Question.Id == -1)))
                 .Returns(false);
 
             return mock;

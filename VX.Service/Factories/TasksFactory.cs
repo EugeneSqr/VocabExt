@@ -25,8 +25,13 @@ namespace VX.Service.Factories
         public ITask BuildTask(IVocabBank vocabBank)
         {
             var question = randomPicker.PickItem(vocabBank.Translations);
+
+            var questionBlacklist = vocabBank.Translations
+                .Where(translation => translation.Source.Id == question.Source.Id)
+                .ToList();
+
             var answers = randomPicker
-                .PickItems(vocabBank.Translations, DefaultAnswersCount, new List<ITranslation> { question })
+                .PickItems(vocabBank.Translations, DefaultAnswersCount, questionBlacklist)
                 .Select(answer => answer.Target)
                 .ToList();
 
