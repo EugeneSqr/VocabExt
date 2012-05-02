@@ -9,10 +9,8 @@ namespace VX.Desktop
     {
         private readonly IVocabServiceFacade serviceFacade = new VocabServiceFacade();
 
-        private AnswerStyleSelector answerStyleSelector;
+        private ITask currentTask;
 
-        private IWord correctAnswer;
-        
         public TranslationsPopup()
         {
             InitializeComponent();
@@ -20,28 +18,39 @@ namespace VX.Desktop
 
         private void UserControlLoaded(object sender, RoutedEventArgs e)
         {
-            ITask task = serviceFacade.GetTask();
+            currentTask = serviceFacade.GetTask();
+            FillTask(currentTask);
+        }
+
+        private void FillTask(ITask task)
+        {
             questionSpelling.Content = task.Question.Spelling;
             questionTranscription.Content = task.Question.Transcription;
             answers.ItemsSource = task.Answers;
-            correctAnswer = task.CorrectAnswer;
-            answerStyleSelector = new AnswerStyleSelector
-                                      {
-                                          HideAnswersStyle = (Style)Resources["HideAnswersStyle"],
-                                          ShowAnswersStyle = (Style)Resources["ShowAnswersStyle"]
-                                      };
-            answers.ItemContainerStyleSelector = answerStyleSelector;
+            answers.ItemContainerStyleSelector = BuildStyleSelector(false);
         }
 
         private void AnswersSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var aaa = new AnswerStyleSelector
+            answers.ItemContainerStyleSelector = BuildStyleSelector(true);
+        }
+
+        private AnswerStyleSelector BuildStyleSelector(bool showAnswers)
+        {
+            var styleSelector = new AnswerStyleSelector
+                       {
+                           HideAnswersStyle = (Style)Resources["HideAnswersStyle"],
+                           ShowAnswersStyleCorrect =
+                               (Style)Resources["ShowAnswersStyleCorrect"],
+                           ShowAnswersStyleWrong =
+                               (Style)Resources["ShowAnswersStyleWrong"]
+                       };
+            if (showAnswers)
             {
-                HideAnswersStyle = (Style)Resources["HideAnswersStyle"],
-                ShowAnswersStyle = (Style)Resources["ShowAnswersStyle"]
-            };
-            aaa.CorrectAnswer = correctAnswer;
-            answers.ItemContainerStyleSelector = aaa;
+                styleSelector.CorrectAnswer = currentTask.CorrectAnswer;
+            }
+
+            return styleSelector;
         }
     }
 }

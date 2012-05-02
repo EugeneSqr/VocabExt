@@ -17,18 +17,26 @@
         <Style x:Key="questionTranscription" BasedOn="{StaticResource questionSpelling}" TargetType="Label">
             <Setter Property="FontStyle" Value="Italic"/>
         </Style>
-        <Style x:Key="answerItemBorder" TargetType="Border">
-            <Setter Property="Background" Value="White"/>
+        <Style x:Key="answerItemBorder" TargetType="Border">            
             <Setter Property="BorderBrush" Value="#728D26"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="CornerRadius" Value="10"/>
             <Setter Property="Margin" Value="0,2,0,2"/>
         </Style>
+        <Style x:Key="answerItemBorderNeutral" BasedOn="{StaticResource answerItemBorder}" TargetType="Border">
+            <Setter Property="Background" Value="White"/>            
+        </Style>
+        <Style x:Key="answerItemBorderCorrect" BasedOn="{StaticResource answerItemBorder}" TargetType="Border">
+            <Setter Property="Background" Value="#D4E59F"/>
+        </Style>
+        <Style x:Key="answerItemBorderWrong" BasedOn="{StaticResource answerItemBorder}" TargetType="Border">
+            <Setter Property="Background" Value="Pink"/>
+        </Style>
         <Style x:Key="HideAnswersStyle" TargetType="ListBoxItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                        <Border x:Name="AnswerItem" Style="{StaticResource answerItemBorder}">
+                        <Border x:Name="AnswerItem" Style="{StaticResource answerItemBorderNeutral}">
                             <ContentPresenter/>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -47,39 +55,33 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="ShowAnswersStyle" TargetType="ListBoxItem">
+        <Style x:Key="ShowAnswersStyleCorrect" TargetType="ListBoxItem">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                        <Border x:Name="AnswerItem" Style="{StaticResource answerItemBorder}">
+                        <Border x:Name="AnswerItem" Style="{StaticResource answerItemBorderCorrect}">
                             <ContentPresenter/>
                         </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                                <Setter TargetName="AnswerItem" Property="Background">
-                                    <Setter.Value>
-                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                            <GradientStop Color="#D4E59F"/>
-                                            <GradientStop Color="Red" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Setter.Value>
-                                </Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        <!--<local:AnswerStyleSelector x:Key="AnswerStyleSelector"
-                                   ShowAnswersStyle="{StaticResource ShowAnswersStyle}"
-                                   HideAnswersStyle="{StaticResource HideAnswersStyle}"/>-->
+        <Style x:Key="ShowAnswersStyleWrong" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="AnswerItem" Style="{StaticResource answerItemBorderWrong}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="answers" TargetType="ListBox">
             <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-            <!--<Setter Property="ItemContainerStyle" Value="{DynamicResource HideAnswersStyle}"/>-->
-            <!--<Setter Property="ItemContainerStyleSelector" Value="{StaticResource AnswerStyleSelector}" />-->
         </Style>
         <Style x:Key="answerItemText" TargetType="TextBlock">
             <Setter Property="HorizontalAlignment" Value="Center"/>
