@@ -8,11 +8,6 @@ VX.Desktop/bin/
 VX.Desktop/obj/
 VX.Tests/bin/
 VX.Tests/obj/
-VX.Desktop.ServiceFacade/bin/
-VX.Desktop.ServiceFacade/obj/
-VX.Desktop/VX.Desktop.suo
-VX.Desktop/VX.Desktop.sln.DotSettings.user
 _ReSharper.VX/
-VX.Desktop/_Resharper.VX.Desktop/
 VX.suo
 VX.sln.DotSettings.user
