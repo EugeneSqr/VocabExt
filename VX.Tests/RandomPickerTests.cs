@@ -78,6 +78,28 @@ namespace VX.Tests
 
         [Test]
         [Category("RandomPickerTests")]
+        [Description("Checks if PickItems doesn't change input list size after executing")]
+        public void PickItemsInputListSizeTest()
+        {
+            var list = new List<string> {"1", "2", "3"};
+            GetSystemUnderTest().PickItems(list, 2);
+            Assert.AreEqual(3, list.Count);
+        }
+
+        [Test]
+        [Category("RandomPickerTests")]
+        [Description("Checks if PickItems doesn't change input list size after executing (with blacklist)")]
+        public void PickItemsBlacklistInputListSizeTest()
+        {
+            var list = new List<string> {"1", "2", "3"};
+            var blacklist = new List<string> {"1", "2"};
+            GetSystemUnderTest().PickItems(list, 2, blacklist);
+            Assert.AreEqual(3, list.Count);
+            Assert.AreEqual(2, blacklist.Count);
+        }
+
+        [Test]
+        [Category("RandomPickerTests")]
         [Description("Checks if PickItems returns three different items from list of three items")]
         public void PickItemsPositiveThreeOfThreeTest()
         {

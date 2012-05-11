@@ -25,17 +25,19 @@ namespace VX.Service.Infrastructure
 
             if (numberOfItems == 1)
             {
-                return new List<T> {PickItem(list)};
+                return new List<T> { PickItem(list) };
             }
 
             var resultList = new List<T>();
+            var workList = new List<T>();
+            workList.AddRange(list);
             int itemsSelected = 0;
-            int itemsCount = list.Count;
+            int itemsCount = workList.Count;
             while(itemsSelected < Math.Min(numberOfItems, itemsCount))
             {
-                var item = PickRandomItem(list);
+                var item = PickRandomItem(workList);
                 resultList.Add(item);
-                list.Remove(item);
+                workList.Remove(item);
                 itemsSelected++;
             }
 
@@ -55,15 +57,16 @@ namespace VX.Service.Infrastructure
                 return new List<T>();
             }
 
+            var workList = new List<T>();
+            workList.AddRange(list);
             foreach (var blackListItem in blackList)
             {
-                list.Remove(blackListItem);
+                workList.Remove(blackListItem);
             }
 
-            return list.Count == 0 
+            return workList.Count == 0 
                 ? new List<T>() 
-                : PickItems(list, numberOfItems);
-
+                : PickItems(workList, numberOfItems);
         }
 
         public T PickItem<T>(IList<T> list)
