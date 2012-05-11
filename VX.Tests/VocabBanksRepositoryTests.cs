@@ -24,7 +24,7 @@ namespace VX.Tests
         {
             var repositoryUnderTest = Container.Resolve<IVocabBanksRepository>();
             var actual = repositoryUnderTest.GetVocabBanks();
-            Assert.AreEqual(actual.Count, 1);
+            Assert.AreEqual(4, actual.Count);
         }
     }
 }

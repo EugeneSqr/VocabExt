@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using VX.Service;
+using Moq;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests.Mocks;
@@ -16,6 +16,10 @@ namespace VX.Tests
         {
             ContainerBuilder = new ContainerBuilder();
 
+            ContainerBuilder.RegisterInstance(MockCacheFacade().Object)
+                .As<ICacheFacade>()
+                .SingleInstance();
+            
             ContainerBuilder.RegisterType<ServiceSettingsMock>()
                 .As<IServiceSettings>()
                 .InstancePerLifetimeScope();
@@ -28,6 +32,17 @@ namespace VX.Tests
         protected void BuildContainer()
         {
             Container = ContainerBuilder.Build();
+        }
+
+        private Mock<ICacheFacade> MockCacheFacade()
+        {
+            var mock = new Mock<ICacheFacade>();
+            string outvalue;
+            mock.Setup(cacheFacade => cacheFacade.PutIntoCache(It.IsAny<object>(), It.IsAny<string>()));
+            mock.Setup(cacheFacade => cacheFacade.GetFromCache(It.IsAny<string>(), out outvalue))
+                .Returns(false);
+
+            return mock;
         }
     }
 }

@@ -52,6 +52,10 @@ namespace VX.Service
                 .As<ITasksFactory>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<CacheFacade>()
+                .As<ICacheFacade>()
+                .InstancePerLifetimeScope();
+
             Container = builder.Build();
         }
     }
