@@ -56,5 +56,19 @@ namespace VX.Service.Factories
             var singleBank = randomPicker.PickItem(vocabBanks);
             return BuildTask(singleBank);
         }
+
+        public IList<ITask> BuildTasks(IList<IVocabBank> vocabBanks, int tasksCount)
+        {
+            var result = new List<ITask>();
+            if (tasksCount > 0)
+            {
+                for (int i = 0; i < tasksCount; i++)
+                {
+                    result.Add(BuildTask(vocabBanks));
+                }
+            }
+
+            return result;
+        }
     }
 }

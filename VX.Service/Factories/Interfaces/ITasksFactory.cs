@@ -8,5 +8,7 @@ namespace VX.Service.Factories.Interfaces
         ITask BuildTask(IVocabBank vocabBank);
 
         ITask BuildTask(IList<IVocabBank> vocabBanks);
+
+        IList<ITask> BuildTasks(IList<IVocabBank> vocabBanks, int tasksCount);
     }
 }
