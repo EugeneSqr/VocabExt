@@ -12,10 +12,10 @@ namespace VX.Service
         [OperationContract]
         ITask GetTask();
 
-        [OperationContract]
+        [OperationContract(Name="GetTasksAllVocabBanks")]
         IList<ITask> GetTasks();
 
-        [OperationContract]
+        [OperationContract(Name="GetTasksSpecifiedVocabBanks")]
         IList<ITask> GetTasks(int[] vocabBanksIds);
     }
 }
