@@ -19,7 +19,7 @@ namespace VX.Tests
 
         [Test]
         [Category("VocabBanksRepositoryTests")]
-        [Description("Checks if method returns vocabBanks list")]
+        [Description("Checks if method returns vocabbanks list")]
         public void GetVocabBanksTest()
         {
             var repositoryUnderTest = Container.Resolve<IVocabBanksRepository>();
