@@ -69,7 +69,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\CacheKeyFactory.cs" />
     <Compile Include="Factories\EntitiesFactory.cs" />
+    <Compile Include="Factories\Interfaces\ICacheKeyFactory.cs" />
     <Compile Include="Factories\Interfaces\IEntitiesFactory.cs" />
     <Compile Include="Factories\Interfaces\ITasksFactory.cs" />
     <Compile Include="Infrastructure\CacheFacade.cs" />

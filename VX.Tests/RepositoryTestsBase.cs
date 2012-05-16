@@ -19,6 +19,10 @@ namespace VX.Tests
             ContainerBuilder.RegisterInstance(MockCacheFacade().Object)
                 .As<ICacheFacade>()
                 .SingleInstance();
+
+            ContainerBuilder.RegisterInstance(MockCacheKeyFactory().Object)
+                .As<ICacheKeyFactory>()
+                .SingleInstance();
             
             ContainerBuilder.RegisterType<ServiceSettingsMock>()
                 .As<IServiceSettings>()
@@ -42,6 +46,16 @@ namespace VX.Tests
             mock.Setup(cacheFacade => cacheFacade.GetFromCache(It.IsAny<string>(), out outvalue))
                 .Returns(false);
 
+            return mock;
+        }
+
+        private Mock<ICacheKeyFactory> MockCacheKeyFactory()
+        {
+            var mock = new Mock<ICacheKeyFactory>();
+            mock.Setup(cacheKeyFactory => cacheKeyFactory.BuildKey(It.IsAny<string>(), It.IsAny<string>()))
+                .Returns("serviceName:string");
+            mock.Setup(cacheKeyFactory => cacheKeyFactory.BuildKey(It.IsAny<string>(), It.IsAny<int[]>()))
+                .Returns("serviceName:1-2-3-");
             return mock;
         }
     }

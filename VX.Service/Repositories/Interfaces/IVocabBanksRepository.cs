@@ -7,6 +7,8 @@ namespace VX.Service.Repositories.Interfaces
     {
         IList<IVocabBank> GetVocabBanks();
 
-        IVocabBank GetVocabBank(int vocabularyId);
+        IList<IVocabBank> GetVocabBanks(int[] vocabBanksIds);
+
+        IVocabBank GetVocabBank(int vocabBankId);
     }
 }

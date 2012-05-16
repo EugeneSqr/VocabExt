@@ -31,5 +31,11 @@ namespace VX.Service
             var vocabBanks = vocabBanksRepository.GetVocabBanks();
             return tasksFactory.BuildTasks(vocabBanks, DefaultTasksCount);
         }
+
+        public IList<ITask> GetTasks(int[] vocabBanksIds)
+        {
+            var vocabBanks = vocabBanksRepository.GetVocabBanks(vocabBanksIds);
+            return tasksFactory.BuildTasks(vocabBanks, DefaultTasksCount);
+        }
     }
 }

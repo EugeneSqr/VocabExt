@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheKeyFactoryTests.cs" />
     <Compile Include="Mocks\EntitiesFactoryMock.cs" />
     <Compile Include="LanguagesRepositoryTests.cs" />
     <Compile Include="Mocks\RandomFacadeMock.cs" />
