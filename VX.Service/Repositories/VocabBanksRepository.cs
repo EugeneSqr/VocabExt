@@ -13,7 +13,7 @@ namespace VX.Service.Repositories
     public class VocabBanksRepository : IVocabBanksRepository
     {
         private const string ServiceName = "vocabBanksRepositoy";
-        private const string TagsQueryPath = "VocabBanksTags";
+        private const string TagsQueryPath = "VocabBanksTags.Tag";
 
         private readonly IServiceSettings serviceSettings;
         private readonly IEntitiesFactory entitiesFactory;

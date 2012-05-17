@@ -5,8 +5,8 @@ using VX.Domain.DataContracts.Interfaces;
 namespace VX.Domain.DataContracts
 {
     [DataContract]
-    [KnownType(typeof(List<TranslationContract>))]
-    [KnownType(typeof(List<TagContract>))]
+    [KnownType(typeof(TranslationContract))]
+    [KnownType(typeof(TagContract))]
     public class VocabBankContract : IVocabBank
     {
         [DataMember]
