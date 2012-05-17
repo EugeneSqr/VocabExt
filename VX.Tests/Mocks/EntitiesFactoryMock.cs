@@ -1,4 +1,6 @@
-﻿using VX.Domain;
+﻿using System.Collections.Generic;
+using System.Linq;
+using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
@@ -19,7 +21,20 @@ namespace VX.Tests.Mocks
         {
             return vocabBank == null
                        ? null
-                       : new VocabBankContract();
+                       : new VocabBankContract
+                             {
+                                 Id = vocabBank.Id,
+                                 Name = vocabBank.Name,
+                                 Description = vocabBank.Description,
+                                 Tags =
+                                     vocabBank.VocabBanksTags.Count == 0
+                                         ? new List<ITag>()
+                                         : new List<ITag> {new TagContract()},
+                                 Translations =
+                                     vocabBank.VocabBanksTranslations.Count == 0
+                                         ? new List<ITranslation>()
+                                         : new List<ITranslation> {new TranslationContract()}
+                             };
         }
 
         public ITag BuildTag(Tag tag)

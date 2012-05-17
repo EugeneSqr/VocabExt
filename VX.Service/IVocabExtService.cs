@@ -17,5 +17,8 @@ namespace VX.Service
 
         [OperationContract(Name="GetTasksSpecifiedVocabBanks")]
         IList<ITask> GetTasks(int[] vocabBanksIds);
+
+        [OperationContract]
+        IList<IVocabBank> GetVocabBanksList();
     }
 }
