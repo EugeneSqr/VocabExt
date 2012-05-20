@@ -43,20 +43,26 @@ namespace VX.Service
 
         public IList<IVocabBank> GetVocabBanksList()
         {
-            var operationContext = WebOperationContext.Current;
-            if (operationContext != null)
-            {
-                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
-                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", "GET, POST");
-                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Credentials", "false");
-            }
-
+            AllowCrossDomainMessages();
             return vocabBanksRepository.GetVocabBanksList();
         }
 
         public IList<ITranslation> GetTranslations(string vocabBankId)
         {
+            AllowCrossDomainMessages();
             return translationsRepository.GetTranslations(vocabBankId);
+        }
+
+        private static void AllowCrossDomainMessages()
+        {
+            var operationContext = WebOperationContext.Current;
+            if (operationContext != null)
+            {
+                // TODO: change * to trust host
+                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
+                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", "GET, POST");
+                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Credentials", "false");
+            }
         }
     }
 }
