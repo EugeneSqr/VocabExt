@@ -32,6 +32,10 @@ namespace VX.Service
                 .As<IVocabBanksRepository>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<TranslationsRepository>()
+                .As<ITranslationsRepository>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<RandomFacade>()
                 .As<IRandomFacade>()
                 .InstancePerLifetimeScope();

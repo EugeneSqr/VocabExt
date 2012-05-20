@@ -44,7 +44,7 @@ namespace VX.Tests.Mocks
 
         public ITranslation BuildTranslation(Translation translation)
         {
-            throw new System.NotImplementedException();
+            return new TranslationContract();
         }
 
         public IWord BuildWord(Word word)

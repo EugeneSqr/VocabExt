@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ServiceModel.Web;
 using Autofac;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
@@ -10,6 +11,7 @@ namespace VX.Service
     {
         private readonly ITasksFactory tasksFactory;
         private readonly IVocabBanksRepository vocabBanksRepository;
+        private readonly ITranslationsRepository translationsRepository;
 
         // TODO: to config
         private const int DefaultTasksCount = 10;
@@ -18,6 +20,7 @@ namespace VX.Service
         {
             tasksFactory = Initializer.Container.Resolve<ITasksFactory>();
             vocabBanksRepository = Initializer.Container.Resolve<IVocabBanksRepository>();
+            translationsRepository = Initializer.Container.Resolve<ITranslationsRepository>();
         }
 
         public ITask GetTask()
@@ -40,7 +43,20 @@ namespace VX.Service
 
         public IList<IVocabBank> GetVocabBanksList()
         {
+            var operationContext = WebOperationContext.Current;
+            if (operationContext != null)
+            {
+                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
+                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", "GET, POST");
+                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Credentials", "false");
+            }
+
             return vocabBanksRepository.GetVocabBanksList();
+        }
+
+        public IList<ITranslation> GetTranslations(string vocabBankId)
+        {
+            return translationsRepository.GetTranslations(vocabBankId);
         }
     }
 }

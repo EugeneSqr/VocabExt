@@ -10,35 +10,26 @@ using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service.Repositories
 {
-    public class VocabBanksRepository : IVocabBanksRepository
+    public class VocabBanksRepository : RepositoryBase, IVocabBanksRepository
     {
         private const string ServiceName = "vocabBanksRepositoy";
         private const string TagsQueryPath = "VocabBanksTags.Tag";
 
-        private readonly IServiceSettings serviceSettings;
-        private readonly IEntitiesFactory entitiesFactory;
-        private readonly ICacheFacade cacheFacade;
-        private readonly ICacheKeyFactory cacheKeyFactory;
-        
         public VocabBanksRepository(
-            IServiceSettings serviceSettings,
-            IEntitiesFactory entitiesFactory,
-            ICacheFacade cacheFacade,
-            ICacheKeyFactory cacheKeyFactory)
+            IServiceSettings serviceSettings, 
+            IEntitiesFactory entitiesFactory, 
+            ICacheFacade cacheFacade, 
+            ICacheKeyFactory cacheKeyFactory) : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory)
         {
-            this.serviceSettings = serviceSettings;
-            this.entitiesFactory = entitiesFactory;
-            this.cacheFacade = cacheFacade;
-            this.cacheKeyFactory = cacheKeyFactory;
         }
 
         public IList<IVocabBank> GetVocabBanks()
         {
-            var cacheKey = cacheKeyFactory.BuildKey(ServiceName, string.Empty);
+            var cacheKey = CacheKeyFactory.BuildKey(ServiceName, string.Empty);
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction = 
                 vocabBanks => vocabBanks
                     .ToList()
-                    .Select(entity => entitiesFactory.BuildVocabBank(entity))
+                    .Select(entity => EntitiesFactory.BuildVocabBank(entity))
                     .ToList();
             
             return GetMultipleBanks(cacheKey, retrievingFunction, true);
@@ -46,12 +37,12 @@ namespace VX.Service.Repositories
 
         public IList<IVocabBank> GetVocabBanks(int[] vocabBanksIds)
         {
-            var cacheKey = cacheKeyFactory.BuildKey(ServiceName, vocabBanksIds);
+            var cacheKey = CacheKeyFactory.BuildKey(ServiceName, vocabBanksIds);
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction =
                 vocabBanks => vocabBanks
                                   .Where(bank => vocabBanksIds.Contains(bank.Id))
                                   .ToList()
-                                  .Select(entity => entitiesFactory.BuildVocabBank(entity))
+                                  .Select(entity => EntitiesFactory.BuildVocabBank(entity))
                                   .ToList();
 
             return GetMultipleBanks(cacheKey, retrievingFunction, true);
@@ -59,26 +50,14 @@ namespace VX.Service.Repositories
 
         public IList<IVocabBank> GetVocabBanksList()
         {
-            var cacheKey = cacheKeyFactory.BuildKey(ServiceName, string.Empty);
+            var cacheKey = CacheKeyFactory.BuildKey(ServiceName, string.Empty);
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction =
                 vocabBanks => vocabBanks.Include(TagsQueryPath)
                     .ToList()
-                    .Select(bank => entitiesFactory.BuildVocabBank(bank))
+                    .Select(bank => EntitiesFactory.BuildVocabBank(bank))
                     .ToList();
 
             return GetMultipleBanks(cacheKey, retrievingFunction, false);
-        }
-
-        public IVocabBank GetVocabBank(int vocabBankId)
-        {
-            IVocabBank result;
-            using(var context = new Entities(serviceSettings.ConnectionString))
-            {
-                result = context.VocabBanks.Where(item => item.Id == vocabBankId)
-                    .Select(entity => entitiesFactory.BuildVocabBank(entity))
-                    .FirstOrDefault();
-            }
-            return result;
         }
 
         private IList<IVocabBank> GetMultipleBanks(
@@ -87,18 +66,17 @@ namespace VX.Service.Repositories
             bool useLazyLoading)
         {
             IList<IVocabBank> result;
-            if (cacheFacade.GetFromCache(cacheKey, out result))
+            if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
-                return result;
-            }
+                using (var context = new Entities(ServiceSettings.ConnectionString))
+                {
+                    context.ContextOptions.LazyLoadingEnabled = useLazyLoading;
+                    result = retrievingFunction(context.VocabBanks);
+                }
 
-            using (var context = new Entities(serviceSettings.ConnectionString))
-            {
-                context.ContextOptions.LazyLoadingEnabled = useLazyLoading;
-                result = retrievingFunction(context.VocabBanks);
+                CacheFacade.PutIntoCache(result, cacheKey);
             }
-
-            cacheFacade.PutIntoCache(result, cacheKey);
+            
             return result;
         }
     }

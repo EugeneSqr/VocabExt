@@ -86,9 +86,12 @@
     <Compile Include="Infrastructure\RandomFacade.cs" />
     <Compile Include="Infrastructure\RandomPicker.cs" />
     <Compile Include="Repositories\Interfaces\ILanguagesRepository.cs" />
+    <Compile Include="Repositories\Interfaces\ITranslationsRepository.cs" />
     <Compile Include="Repositories\Interfaces\IVocabBanksRepository.cs" />
     <Compile Include="Repositories\Interfaces\IWordsRepository.cs" />
     <Compile Include="Repositories\LanguagesRepository.cs" />
+    <Compile Include="Repositories\RepositoryBase.cs" />
+    <Compile Include="Repositories\TranslationsRepository.cs" />
     <Compile Include="Repositories\VocabBanksRepository.cs" />
     <Compile Include="Repositories\WordRepository.cs" />
     <Compile Include="Infrastructure\ServiceSettings.cs" />
