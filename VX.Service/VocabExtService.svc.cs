@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ServiceModel.Web;
 using Autofac;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
@@ -43,26 +42,12 @@ namespace VX.Service
 
         public IList<IVocabBank> GetVocabBanksList()
         {
-            AllowCrossDomainMessages();
             return vocabBanksRepository.GetVocabBanksList();
         }
 
         public IList<ITranslation> GetTranslations(string vocabBankId)
         {
-            AllowCrossDomainMessages();
             return translationsRepository.GetTranslations(vocabBankId);
-        }
-
-        private static void AllowCrossDomainMessages()
-        {
-            var operationContext = WebOperationContext.Current;
-            if (operationContext != null)
-            {
-                // TODO: change * to trust host
-                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Origin", "*");
-                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Methods", "GET, POST");
-                operationContext.OutgoingResponse.Headers.Add("Access-Control-Allow-Credentials", "false");
-            }
         }
     }
 }
