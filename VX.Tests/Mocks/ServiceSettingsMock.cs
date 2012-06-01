@@ -1,5 +1,4 @@
-﻿using VX.Service;
-using VX.Service.Infrastructure.Interfaces;
+﻿using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Tests.Mocks
 {
@@ -8,6 +7,11 @@ namespace VX.Tests.Mocks
         public string ConnectionString
         {
             get { return "metadata=res://*/VocabModel.csdl|res://*/VocabModel.ssdl|res://*/VocabModel.msl;provider=System.Data.SqlClient;provider connection string=\"Data Source=.;Initial Catalog=VXTest;User ID=sa;Password=sa;MultipleActiveResultSets=True\""; }
+        }
+
+        public int DefaultTasksCount
+        {
+            get { return 10; }
         }
     }
 }

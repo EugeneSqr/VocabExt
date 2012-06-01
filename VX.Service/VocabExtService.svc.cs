@@ -2,6 +2,7 @@
 using Autofac;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service
@@ -11,15 +12,14 @@ namespace VX.Service
         private readonly ITasksFactory tasksFactory;
         private readonly IVocabBanksRepository vocabBanksRepository;
         private readonly ITranslationsRepository translationsRepository;
+        private readonly IServiceSettings serviceSettings;
 
-        // TODO: to config
-        private const int DefaultTasksCount = 10;
-        
         public VocabExtService()
         {
             tasksFactory = Initializer.Container.Resolve<ITasksFactory>();
             vocabBanksRepository = Initializer.Container.Resolve<IVocabBanksRepository>();
             translationsRepository = Initializer.Container.Resolve<ITranslationsRepository>();
+            serviceSettings = Initializer.Container.Resolve<IServiceSettings>();
         }
 
         public ITask GetTask()
@@ -31,13 +31,13 @@ namespace VX.Service
         public IList<ITask> GetTasks()
         {
             var vocabBanks = vocabBanksRepository.GetVocabBanks();
-            return tasksFactory.BuildTasks(vocabBanks, DefaultTasksCount);
+            return tasksFactory.BuildTasks(vocabBanks, serviceSettings.DefaultTasksCount);
         }
 
         public IList<ITask> GetTasks(int[] vocabBanksIds)
         {
             var vocabBanks = vocabBanksRepository.GetVocabBanks(vocabBanksIds);
-            return tasksFactory.BuildTasks(vocabBanks, DefaultTasksCount);
+            return tasksFactory.BuildTasks(vocabBanks, serviceSettings.DefaultTasksCount);
         }
 
         public IList<IVocabBank> GetVocabBanksList()

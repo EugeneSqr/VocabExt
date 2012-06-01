@@ -3,5 +3,7 @@
     public interface IServiceSettings
     {
         string ConnectionString { get; }
+
+        int DefaultTasksCount { get; }
     }
 }
