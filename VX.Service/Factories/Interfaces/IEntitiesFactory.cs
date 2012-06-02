@@ -1,5 +1,5 @@
-﻿using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
+﻿using VX.Domain.DataContracts.Interfaces;
+using VX.Model;
 
 namespace VX.Service.Factories.Interfaces
 {

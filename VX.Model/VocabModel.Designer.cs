@@ -18,17 +18,17 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("VXModel", "FK__Words__LANGUAGE___0519C6AF", "Language", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Language), "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.Word), true)]
-[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__TAG_I__182C9B23", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Tag), "VocabBanksTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.VocabBanksTag), true)]
-[assembly: EdmRelationshipAttribute("VXModel", "FK__Translati__SOURC__09DE7BCC", "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Word), "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.Translation), true)]
-[assembly: EdmRelationshipAttribute("VXModel", "FK__Translati__TARGE__0AD2A005", "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Word), "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.Translation), true)]
-[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__TRANS__1DE57479", "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.Translation), "VocabBanksTranslation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.VocabBanksTranslation), true)]
-[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__VOCAB__173876EA", "VocabBank", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.VocabBank), "VocabBanksTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.VocabBanksTag), true)]
-[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__VOCAB__1CF15040", "VocabBank", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Domain.VocabBank), "VocabBanksTranslation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Domain.VocabBanksTranslation), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__Words__LANGUAGE___0519C6AF", "Language", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Model.Language), "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Model.Word), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__TAG_I__182C9B23", "Tag", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Model.Tag), "VocabBanksTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Model.VocabBanksTag), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__Translati__SOURC__09DE7BCC", "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Model.Word), "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Model.Translation), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__Translati__TARGE__0AD2A005", "Word", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Model.Word), "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Model.Translation), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__TRANS__1DE57479", "Translation", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Model.Translation), "VocabBanksTranslation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Model.VocabBanksTranslation), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__VOCAB__173876EA", "VocabBank", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Model.VocabBank), "VocabBanksTag", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Model.VocabBanksTag), true)]
+[assembly: EdmRelationshipAttribute("VXModel", "FK__VocabBank__VOCAB__1CF15040", "VocabBank", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(VX.Model.VocabBank), "VocabBanksTranslation", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(VX.Model.VocabBanksTranslation), true)]
 
 #endregion
 
-namespace VX.Domain
+namespace VX.Model
 {
     #region Contexts
     

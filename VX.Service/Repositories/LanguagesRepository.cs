@@ -2,6 +2,7 @@
 
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
+using VX.Model;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;

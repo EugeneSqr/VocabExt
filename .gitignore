@@ -2,8 +2,8 @@ VX.Service/bin/
 VX.Service/obj/
 VX.Domain/bin/
 VX.Domain/obj/
-VX.Desktop/bin/
-VX.Desktop/obj/
+VX.Model/bin/
+VX.Model/obj/
 VX.Tests/bin/
 VX.Tests/obj/
 _ReSharper.VX/

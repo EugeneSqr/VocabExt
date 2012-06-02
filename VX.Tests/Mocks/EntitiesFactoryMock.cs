@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
+using VX.Model;
 using VX.Service.Factories.Interfaces;
 
 namespace VX.Tests.Mocks
