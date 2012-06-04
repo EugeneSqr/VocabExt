@@ -29,6 +29,10 @@ namespace VX.Tests
                 .As<ITaskValidator>()
                 .SingleInstance();
 
+            builder.RegisterInstance(MockSynonymSelector().Object)
+                .As<ISynonymSelector>()
+                .SingleInstance();
+
             builder.RegisterType<TasksFactory>()
                 .As<ITasksFactory>()
                 .InstancePerLifetimeScope();
@@ -84,7 +88,7 @@ namespace VX.Tests
 
         [Test]
         [Category("TasksFactoryTests")]
-        [Description("Checks if BuildTask inserts answer into answers in ranfom order")]
+        [Description("Checks if BuildTask inserts answer into answers in random order")]
         public void BuildTaskPositiveInsertAnswerTest()
         {
             IVocabBank vocabBank = new VocabBankContract();
@@ -160,6 +164,15 @@ namespace VX.Tests
             mock
                 .Setup(item => item.PickInsertIndex(It.IsAny<IList<ITranslation>>()))
                 .Returns(0);
+            return mock;
+        }
+
+        private Mock<ISynonymSelector> MockSynonymSelector()
+        {
+            var mock = new Mock<ISynonymSelector>();
+                mock
+                    .Setup(item => item.GetSimilarTranslations(It.IsAny<ITranslation>(), It.IsAny<IList<ITranslation>>()))
+                    .Returns(new List<ITranslation>());
             return mock;
         }
 

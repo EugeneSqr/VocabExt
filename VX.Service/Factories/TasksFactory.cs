@@ -15,20 +15,19 @@ namespace VX.Service.Factories
         
         private readonly IRandomPicker randomPicker;
         private readonly ITaskValidator taskValidator;
+        private readonly ISynonymSelector synonymSelector;
         
-        public TasksFactory(IRandomPicker randomPicker, ITaskValidator taskValidator)
+        public TasksFactory(IRandomPicker randomPicker, ITaskValidator taskValidator, ISynonymSelector synonymSelector)
         {
             this.randomPicker = randomPicker;
             this.taskValidator = taskValidator;
+            this.synonymSelector = synonymSelector;
         }
 
         public ITask BuildTask(IVocabBank vocabBank)
         {
             var question = randomPicker.PickItem(vocabBank.Translations);
-
-            var questionBlacklist = vocabBank.Translations
-                .Where(translation => translation.Source.Id == question.Source.Id)
-                .ToList();
+            var questionBlacklist = synonymSelector.GetSimilarTranslations(question, vocabBank.Translations);
 
             var answers = randomPicker
                 .PickItems(vocabBank.Translations, DefaultAnswersCount, questionBlacklist)

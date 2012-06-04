@@ -56,6 +56,10 @@ namespace VX.Service
                 .As<ITasksFactory>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<SynonymSelector>()
+                .As<ISynonymSelector>()
+                .InstancePerLifetimeScope();
+
             builder.RegisterType<CacheFacade>()
                 .As<ICacheFacade>()
                 .InstancePerLifetimeScope();

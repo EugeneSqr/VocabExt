@@ -50,6 +50,7 @@
     <Compile Include="Mocks\EntitiesFactoryMock.cs" />
     <Compile Include="LanguagesRepositoryTests.cs" />
     <Compile Include="Mocks\RandomFacadeMock.cs" />
+    <Compile Include="SynonymSelectorTests.cs" />
     <Compile Include="TranslationsRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mocks\ServiceSettingsMock.cs" />
