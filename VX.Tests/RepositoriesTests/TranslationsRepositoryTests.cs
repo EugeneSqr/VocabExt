@@ -1,19 +1,14 @@
-﻿using Autofac;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
 
-namespace VX.Tests
+namespace VX.Tests.RepositoriesTests
 {
     [TestFixture]
-    internal class TranslationsRepositoryTest : RepositoryTestsBase
+    internal class TranslationsRepositoryTest : RepositoryTestsBase<ITranslationsRepository, TranslationsRepository>
     {
         public TranslationsRepositoryTest()
         {
-            ContainerBuilder.RegisterType<TranslationsRepository>()
-                .As<ITranslationsRepository>()
-                .InstancePerLifetimeScope();
-
             BuildContainer();
         }
 
@@ -22,8 +17,7 @@ namespace VX.Tests
         [Description("Checks if GetTranslations returns list of translations if parameters are correct")]
         public void GetTranslationsPositiveTest()
         {
-            var repositoryUnderTest = Container.Resolve<ITranslationsRepository>();
-            var actual = repositoryUnderTest.GetTranslations("1");
+            var actual = SystemUnderTest.GetTranslations("1");
             Assert.Greater(actual.Count, 0);
         }
 
@@ -32,8 +26,7 @@ namespace VX.Tests
         [Description("Checks if GetTranslations returns empty list if id is incorrect")]
         public void GetTranslationsNegativeBadIdTest()
         {
-            var repositoryUnderTest = Container.Resolve<ITranslationsRepository>();
-            var actual = repositoryUnderTest.GetTranslations("asd");
+            var actual = SystemUnderTest.GetTranslations("asd");
             Assert.AreEqual(0, actual.Count);
         }
     }

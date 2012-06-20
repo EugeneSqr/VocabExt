@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Autofac;
 using NUnit.Framework;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
@@ -9,10 +8,8 @@ using VX.Service.Infrastructure.Interfaces;
 namespace VX.Tests
 {
     [TestFixture]
-    internal class SynonymSelectorTests
+    internal class SynonymSelectorTests : TestsBase<ISynonymSelector, SynonymSelector>
     {
-        private readonly IContainer container;
-
         private IList<ITranslation> testTranslationsList;
 
         [TestFixtureSetUp]
@@ -81,13 +78,7 @@ namespace VX.Tests
 
         public SynonymSelectorTests()
         {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterType<SynonymSelector>()
-                .As<ISynonymSelector>()
-                .InstancePerLifetimeScope();
-
-            container = builder.Build();
+            BuildContainer();
         }
 
         [Test]
@@ -95,8 +86,7 @@ namespace VX.Tests
         [Description("Checks if GetSimilarTranslations selects all similar translations")]
         public void GetSimilarTranslationsTest()
         {
-            var synonymSelector = container.Resolve<ISynonymSelector>();
-            var actual = synonymSelector.GetSimilarTranslations(testTranslationsList[0], testTranslationsList);
+            var actual = SystemUnderTest.GetSimilarTranslations(testTranslationsList[0], testTranslationsList);
             Assert.AreEqual(3, actual.Count);
             Assert.AreEqual(1, actual[0].Id);
             Assert.AreEqual(2, actual[1].Id);

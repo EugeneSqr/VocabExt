@@ -10,6 +10,7 @@ namespace VX.Service
     [ServiceKnownType(typeof(TaskContract))]
     [ServiceKnownType(typeof(VocabBankContract))]
     [ServiceKnownType(typeof(TranslationContract))]
+    [ServiceKnownType(typeof(WordContract))]
     public interface IVocabExtService
     {
         [OperationContract]
@@ -28,5 +29,9 @@ namespace VX.Service
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetTranslations/{vocabBankId}")]
         IList<ITranslation> GetTranslations(string vocabBankId);
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetWords/{searchString}")]
+        IList<IWord> GetWords(string searchString);
     }
 }

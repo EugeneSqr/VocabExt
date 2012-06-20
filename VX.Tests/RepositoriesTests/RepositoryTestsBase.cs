@@ -4,23 +4,17 @@ using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests.Mocks;
 
-namespace VX.Tests
+namespace VX.Tests.RepositoriesTests
 {
-    internal abstract class RepositoryTestsBase
+    public abstract class RepositoryTestsBase<TType, TImplementation> : TestsBase<TType, TImplementation>
     {
-        protected IContainer Container { get; set; }
-
-        protected ContainerBuilder ContainerBuilder { get; set; }
-
         protected RepositoryTestsBase()
         {
-            ContainerBuilder = new ContainerBuilder();
-
-            ContainerBuilder.RegisterInstance(MockCacheFacade().Object)
+            ContainerBuilder.RegisterInstance(MockCacheFacade())
                 .As<ICacheFacade>()
                 .SingleInstance();
 
-            ContainerBuilder.RegisterInstance(MockCacheKeyFactory().Object)
+            ContainerBuilder.RegisterInstance(MockCacheKeyFactory())
                 .As<ICacheKeyFactory>()
                 .SingleInstance();
             
@@ -33,12 +27,7 @@ namespace VX.Tests
                 .InstancePerLifetimeScope();
         }
 
-        protected void BuildContainer()
-        {
-            Container = ContainerBuilder.Build();
-        }
-
-        private Mock<ICacheFacade> MockCacheFacade()
+        private static ICacheFacade MockCacheFacade()
         {
             var mock = new Mock<ICacheFacade>();
             string outvalue;
@@ -46,17 +35,17 @@ namespace VX.Tests
             mock.Setup(cacheFacade => cacheFacade.GetFromCache(It.IsAny<string>(), out outvalue))
                 .Returns(false);
 
-            return mock;
+            return mock.Object;
         }
 
-        private Mock<ICacheKeyFactory> MockCacheKeyFactory()
+        private static ICacheKeyFactory MockCacheKeyFactory()
         {
             var mock = new Mock<ICacheKeyFactory>();
             mock.Setup(cacheKeyFactory => cacheKeyFactory.BuildKey(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns("serviceName:string");
             mock.Setup(cacheKeyFactory => cacheKeyFactory.BuildKey(It.IsAny<string>(), It.IsAny<int[]>()))
                 .Returns("serviceName:1-2-3-");
-            return mock;
+            return mock.Object;
         }
     }
 }

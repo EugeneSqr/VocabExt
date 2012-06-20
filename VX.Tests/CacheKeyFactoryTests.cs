@@ -1,24 +1,15 @@
-﻿using Autofac;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using VX.Service.Factories;
 using VX.Service.Factories.Interfaces;
 
 namespace VX.Tests
 {
     [TestFixture]
-    public class CacheKeyFactoryTests
+    public class CacheKeyFactoryTests : TestsBase<ICacheKeyFactory, CacheKeyFactory>
     {
-        private readonly IContainer container;
-
         public CacheKeyFactoryTests()
         {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterType<CacheKeyFactory>()
-                .As<ICacheKeyFactory>()
-                .InstancePerLifetimeScope();
-
-            container = builder.Build();
+            BuildContainer();
         }
 
         [Test]
@@ -26,8 +17,9 @@ namespace VX.Tests
         [Description("Checks if BuildKey concatenates service name and parameter")]
         public void BuildKeyStringPositiveTest()
         {
-            string actual = container.Resolve<ICacheKeyFactory>().BuildKey("serviceName", "stringParameter");
-            Assert.AreEqual("serviceName:stringParameter", actual);
+            Assert.AreEqual(
+                "serviceName:stringParameter", 
+                SystemUnderTest.BuildKey("serviceName", "stringParameter"));
         }
 
         [Test]
@@ -35,8 +27,9 @@ namespace VX.Tests
         [Description("Checks if BuildKey correctly builds key from int array")]
         public void BuildKeyIntArrayPositiveTest()
         {
-            string actual = container.Resolve<ICacheKeyFactory>().BuildKey("serviceName", new[] {1, 2, 3});
-            Assert.AreEqual("serviceName:1-2-3-", actual);
+            Assert.AreEqual(
+                "serviceName:1-2-3-", 
+                SystemUnderTest.BuildKey("serviceName", new[] {1, 2, 3}));
         }
     }
 }

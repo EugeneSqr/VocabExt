@@ -1,9 +1,10 @@
-﻿using VX.Domain.DataContracts.Interfaces;
+﻿using System.Collections.Generic;
+using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Service.Repositories.Interfaces
 {
     public interface IWordsRepository
     {
-        IWord GetById(int wordId);
+        IList<IWord> GetWords(string searchString);
     }
 }

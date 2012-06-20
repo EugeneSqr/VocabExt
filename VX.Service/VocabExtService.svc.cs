@@ -12,6 +12,7 @@ namespace VX.Service
         private readonly ITasksFactory tasksFactory;
         private readonly IVocabBanksRepository vocabBanksRepository;
         private readonly ITranslationsRepository translationsRepository;
+        private readonly IWordsRepository wordsRepository;
         private readonly IServiceSettings serviceSettings;
 
         public VocabExtService()
@@ -20,6 +21,7 @@ namespace VX.Service
             vocabBanksRepository = Initializer.Container.Resolve<IVocabBanksRepository>();
             translationsRepository = Initializer.Container.Resolve<ITranslationsRepository>();
             serviceSettings = Initializer.Container.Resolve<IServiceSettings>();
+            wordsRepository = Initializer.Container.Resolve<IWordsRepository>();
         }
 
         public ITask GetTask()
@@ -48,6 +50,11 @@ namespace VX.Service
         public IList<ITranslation> GetTranslations(string vocabBankId)
         {
             return translationsRepository.GetTranslations(vocabBankId);
+        }
+
+        public IList<IWord> GetWords(string searchString)
+        {
+            return wordsRepository.GetWords(searchString);
         }
     }
 }

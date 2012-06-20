@@ -48,7 +48,13 @@ namespace VX.Tests.Mocks
 
         public IWord BuildWord(Word word)
         {
-            throw new System.NotImplementedException();
+            return word == null
+                       ? null
+                       : new WordContract
+                             {
+                                 Id = word.Id,
+                                 Spelling = word.Spelling
+                             };
         }
     }
 }

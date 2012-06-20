@@ -13,31 +13,23 @@ using VX.Service.Infrastructure.Interfaces;
 namespace VX.Tests
 {
     [TestFixture]
-    internal class TasksFactoryTests
+    internal class TasksFactoryTests : TestsBase<ITasksFactory, TasksFactory>
     {
-        private readonly IContainer container;
-        
         public TasksFactoryTests()
         {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterInstance(MockRandomPicker().Object)
+            ContainerBuilder.RegisterInstance(MockRandomPicker())
                 .As<IRandomPicker>()
                 .SingleInstance();
 
-            builder.RegisterInstance(MockTaskValidator().Object)
+            ContainerBuilder.RegisterInstance(MockTaskValidator())
                 .As<ITaskValidator>()
                 .SingleInstance();
 
-            builder.RegisterInstance(MockSynonymSelector().Object)
+            ContainerBuilder.RegisterInstance(MockSynonymSelector())
                 .As<ISynonymSelector>()
                 .SingleInstance();
 
-            builder.RegisterType<TasksFactory>()
-                .As<ITasksFactory>()
-                .InstancePerLifetimeScope();
-
-            container = builder.Build();
+            BuildContainer();
         }
 
         [Test]
@@ -47,7 +39,7 @@ namespace VX.Tests
         {
             Assert.AreEqual(
                 2,
-                GetSystemUnderTest().BuildTask(new VocabBankContract
+                SystemUnderTest.BuildTask(new VocabBankContract
                                                    {
                                                        Translations = new List<ITranslation>
                                                                           {
@@ -71,7 +63,7 @@ namespace VX.Tests
         [Description("Checks if BuildTask throws ArgumentException if generated task is invalid")]
         public void BuildTaskNegativeTest()
         {
-            Assert.Throws<ArgumentException>(() => GetSystemUnderTest().BuildTask(new VocabBankContract
+            Assert.Throws<ArgumentException>(() => SystemUnderTest.BuildTask(new VocabBankContract
                                                               {
                                                                   Translations = new List<ITranslation>
                                                                                      {
@@ -138,22 +130,16 @@ namespace VX.Tests
                                                  }
                                          };
 
-            Assert.AreEqual("questionAnswer", GetSystemUnderTest().BuildTask(vocabBank).Answers[0].Spelling);
+            Assert.AreEqual("questionAnswer", SystemUnderTest.BuildTask(vocabBank).Answers[0].Spelling);
         }
 
-        private ITasksFactory GetSystemUnderTest()
-        {
-            return container.Resolve<ITasksFactory>();
-        }
-
-        private static Mock<IRandomPicker> MockRandomPicker()
+        private static IRandomPicker MockRandomPicker()
         {
             var mock = new Mock<IRandomPicker>();
             mock
                 .Setup(item => item.PickItem(It.IsAny<IList<ITranslation>>()))
                 .Returns((IList<ITranslation> item) => item.First());
             
-            // taking last 2 items of input list
             mock
                 .Setup(
                     item =>
@@ -164,19 +150,19 @@ namespace VX.Tests
             mock
                 .Setup(item => item.PickInsertIndex(It.IsAny<IList<ITranslation>>()))
                 .Returns(0);
-            return mock;
+            return mock.Object;
         }
 
-        private Mock<ISynonymSelector> MockSynonymSelector()
+        private static ISynonymSelector MockSynonymSelector()
         {
             var mock = new Mock<ISynonymSelector>();
                 mock
                     .Setup(item => item.GetSimilarTranslations(It.IsAny<ITranslation>(), It.IsAny<IList<ITranslation>>()))
                     .Returns(new List<ITranslation>());
-            return mock;
+            return mock.Object;
         }
 
-        private static Mock<ITaskValidator> MockTaskValidator()
+        private static ITaskValidator MockTaskValidator()
         {
             var mock = new Mock<ITaskValidator>();
             mock
@@ -186,7 +172,7 @@ namespace VX.Tests
                 .Setup(item => item.IsValidTask(It.Is<ITask>(task => task.Question.Id == -1)))
                 .Returns(false);
 
-            return mock;
+            return mock.Object;
         }
     }
 }

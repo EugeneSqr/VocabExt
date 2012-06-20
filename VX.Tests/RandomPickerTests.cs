@@ -9,23 +9,19 @@ using VX.Tests.Mocks;
 namespace VX.Tests
 {
     [TestFixture]
-    internal class RandomPickerTests
+    internal class RandomPickerTests : TestsBase<IRandomPicker, RandomPicker>
     {
-        private readonly IContainer container;
-
         public RandomPickerTests()
         {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterType<RandomFacadeMock>()
+            ContainerBuilder.RegisterType<RandomFacadeMock>()
                 .As<IRandomFacade>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<RandomPicker>()
+            ContainerBuilder.RegisterType<RandomPicker>()
                 .As<IRandomPicker>()
                 .InstancePerLifetimeScope();
 
-            container = builder.Build();
+            BuildContainer();
         }
 
         [Test]
@@ -33,7 +29,7 @@ namespace VX.Tests
         [Description("Checks if PickItem throws an ArgumentNullException if list is null")]
         public void PickItemNegativeListNullTest()
         {
-            Assert.Throws<ArgumentNullException>(() => GetSystemUnderTest().PickItem<IList<string>>(null));
+            Assert.Throws<ArgumentNullException>(() => SystemUnderTest.PickItem<IList<string>>(null));
         }
 
         [Test]
@@ -41,7 +37,7 @@ namespace VX.Tests
         [Description("Checks if PickItem throws an ArgumentNullException if list is empty")]
         public void PickItemNegativeListEmptyTest()
         {
-            Assert.Throws<ArgumentNullException>(() => GetSystemUnderTest().PickItem(new List<string>()));
+            Assert.Throws<ArgumentNullException>(() => SystemUnderTest.PickItem(new List<string>()));
         }
 
         [Test]
@@ -49,7 +45,7 @@ namespace VX.Tests
         [Description("Checks if PickItem returns item from list")]
         public void PickItemPositiveTest()
         {
-            Assert.AreNotEqual(GetSystemUnderTest().PickItem(new List<string> {"item1", "item2"}), null);
+            Assert.AreNotEqual(SystemUnderTest.PickItem(new List<string> {"item1", "item2"}), null);
         }
 
         [Test]
@@ -57,7 +53,7 @@ namespace VX.Tests
         [Description("Checks if PickItems throws an ArgumentNullException if list is null")]
         public void PickItemsNegativeListNullTest()
         {
-            Assert.Throws<ArgumentNullException>(() => GetSystemUnderTest().PickItems<IList<string>>(null, 1));
+            Assert.Throws<ArgumentNullException>(() => SystemUnderTest.PickItems<IList<string>>(null, 1));
         }
 
         [Test]
@@ -65,7 +61,7 @@ namespace VX.Tests
         [Description("Checks if PickItems throws an ArgumentNullException if list is empty")]
         public void PickItemsNegativeListEmptyTest()
         {
-            Assert.Throws<ArgumentNullException>(() => GetSystemUnderTest().PickItems(new List<string>(), 1));
+            Assert.Throws<ArgumentNullException>(() => SystemUnderTest.PickItems(new List<string>(), 1));
         }
 
         [Test]
@@ -73,7 +69,7 @@ namespace VX.Tests
         [Description("Checks if PickItems throws an ArgumentOutOfRangeException if n < 1")]
         public void PickItemsNegativeNTest()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => GetSystemUnderTest().PickItems(new List<string> { "a", "b" }, -1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => SystemUnderTest.PickItems(new List<string> { "a", "b" }, -1));
         }
 
         [Test]
@@ -82,7 +78,7 @@ namespace VX.Tests
         public void PickItemsInputListSizeTest()
         {
             var list = new List<string> {"1", "2", "3"};
-            GetSystemUnderTest().PickItems(list, 2);
+            SystemUnderTest.PickItems(list, 2);
             Assert.AreEqual(3, list.Count);
         }
 
@@ -93,7 +89,7 @@ namespace VX.Tests
         {
             var list = new List<string> {"1", "2", "3"};
             var blacklist = new List<string> {"1", "2"};
-            GetSystemUnderTest().PickItems(list, 2, blacklist);
+            SystemUnderTest.PickItems(list, 2, blacklist);
             Assert.AreEqual(3, list.Count);
             Assert.AreEqual(2, blacklist.Count);
         }
@@ -103,7 +99,7 @@ namespace VX.Tests
         [Description("Checks if PickItems returns three different items from list of three items")]
         public void PickItemsPositiveThreeOfThreeTest()
         {
-            var actual = GetSystemUnderTest().PickItems(new List<string> {"item1", "item2", "item3"}, 3);
+            var actual = SystemUnderTest.PickItems(new List<string> {"item1", "item2", "item3"}, 3);
             Assert.AreEqual(3, actual.Count);
             Assert.AreNotEqual(actual[0], actual[1]);
             Assert.AreNotEqual(actual[0], actual[2]);
@@ -115,7 +111,7 @@ namespace VX.Tests
         [Description("Checks if PickItems returns two different items from list of two items even if requesting three")]
         public void PickItemsPositiveTwoOfTwoMaximum()
         {
-            var actual = GetSystemUnderTest().PickItems(new List<string> {"item1", "item2"}, 3);
+            var actual = SystemUnderTest.PickItems(new List<string> {"item1", "item2"}, 3);
             Assert.AreEqual(2, actual.Count);
             Assert.AreNotEqual(actual[0], actual[1]);
         }
@@ -125,7 +121,7 @@ namespace VX.Tests
         [Description("Checks if PickItems returns two different items from list of two items even if requesting three and blacklist is null")]
         public void PickItemsPositiveTwoOfTwoMaximumNullBlackList()
         {
-            var actual = GetSystemUnderTest().PickItems(new List<string> { "item1", "item2" }, 3, null);
+            var actual = SystemUnderTest.PickItems(new List<string> { "item1", "item2" }, 3, null);
             Assert.AreEqual(2, actual.Count);
             Assert.AreNotEqual(actual[0], actual[1]);
         }
@@ -135,7 +131,7 @@ namespace VX.Tests
         [Description("Checks if PickItems returns two different items from list of two items even if requesting three and blacklist is empty")]
         public void PickItemsPositiveTwoOfTwoMaximumEmptyBlackList()
         {
-            var actual = GetSystemUnderTest().PickItems(new List<string> { "item1", "item2" }, 3, new List<string>());
+            var actual = SystemUnderTest.PickItems(new List<string> { "item1", "item2" }, 3, new List<string>());
             Assert.AreEqual(2, actual.Count);
             Assert.AreNotEqual(actual[0], actual[1]);
         }
@@ -146,7 +142,7 @@ namespace VX.Tests
         public void PickItemsPositiveEmptyListSameLists()
         {
             var list = new List<string> {"item1", "item2", "item3"};
-            var actual = GetSystemUnderTest().PickItems(list, 2, list);
+            var actual = SystemUnderTest.PickItems(list, 2, list);
             Assert.AreEqual(0, actual.Count);
         }
 
@@ -155,7 +151,7 @@ namespace VX.Tests
         [Description("Checks if PickItems returns empty list if all items blacklisted")]
         public void PickItemsPositiveEmptyListIfAllItemsBlacklistedTest()
         {
-            var actual = GetSystemUnderTest().PickItems(
+            var actual = SystemUnderTest.PickItems(
                 new List<string> { "item1", "item2", "item3" }, 
                 2, 
                 new List<string> { "item1", "item2", "item3" });
@@ -167,7 +163,7 @@ namespace VX.Tests
         [Description("Checks if PickItems returns two different items form list of four items even if requesting 3 and excluding two")]
         public void PickItemsPositiveTwoOfFourExcludigTwoMaximum()
         {
-            var actual = GetSystemUnderTest().PickItems(
+            var actual = SystemUnderTest.PickItems(
                 new List<string> {"item1", "item2", "item3", "item4"}, 
                 3, 
                 new List<string> {"item1", "item4"});
@@ -182,7 +178,7 @@ namespace VX.Tests
         [Description("Checks if PickInsertIndex throws ArgumentNullException if input list is null")]
         public void PickInsertIndexNegativeNullListTest()
         {
-            Assert.Throws<ArgumentNullException>(() => GetSystemUnderTest().PickInsertIndex<string>(null));
+            Assert.Throws<ArgumentNullException>(() => SystemUnderTest.PickInsertIndex<string>(null));
         }
 
         [Test]
@@ -190,12 +186,7 @@ namespace VX.Tests
         [Description("Checks if PickInsertIndex returns zero for empty list")]
         public void PickInsertIndexPositiveEmptyListTest()
         {
-            Assert.AreEqual(0, GetSystemUnderTest().PickInsertIndex(new List<string>()));
-        }
-
-        private IRandomPicker GetSystemUnderTest()
-        {
-            return container.Resolve<IRandomPicker>();
+            Assert.AreEqual(0, SystemUnderTest.PickInsertIndex(new List<string>()));
         }
     }
 }

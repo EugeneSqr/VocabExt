@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Autofac;
 using NUnit.Framework;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
@@ -9,7 +8,7 @@ using VX.Service.Infrastructure.Interfaces;
 namespace VX.Tests
 {
     [TestFixture]
-    internal class TaskValidatorTests
+    internal class TaskValidatorTests :TestsBase<ITaskValidator, TaskValidator>
     {
         private static readonly IWord QuestionWord = new WordContract
         {
@@ -42,16 +41,9 @@ namespace VX.Tests
                                                                                       },
                                                                               };
 
-        private readonly IContainer container;
-
         public TaskValidatorTests()
         {
-            var builder = new ContainerBuilder();
-            builder.RegisterType<TaskValidator>()
-                .As<ITaskValidator>()
-                .InstancePerLifetimeScope();
-
-            container = builder.Build();
+            BuildContainer();
         }
 
         [Test]
@@ -59,8 +51,7 @@ namespace VX.Tests
         [Description("Checks if validation of task returns true if answer presents in options")]
         public void IsValidTaskPositiveTest()
         {
-            var validatorUnderTest = container.Resolve<ITaskValidator>();
-            Assert.IsTrue(validatorUnderTest.IsValidTask(
+            Assert.IsTrue(SystemUnderTest.IsValidTask(
                 BuildTask(QuestionWord, AnswerWord, TranslationOptionsWithAnswer)));
         }
 
@@ -69,8 +60,7 @@ namespace VX.Tests
         [Description("Checks if validation of the task fails if no answer in options")]
         public void IsValidTaskNegativeTest()
         {
-            var validatorUnderTest = container.Resolve<ITaskValidator>();
-            Assert.IsFalse(validatorUnderTest.IsValidTask(
+            Assert.IsFalse(SystemUnderTest.IsValidTask(
                 BuildTask(QuestionWord, AnswerWord, TranslationOptionsNoAnswer)));
         }
 
@@ -79,14 +69,13 @@ namespace VX.Tests
         [Description("Check if validation fails if question or answer is null")]
         public void IsValidTaskNegativeNullsTest()
         {
-            var validatorUnderTest = container.Resolve<ITaskValidator>();
             var task = BuildTask(null, null, null);
-            Assert.IsFalse(validatorUnderTest.IsValidTask(task));
+            Assert.IsFalse(SystemUnderTest.IsValidTask(task));
             task.CorrectAnswer = AnswerWord;
-            Assert.IsFalse(validatorUnderTest.IsValidTask(task));
+            Assert.IsFalse(SystemUnderTest.IsValidTask(task));
             task.CorrectAnswer = null;
             task.Question = QuestionWord;
-            Assert.IsFalse(validatorUnderTest.IsValidTask(task));
+            Assert.IsFalse(SystemUnderTest.IsValidTask(task));
         }
 
         private static ITask BuildTask(IWord question, IWord answer, IList<IWord> options)

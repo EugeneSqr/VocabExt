@@ -65,8 +65,10 @@
     <Compile Include="Factories\Interfaces\ITasksFactory.cs" />
     <Compile Include="Infrastructure\CacheFacade.cs" />
     <Compile Include="Infrastructure\Interfaces\ICacheFacade.cs" />
+    <Compile Include="Infrastructure\Interfaces\ISearchStringBuilder.cs" />
     <Compile Include="Infrastructure\Interfaces\ISynonymSelector.cs" />
     <Compile Include="Infrastructure\Interfaces\ITaskValidator.cs" />
+    <Compile Include="Infrastructure\SearchStringBuilder.cs" />
     <Compile Include="Infrastructure\SynonymSelector.cs" />
     <Compile Include="Infrastructure\TaskValidator.cs" />
     <Compile Include="Initializer.cs" />
@@ -84,7 +86,7 @@
     <Compile Include="Repositories\RepositoryBase.cs" />
     <Compile Include="Repositories\TranslationsRepository.cs" />
     <Compile Include="Repositories\VocabBanksRepository.cs" />
-    <Compile Include="Repositories\WordRepository.cs" />
+    <Compile Include="Repositories\WordsRepository.cs" />
     <Compile Include="Infrastructure\ServiceSettings.cs" />
     <Compile Include="VocabExtService.svc.cs">
       <DependentUpon>VocabExtService.svc</DependentUpon>

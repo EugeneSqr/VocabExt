@@ -1,20 +1,15 @@
-﻿using Autofac;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
 
-namespace VX.Tests
+namespace VX.Tests.RepositoriesTests
 {
     [TestFixture]
-    internal class VocabBanksRepositoryTests : RepositoryTestsBase
+    internal class VocabBanksRepositoryTests : RepositoryTestsBase<IVocabBanksRepository, VocabBanksRepository>
     {
         public VocabBanksRepositoryTests()
         {
-            ContainerBuilder.RegisterType<VocabBanksRepository>()
-                .As<IVocabBanksRepository>()
-                .InstancePerLifetimeScope();
-
             BuildContainer();
         }
 
@@ -23,9 +18,7 @@ namespace VX.Tests
         [Description("Checks if GetVocabBanks returns vocabbanks list")]
         public void GetVocabBanksPositiveTest()
         {
-            var repositoryUnderTest = Container.Resolve<IVocabBanksRepository>();
-            var actual = repositoryUnderTest.GetVocabBanks();
-            Assert.AreEqual(4, actual.Count);
+            Assert.AreEqual(7, SystemUnderTest.GetVocabBanks().Count);
         }
 
         [Test]
@@ -33,8 +26,8 @@ namespace VX.Tests
         [Description("Checks if GetVocabBanksList returns list without translations and still with tags")]
         public void GetVocabBanksListPositiveTest()
         {
-            var actual = Container.Resolve<IVocabBanksRepository>().GetVocabBanksList();
-            Assert.AreEqual(4, actual.Count);
+            var actual = SystemUnderTest.GetVocabBanksList();
+            Assert.AreEqual(7, actual.Count);
             foreach (IVocabBank vocabBank in actual)
             {
                 Assert.AreEqual(0, vocabBank.Translations.Count);

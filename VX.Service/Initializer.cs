@@ -24,7 +24,7 @@ namespace VX.Service
                 .As<ILanguagesRepository>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<WordRepository>()
+            builder.RegisterType<WordsRepository>()
                 .As<IWordsRepository>()
                 .InstancePerLifetimeScope();
 
@@ -66,6 +66,10 @@ namespace VX.Service
 
             builder.RegisterType<CacheKeyFactory>()
                 .As<ICacheKeyFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<SearchStringBuilder>()
+                .As<ISearchStringBuilder>()
                 .InstancePerLifetimeScope();
 
             Container = builder.Build();
