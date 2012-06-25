@@ -15,7 +15,7 @@ namespace VX.Tests
         [Test]
         [Category("CacheKeyFactoryTests")]
         [Description("Checks if BuildKey concatenates service name and parameter")]
-        public void BuildKeyStringPositiveTest()
+        public void BuildKeyStringTest()
         {
             Assert.AreEqual(
                 "serviceName:stringParameter", 
@@ -24,12 +24,22 @@ namespace VX.Tests
 
         [Test]
         [Category("CacheKeyFactoryTests")]
-        [Description("Checks if BuildKey correctly builds key from int array")]
-        public void BuildKeyIntArrayPositiveTest()
+        [Description("Checks if BuildKey correctly builds a key from int array")]
+        public void BuildKeyIntArrayTest()
         {
             Assert.AreEqual(
                 "serviceName:1-2-3-", 
                 SystemUnderTest.BuildKey("serviceName", new[] {1, 2, 3}));
+        }
+
+        [Test]
+        [Category("CacheKeyFactoryTests")]
+        [Description("Checks if BuildKey correctly builds a key from single int")]
+        public void BuildKeyIntTest()
+        {
+            Assert.AreEqual(
+                "serviceName:1",
+                SystemUnderTest.BuildKey("serviceName", 1));
         }
     }
 }

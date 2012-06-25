@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using VX.Service.CompositeValidators;
+using VX.Service.CompositeValidators.Interfaces;
 using VX.Service.Factories;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure;
@@ -70,6 +72,10 @@ namespace VX.Service
 
             builder.RegisterType<SearchStringBuilder>()
                 .As<ISearchStringBuilder>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<TranslationValidator>()
+                .As<ITranslationValidator>()
                 .InstancePerLifetimeScope();
 
             Container = builder.Build();

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
+using VX.Service.CompositeValidators.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
@@ -10,12 +12,16 @@ namespace VX.Service.Repositories
 {
     public class TranslationsRepository : RepositoryBase, ITranslationsRepository
     {
+        private readonly ITranslationValidator translationValidator;
+        
         public TranslationsRepository(
             IServiceSettings serviceSettings, 
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory) : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory)
+            ICacheKeyFactory cacheKeyFactory,
+            ITranslationValidator translationValidator) : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory)
         {
+            this.translationValidator = translationValidator;
         }
 
         public IList<ITranslation> GetTranslations(string vocabBankId)
@@ -47,8 +53,14 @@ namespace VX.Service.Repositories
             return result;
         }
 
+        // TODO: passing custom type back to server (with message)
         public bool UpdateTranslation(ITranslation translation)
         {
+            if (translationValidator.Validate(translation) != ValidationResult.Success)
+            {
+                return false;
+            }
+
             using (var context = new Entities(ServiceSettings.ConnectionString))
             {
                 var targetTranslation = context.Translations.First(item => item.Id == translation.Id);

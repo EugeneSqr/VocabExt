@@ -45,8 +45,7 @@ namespace VX.Tests.RepositoriesTests
         [Description("Checks if GetWords returns empty list if input is null")]
         public void GetWordsNullInputTest()
         {
-            var actual = SystemUnderTest.GetWords(null);
-            Assert.AreEqual(0, actual.Count);
+            Assert.AreEqual(0, SystemUnderTest.GetWords(null).Count);
         }
 
         [Test]
@@ -54,8 +53,7 @@ namespace VX.Tests.RepositoriesTests
         [Description("Checks if GetWords returns empty list if input is empty")]
         public void GetWordsEmptyInputTest()
         {
-            var actual = SystemUnderTest.GetWords(string.Empty);
-            Assert.AreEqual(0, actual.Count);
+            Assert.AreEqual(0, SystemUnderTest.GetWords(string.Empty).Count);
         }
 
         [Test]
@@ -63,8 +61,23 @@ namespace VX.Tests.RepositoriesTests
         [Description("Checks if GetWords returns empty list if input is lesser than minimal")]
         public void GetWordsLesserThanMinimalTest()
         {
-            var actual = SystemUnderTest.GetWords("t");
-            Assert.AreEqual(0, actual.Count);
+            Assert.AreEqual(0, SystemUnderTest.GetWords("t").Count);
+        }
+
+        [Test]
+        [Category("WordsRepositoryTests")]
+        [Description("Checks if GetWord returns word if it is exists in storage")]
+        public void GetWordTest()
+        {
+            Assert.AreEqual(1, SystemUnderTest.GetWord(1).Id);
+        }
+
+        [Test]
+        [Category("WordsRepositoryTests")]
+        [Description("Checks if GetWord returns null if word is not present in storage")]
+        public void GetWordNullTest()
+        {
+            Assert.IsNull(SystemUnderTest.GetWord(-1));
         }
 
         private static ISearchStringBuilder MockSearchStringBuilder()

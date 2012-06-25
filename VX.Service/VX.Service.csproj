@@ -36,6 +36,7 @@
     <Reference Include="Autofac">
       <HintPath>..\.Libraries\Autofac\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -95,6 +96,8 @@
     <Compile Include="Repositories\VocabBanksRepository.cs" />
     <Compile Include="Repositories\WordsRepository.cs" />
     <Compile Include="Infrastructure\ServiceSettings.cs" />
+    <Compile Include="CompositeValidators\Interfaces\ITranslationValidator.cs" />
+    <Compile Include="CompositeValidators\TranslationValidator.cs" />
     <Compile Include="VocabExtService.svc.cs">
       <DependentUpon>VocabExtService.svc</DependentUpon>
     </Compile>

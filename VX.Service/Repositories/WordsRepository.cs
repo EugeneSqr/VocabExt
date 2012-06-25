@@ -25,7 +25,7 @@ namespace VX.Service.Repositories
         public IList<IWord> GetWords(string searchString)
         {
             List<IWord> result;
-            var cacheKey = CacheKeyFactory.BuildKey("WordsRepository", searchString);
+            var cacheKey = CacheKeyFactory.BuildKey("WordsRepository.GetWords", searchString);
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
                 var actualSearchString = searchStringBuilder.BuildSearchString(searchString);
@@ -48,6 +48,24 @@ namespace VX.Service.Repositories
                 CacheFacade.PutIntoCache(result, cacheKey);
             }
             
+            return result;
+        }
+
+        public IWord GetWord(int id)
+        {
+            IWord result;
+            var cacheKey = CacheKeyFactory.BuildKey("WordsRepositoy.GetWord", id);
+            if (!CacheFacade.GetFromCache(cacheKey, out result))
+            {
+                using (var context = new Entities(ServiceSettings.ConnectionString))
+                {
+                    result = EntitiesFactory.BuildWord(
+                        context.Words.FirstOrDefault(item => item.Id == id));
+                }
+
+                CacheFacade.PutIntoCache(result, cacheKey);
+            }
+
             return result;
         }
     }

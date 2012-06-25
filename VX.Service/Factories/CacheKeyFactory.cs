@@ -18,6 +18,11 @@ namespace VX.Service.Factories
             return string.Format(NameParametersTemplate, serviceName, intKeyPart);
         }
 
+        public string BuildKey(string serviceName, int parameter)
+        {
+            return string.Format(NameParametersTemplate, serviceName, parameter);
+        }
+
         public string BuildKey(string serviceName, string parameter)
         {
             return string.Format(NameParametersTemplate, serviceName, parameter);
