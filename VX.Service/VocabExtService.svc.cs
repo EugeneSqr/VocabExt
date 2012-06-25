@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Json;
 using Autofac;
+using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
@@ -55,6 +58,13 @@ namespace VX.Service
         public IList<IWord> GetWords(string searchString)
         {
             return wordsRepository.GetWords(searchString);
+        }
+
+        public bool UpdateTranslation(Stream data)
+        {
+            // TODO: to special factory
+            var serializer = new DataContractJsonSerializer(typeof (TranslationContract));
+            return translationsRepository.UpdateTranslation((ITranslation)serializer.ReadObject(data));
         }
     }
 }

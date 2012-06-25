@@ -43,7 +43,20 @@ namespace VX.Tests.Mocks
 
         public ITranslation BuildTranslation(Translation translation)
         {
-            return new TranslationContract();
+            return translation == null
+                       ? null
+                       : new TranslationContract
+                             {
+                                 Id = translation.Id,
+                                 Source = new WordContract
+                                              {
+                                                  Id = translation.Source.Id
+                                              },
+                                 Target = new WordContract
+                                              {
+                                                  Id = translation.Target.Id
+                                              }
+                             };
         }
 
         public IWord BuildWord(Word word)

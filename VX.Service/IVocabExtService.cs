@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using VX.Domain.DataContracts;
@@ -33,5 +34,9 @@ namespace VX.Service
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetWords/{searchString}")]
         IList<IWord> GetWords(string searchString);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST")]
+        bool UpdateTranslation(Stream data);
     }
 }

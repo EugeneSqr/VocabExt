@@ -1,13 +1,18 @@
-﻿using Autofac;
+﻿using System.Transactions;
+using Autofac;
 using Moq;
+using NUnit.Framework;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests.Mocks;
 
 namespace VX.Tests.RepositoriesTests
 {
+    [TestFixture]
     public abstract class RepositoryTestsBase<TType, TImplementation> : TestsBase<TType, TImplementation>
     {
+        private TransactionScope scope;
+        
         protected RepositoryTestsBase()
         {
             ContainerBuilder.RegisterInstance(MockCacheFacade())
@@ -25,6 +30,18 @@ namespace VX.Tests.RepositoriesTests
             ContainerBuilder.RegisterType<EntitiesFactoryMock>()
                 .As<IEntitiesFactory>()
                 .InstancePerLifetimeScope();
+        }
+
+        [SetUp]
+        protected void SetUp()
+        {
+            scope = new TransactionScope();
+        }
+
+        [TearDown]
+        protected void TearDown()
+        {
+            scope.Dispose();
         }
 
         private static ICacheFacade MockCacheFacade()

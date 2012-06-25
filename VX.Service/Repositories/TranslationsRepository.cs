@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
 using VX.Service.Factories.Interfaces;
@@ -46,6 +45,19 @@ namespace VX.Service.Repositories
             }
 
             return result;
+        }
+
+        public bool UpdateTranslation(ITranslation translation)
+        {
+            using (var context = new Entities(ServiceSettings.ConnectionString))
+            {
+                var targetTranslation = context.Translations.First(item => item.Id == translation.Id);
+                targetTranslation.SourceId = translation.Source.Id;
+                targetTranslation.TargetId = translation.Target.Id;
+                context.SaveChanges();
+            }
+
+            return true;
         }
     }
 }

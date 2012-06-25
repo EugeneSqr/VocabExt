@@ -41,11 +41,18 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Infrastructure\easyXDM\cors\index.html" />
+    <Content Include="Infrastructure\easyXDM\easyXDM.debug.js" />
+    <Content Include="Infrastructure\easyXDM\easyXDM.min.js" />
+    <Content Include="Infrastructure\easyXDM\easyxdm.swf" />
+    <Content Include="Infrastructure\easyXDM\name.html" />
     <Content Include="VocabExtService.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
