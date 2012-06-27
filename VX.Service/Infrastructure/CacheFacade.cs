@@ -1,19 +1,37 @@
 ﻿using System;
 using System.Web;
+using System.Web.Caching;
 using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure
 {
     public class CacheFacade : ICacheFacade
     {
+        private readonly IServiceSettings serviceSettings;
+        
+        public CacheFacade(IServiceSettings serviceSettings)
+        {
+            this.serviceSettings = serviceSettings;
+        }
+
         public void PutIntoCache(object item, string cacheKey)
         {
             HttpRuntime.Cache.Insert(
                 cacheKey, 
                 item, 
                 null, 
-                System.Web.Caching.Cache.NoAbsoluteExpiration, 
-                TimeSpan.FromSeconds(300)); // TODO: value to config
+                Cache.NoAbsoluteExpiration, 
+                TimeSpan.FromSeconds(serviceSettings.CacheSlidingExpirationSeconds));
+        }
+
+        public void PutIntoCache(object item, string cacheKey, string dependentTableName)
+        {
+            HttpRuntime.Cache.Insert(
+                cacheKey,
+                item,
+                new SqlCacheDependency(serviceSettings.DomainDatabaseName, dependentTableName),
+                Cache.NoAbsoluteExpiration,
+                TimeSpan.FromSeconds(serviceSettings.CacheSlidingExpirationSeconds));
         }
 
         public bool GetFromCache<T>(string cacheKey, out T cachedItem)

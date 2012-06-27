@@ -4,6 +4,10 @@
     {
         string ConnectionString { get; }
 
+        string DomainDatabaseName { get; }
+
         int DefaultTasksCount { get; }
+
+        int CacheSlidingExpirationSeconds { get; }
     }
 }

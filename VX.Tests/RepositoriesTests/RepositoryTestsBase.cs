@@ -49,6 +49,8 @@ namespace VX.Tests.RepositoriesTests
             var mock = new Mock<ICacheFacade>();
             string outvalue;
             mock.Setup(cacheFacade => cacheFacade.PutIntoCache(It.IsAny<object>(), It.IsAny<string>()));
+            mock.Setup(
+                cacheFacade => cacheFacade.PutIntoCache(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()));
             mock.Setup(cacheFacade => cacheFacade.GetFromCache(It.IsAny<string>(), out outvalue))
                 .Returns(false);
 
