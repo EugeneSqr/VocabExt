@@ -10,5 +10,8 @@ VX.Tests/obj/
 VX.IntegrationTests/bin/
 VX.IntegrationTests/obj/
 _ReSharper.VX/
+_ReSharper.AppHarbor/
 VX.suo
+AppHarbor.suo
 VX.sln.DotSettings.user
+AppHarbor.sln.DotSettings.user
