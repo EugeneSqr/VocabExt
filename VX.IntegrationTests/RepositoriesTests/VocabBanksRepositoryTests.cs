@@ -3,7 +3,7 @@ using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
 
-namespace VX.Tests.RepositoriesTests
+namespace VX.IntegrationTests.RepositoriesTests
 {
     [TestFixture]
     internal class VocabBanksRepositoryTests : RepositoryTestsBase<IVocabBanksRepository, VocabBanksRepository>

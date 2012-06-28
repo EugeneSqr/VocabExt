@@ -6,7 +6,7 @@ using VX.Service.Factories.Interfaces;
 
 namespace VX.Tests.Mocks
 {
-    internal class EntitiesFactoryMock : IEntitiesFactory
+    public class EntitiesFactoryMock : IEntitiesFactory
     {
         public ILanguage BuildLanguage(Language language)
         {

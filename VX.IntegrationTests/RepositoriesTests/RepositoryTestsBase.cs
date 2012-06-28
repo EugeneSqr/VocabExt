@@ -4,9 +4,10 @@ using Moq;
 using NUnit.Framework;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
+using VX.Tests;
 using VX.Tests.Mocks;
 
-namespace VX.Tests.RepositoriesTests
+namespace VX.IntegrationTests.RepositoriesTests
 {
     [TestFixture]
     public abstract class RepositoryTestsBase<TType, TImplementation> : TestsBase<TType, TImplementation>

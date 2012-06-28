@@ -5,7 +5,7 @@ using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
 
-namespace VX.Tests.RepositoriesTests
+namespace VX.IntegrationTests.RepositoriesTests
 {
     [TestFixture]
     public class WordsRepositoryTests : RepositoryTestsBase<IWordsRepository, WordsRepository>

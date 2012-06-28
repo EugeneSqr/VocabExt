@@ -7,6 +7,8 @@ VX.Model/bin/
 VX.Model/obj/
 VX.Tests/bin/
 VX.Tests/obj/
+VX.IntegrationTests/bin/
+VX.IntegrationTests/obj/
 _ReSharper.VX/
 VX.suo
 VX.sln.DotSettings.user

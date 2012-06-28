@@ -2,7 +2,7 @@
 
 namespace VX.Tests.Mocks
 {
-    internal class ServiceSettingsMock : IServiceSettings
+    public class ServiceSettingsMock : IServiceSettings
     {
         public string ConnectionString
         {

@@ -1,9 +1,8 @@
-﻿using VX.Service;
-using VX.Service.Infrastructure.Interfaces;
+﻿using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Tests.Mocks
 {
-    internal class RandomFacadeMock : IRandomFacade
+    public class RandomFacadeMock : IRandomFacade
     {
         public int PickRandomValue(int minValue, int maxValue)
         {
