@@ -15,13 +15,15 @@ namespace VX.Service.Repositories
         private const string DependencyTableName = "Translations";
         
         private readonly ITranslationValidator translationValidator;
-        
+
         public TranslationsRepository(
             IServiceSettings serviceSettings, 
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory,
-            ITranslationValidator translationValidator) : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory)
+            ITranslationValidator translationValidator,
+            IServiceOperationResponseFactory serviceOperationResponseFactory) 
+            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
         {
             this.translationValidator = translationValidator;
         }
@@ -54,13 +56,12 @@ namespace VX.Service.Repositories
 
             return result;
         }
-
-        // TODO: passing custom type back to server (with message)
-        public bool UpdateTranslation(ITranslation translation)
+        
+        public IServiceOperationResponse UpdateTranslation(ITranslation translation)
         {
             if (translationValidator.Validate(translation) != ValidationResult.Success)
             {
-                return false;
+                return ServiceOperationResponseFactory.Build(false, "Validation failed");
             }
 
             using (var context = new Entities(ServiceSettings.ConnectionString))
@@ -71,7 +72,21 @@ namespace VX.Service.Repositories
                 context.SaveChanges();
             }
 
-            return true;
+            return ServiceOperationResponseFactory.Build(true, string.Empty);
+        }
+
+        public IServiceOperationResponse DeleteTranslation(int translationId)
+        {
+            using (var context = new Entities(ServiceSettings.ConnectionString))
+            {
+                var translationToDelete = context.Translations.FirstOrDefault(item => item.Id == translationId);
+                if (translationToDelete != null)
+                {
+                    context.Translations.DeleteObject(translationToDelete);
+                }
+            }
+
+            return ServiceOperationResponseFactory.Build(true, string.Empty);
         }
     }
 }

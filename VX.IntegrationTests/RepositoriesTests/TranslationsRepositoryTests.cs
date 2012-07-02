@@ -86,7 +86,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks of UpdateTranslation updates translation correctly")]
         public void UpdateTranslationTest()
         {
-            Assert.IsTrue(SystemUnderTest.UpdateTranslation(goodTranslation));
+            Assert.IsTrue(SystemUnderTest.UpdateTranslation(goodTranslation).Status);
             var actual = SystemUnderTest.GetTranslations("1").First(item => item.Id == 1);
             Assert.AreEqual(1, actual.Source.Id);
             Assert.AreEqual(4, actual.Target.Id);
@@ -97,7 +97,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if UpdateTranslation reject update because of source validation fails")]
         public void UpdateTranslationSourceValidationTest()
         {
-            Assert.IsFalse(SystemUnderTest.UpdateTranslation(badSourceTranslation));
+            Assert.IsFalse(SystemUnderTest.UpdateTranslation(badSourceTranslation).Status);
         }
 
         [Test]
@@ -105,7 +105,23 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if UpdateTranslation reject update because of target validation fails")]
         public void UpdateTranslationTargetValidationTest()
         {
-            Assert.IsFalse(SystemUnderTest.UpdateTranslation(badTargetTranslation));
+            Assert.IsFalse(SystemUnderTest.UpdateTranslation(badTargetTranslation).Status);
+        }
+
+        [Test]
+        [Category("TranslationsRepositoryTests")]
+        [Description("Checks if DeleteTranslation deletes existed item")]
+        public void DeleteTranslationDeleteTest()
+        {
+            Assert.IsTrue(SystemUnderTest.DeleteTranslation(1).Status);
+        }
+
+        [Test]
+        [Category("TranslationsRepositoryTests")]
+        [Description("Checks if DeleteTranslation returns success even if translation doesn't exist")]
+        public void DeleteTranslationEmptyDeleteTest()
+        {
+            Assert.IsTrue(SystemUnderTest.DeleteTranslation(-1).Status);
         }
 
         private ITranslationValidator MockTranslationValidator()

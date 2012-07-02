@@ -60,7 +60,7 @@ namespace VX.Service
             return wordsRepository.GetWords(searchString);
         }
 
-        public bool UpdateTranslation(Stream data)
+        public IServiceOperationResponse UpdateTranslation(Stream data)
         {
             // TODO: to special factory
             var serializer = new DataContractJsonSerializer(typeof (TranslationContract));

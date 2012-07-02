@@ -78,6 +78,10 @@ namespace VX.Service
                 .As<ITranslationValidator>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<ServiceOperationResponceFactory>()
+                .As<IServiceOperationResponseFactory>()
+                .InstancePerLifetimeScope();
+
             Container = builder.Build();
         }
     }

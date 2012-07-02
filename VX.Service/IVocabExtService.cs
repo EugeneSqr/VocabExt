@@ -12,6 +12,7 @@ namespace VX.Service
     [ServiceKnownType(typeof(VocabBankContract))]
     [ServiceKnownType(typeof(TranslationContract))]
     [ServiceKnownType(typeof(WordContract))]
+    [ServiceKnownType(typeof(ServiceOperationResponse))]
     public interface IVocabExtService
     {
         [OperationContract]
@@ -37,6 +38,6 @@ namespace VX.Service
 
         [OperationContract]
         [WebInvoke(Method = "POST")]
-        bool UpdateTranslation(Stream data);
+        IServiceOperationResponse UpdateTranslation(Stream data);
     }
 }

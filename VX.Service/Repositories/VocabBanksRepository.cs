@@ -19,7 +19,9 @@ namespace VX.Service.Repositories
             IServiceSettings serviceSettings, 
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory) : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory)
+            ICacheKeyFactory cacheKeyFactory,
+            IServiceOperationResponseFactory serviceOperationResponseFactory) 
+            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
         {
         }
 

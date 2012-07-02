@@ -33,16 +33,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContracts\Interfaces\ILanguage.cs" />
+    <Compile Include="DataContracts\Interfaces\IServiceOperationResponse.cs" />
     <Compile Include="DataContracts\Interfaces\ITask.cs" />
     <Compile Include="DataContracts\Interfaces\ITag.cs" />
     <Compile Include="DataContracts\Interfaces\ITranslation.cs" />
     <Compile Include="DataContracts\Interfaces\IVocabBank.cs" />
     <Compile Include="DataContracts\Interfaces\IWord.cs" />
+    <Compile Include="DataContracts\ServiceOperationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataContracts\LanguageContract.cs" />
     <Compile Include="DataContracts\TagContract.cs" />

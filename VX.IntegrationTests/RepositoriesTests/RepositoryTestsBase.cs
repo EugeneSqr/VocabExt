@@ -2,6 +2,7 @@
 using Autofac;
 using Moq;
 using NUnit.Framework;
+using VX.Domain.DataContracts;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests;
@@ -22,6 +23,10 @@ namespace VX.IntegrationTests.RepositoriesTests
 
             ContainerBuilder.RegisterInstance(MockCacheKeyFactory())
                 .As<ICacheKeyFactory>()
+                .SingleInstance();
+
+            ContainerBuilder.RegisterInstance(MockServiceOperationResponceFactory())
+                .As<IServiceOperationResponseFactory>()
                 .SingleInstance();
             
             ContainerBuilder.RegisterType<ServiceSettingsMock>()
@@ -65,6 +70,15 @@ namespace VX.IntegrationTests.RepositoriesTests
                 .Returns("serviceName:string");
             mock.Setup(cacheKeyFactory => cacheKeyFactory.BuildKey(It.IsAny<string>(), It.IsAny<int[]>()))
                 .Returns("serviceName:1-2-3-");
+            return mock.Object;
+        }
+
+        private static IServiceOperationResponseFactory MockServiceOperationResponceFactory()
+        {
+            var mock = new Mock<IServiceOperationResponseFactory>();
+            mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<string>())).Returns(
+                (bool status, string message) => new ServiceOperationResponse(status, message));
+
             return mock.Object;
         }
     }

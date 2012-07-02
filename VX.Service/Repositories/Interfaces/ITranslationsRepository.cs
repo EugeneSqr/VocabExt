@@ -7,6 +7,8 @@ namespace VX.Service.Repositories.Interfaces
     {
         IList<ITranslation> GetTranslations(string vocabBankId);
 
-        bool UpdateTranslation(ITranslation translation);
+        IServiceOperationResponse UpdateTranslation(ITranslation translation);
+
+        IServiceOperationResponse DeleteTranslation(int translationId);
     }
 }

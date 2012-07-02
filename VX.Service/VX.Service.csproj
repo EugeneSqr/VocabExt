@@ -70,7 +70,9 @@
     <Compile Include="Factories\EntitiesFactory.cs" />
     <Compile Include="Factories\Interfaces\ICacheKeyFactory.cs" />
     <Compile Include="Factories\Interfaces\IEntitiesFactory.cs" />
+    <Compile Include="Factories\Interfaces\IServiceOperationResponseFactory.cs" />
     <Compile Include="Factories\Interfaces\ITasksFactory.cs" />
+    <Compile Include="Factories\ServiceOperationResponseFactory.cs" />
     <Compile Include="Infrastructure\CacheFacade.cs" />
     <Compile Include="Infrastructure\Interfaces\ICacheFacade.cs" />
     <Compile Include="Infrastructure\Interfaces\ISearchStringBuilder.cs" />
