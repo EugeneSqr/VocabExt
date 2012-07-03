@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization.Json;
 using Autofac;
-using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
@@ -17,6 +15,7 @@ namespace VX.Service
         private readonly ITranslationsRepository translationsRepository;
         private readonly IWordsRepository wordsRepository;
         private readonly IServiceSettings serviceSettings;
+        private readonly IInputDataConverter inputDataConverter;
 
         public VocabExtService()
         {
@@ -25,6 +24,7 @@ namespace VX.Service
             translationsRepository = Initializer.Container.Resolve<ITranslationsRepository>();
             serviceSettings = Initializer.Container.Resolve<IServiceSettings>();
             wordsRepository = Initializer.Container.Resolve<IWordsRepository>();
+            inputDataConverter = Initializer.Container.Resolve<IInputDataConverter>();
         }
 
         public ITask GetTask()
@@ -52,7 +52,7 @@ namespace VX.Service
 
         public IList<ITranslation> GetTranslations(string vocabBankId)
         {
-            return translationsRepository.GetTranslations(vocabBankId);
+            return translationsRepository.GetTranslations(inputDataConverter.Convert(vocabBankId));
         }
 
         public IList<IWord> GetWords(string searchString)
@@ -62,9 +62,12 @@ namespace VX.Service
 
         public IServiceOperationResponse UpdateTranslation(Stream data)
         {
-            // TODO: to special factory
-            var serializer = new DataContractJsonSerializer(typeof (TranslationContract));
-            return translationsRepository.UpdateTranslation((ITranslation)serializer.ReadObject(data));
+            return translationsRepository.UpdateTranslation(inputDataConverter.Convert(data));
+        }
+
+        public IServiceOperationResponse DeleteTranslation(string translationId)
+        {
+            return translationsRepository.DeleteTranslation(inputDataConverter.Convert(translationId));
         }
     }
 }

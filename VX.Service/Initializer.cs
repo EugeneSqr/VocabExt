@@ -82,6 +82,10 @@ namespace VX.Service
                 .As<IServiceOperationResponseFactory>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<InputDataConverter>()
+                .As<IInputDataConverter>()
+                .InstancePerLifetimeScope();
+
             Container = builder.Build();
         }
     }

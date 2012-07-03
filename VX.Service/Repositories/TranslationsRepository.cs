@@ -22,25 +22,25 @@ namespace VX.Service.Repositories
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory,
             ITranslationValidator translationValidator,
-            IServiceOperationResponseFactory serviceOperationResponseFactory) 
-            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
+            IServiceOperationResponseFactory serviceOperationResponseFactory,
+            IInputDataConverter inputDataConverter) 
+            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
         {
             this.translationValidator = translationValidator;
         }
-
-        public IList<ITranslation> GetTranslations(string vocabBankId)
+        
+        public IList<ITranslation> GetTranslations(int vocabBankId)
         {
             var cacheKey = CacheKeyFactory.BuildKey("TranslationsRepository", vocabBankId);
             List<ITranslation> result;
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
-                int vocabularyId;
-                if (int.TryParse(vocabBankId, out vocabularyId))
+                if (vocabBankId != InputDataConverter.EmptyId)
                 {
                     using (var context = new Entities(ServiceSettings.ConnectionString))
                     {
                         result = context.VocabBanksTranslations
-                            .Where(item => item.VocabularyId == vocabularyId)
+                            .Where(item => item.VocabularyId == vocabBankId)
                             .ToList()
                             .Select(item => EntitiesFactory.BuildTranslation(item.Translation))
                             .ToList();

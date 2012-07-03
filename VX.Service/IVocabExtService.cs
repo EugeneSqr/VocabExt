@@ -39,5 +39,9 @@ namespace VX.Service
         [OperationContract]
         [WebInvoke(Method = "POST")]
         IServiceOperationResponse UpdateTranslation(Stream data);
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "DeleteTranslation/{translationId}")]
+        IServiceOperationResponse DeleteTranslation(string translationId);
     }
 }

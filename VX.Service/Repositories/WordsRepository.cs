@@ -18,8 +18,9 @@ namespace VX.Service.Repositories
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory,
             ISearchStringBuilder searchStringBuilder,
-            IServiceOperationResponseFactory serviceOperationResponseFactory) 
-            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
+            IServiceOperationResponseFactory serviceOperationResponseFactory,
+            IInputDataConverter inputDataConverter) 
+            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
         {
             this.searchStringBuilder = searchStringBuilder;
         }

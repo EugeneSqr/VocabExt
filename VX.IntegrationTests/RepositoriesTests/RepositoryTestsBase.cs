@@ -28,6 +28,10 @@ namespace VX.IntegrationTests.RepositoriesTests
             ContainerBuilder.RegisterInstance(MockServiceOperationResponceFactory())
                 .As<IServiceOperationResponseFactory>()
                 .SingleInstance();
+
+            ContainerBuilder.RegisterInstance(MockInputDataConverter())
+                .As<IInputDataConverter>()
+                .SingleInstance();
             
             ContainerBuilder.RegisterType<ServiceSettingsMock>()
                 .As<IServiceSettings>()
@@ -79,6 +83,16 @@ namespace VX.IntegrationTests.RepositoriesTests
             mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<string>())).Returns(
                 (bool status, string message) => new ServiceOperationResponse(status, message));
 
+            return mock.Object;
+        }
+
+        private static IInputDataConverter MockInputDataConverter()
+        {
+            var mock = new Mock<IInputDataConverter>();
+            mock.Setup(item => item.EmptyId)
+                .Returns(-1);
+            mock.Setup(item => item.Convert(It.IsAny<string>()))
+                .Returns((string input) => int.Parse(input));
             return mock.Object;
         }
     }

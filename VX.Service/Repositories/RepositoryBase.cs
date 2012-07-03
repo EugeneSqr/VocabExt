@@ -10,19 +10,22 @@ namespace VX.Service.Repositories
         protected readonly ICacheFacade CacheFacade;
         protected readonly ICacheKeyFactory CacheKeyFactory;
         protected readonly IServiceOperationResponseFactory ServiceOperationResponseFactory;
+        protected readonly IInputDataConverter InputDataConverter;
 
         protected RepositoryBase(
             IServiceSettings serviceSettings, 
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory,
-            IServiceOperationResponseFactory serviceOperationResponseFactory)
+            IServiceOperationResponseFactory serviceOperationResponseFactory,
+            IInputDataConverter inputDataConverter)
         {
             ServiceSettings = serviceSettings;
             EntitiesFactory = entitiesFactory;
             CacheFacade = cacheFacade;
             CacheKeyFactory = cacheKeyFactory;
             ServiceOperationResponseFactory = serviceOperationResponseFactory;
+            InputDataConverter = inputDataConverter;
         }
     }
 }

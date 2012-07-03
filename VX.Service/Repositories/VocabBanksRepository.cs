@@ -20,8 +20,9 @@ namespace VX.Service.Repositories
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory,
-            IServiceOperationResponseFactory serviceOperationResponseFactory) 
-            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
+            IServiceOperationResponseFactory serviceOperationResponseFactory,
+            IInputDataConverter inputDataConverter) 
+            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
         {
         }
 

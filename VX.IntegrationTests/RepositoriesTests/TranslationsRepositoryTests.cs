@@ -68,7 +68,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if GetTranslations returns list of translations if parameters are correct")]
         public void GetTranslationsPositiveTest()
         {
-            var actual = SystemUnderTest.GetTranslations("1");
+            var actual = SystemUnderTest.GetTranslations(1);
             Assert.Greater(actual.Count, 0);
         }
 
@@ -77,7 +77,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if GetTranslations returns empty list if id is incorrect")]
         public void GetTranslationsNegativeBadIdTest()
         {
-            var actual = SystemUnderTest.GetTranslations("asd");
+            var actual = SystemUnderTest.GetTranslations(-22);
             Assert.AreEqual(0, actual.Count);
         }
 
@@ -87,14 +87,14 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void UpdateTranslationTest()
         {
             Assert.IsTrue(SystemUnderTest.UpdateTranslation(goodTranslation).Status);
-            var actual = SystemUnderTest.GetTranslations("1").First(item => item.Id == 1);
+            var actual = SystemUnderTest.GetTranslations(1).First(item => item.Id == 1);
             Assert.AreEqual(1, actual.Source.Id);
             Assert.AreEqual(4, actual.Target.Id);
         }
 
         [Test]
         [Category("TranslationsRepositoryTests")]
-        [Description("Checks if UpdateTranslation reject update because of source validation fails")]
+        [Description("Checks if UpdateTranslation rejects update because of source validation fails")]
         public void UpdateTranslationSourceValidationTest()
         {
             Assert.IsFalse(SystemUnderTest.UpdateTranslation(badSourceTranslation).Status);
@@ -102,7 +102,7 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("TranslationsRepositoryTests")]
-        [Description("Checks if UpdateTranslation reject update because of target validation fails")]
+        [Description("Checks if UpdateTranslation rejects update because of target validation fails")]
         public void UpdateTranslationTargetValidationTest()
         {
             Assert.IsFalse(SystemUnderTest.UpdateTranslation(badTargetTranslation).Status);

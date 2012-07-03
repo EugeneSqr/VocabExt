@@ -5,7 +5,7 @@ namespace VX.Service.Repositories.Interfaces
 {
     public interface ITranslationsRepository
     {
-        IList<ITranslation> GetTranslations(string vocabBankId);
+        IList<ITranslation> GetTranslations(int vocabBankId);
 
         IServiceOperationResponse UpdateTranslation(ITranslation translation);
 
