@@ -37,11 +37,11 @@ namespace VX.Service
         IList<IWord> GetWords(string searchString);
 
         [OperationContract]
-        [WebInvoke(Method = "POST")]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
         IServiceOperationResponse UpdateTranslation(Stream data);
 
         [OperationContract]
-        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "DeleteTranslation/{translationId}")]
-        IServiceOperationResponse DeleteTranslation(string translationId);
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
+        IServiceOperationResponse DetachTranslation(Stream data);
     }
 }

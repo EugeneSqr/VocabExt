@@ -108,22 +108,6 @@ namespace VX.IntegrationTests.RepositoriesTests
             Assert.IsFalse(SystemUnderTest.UpdateTranslation(badTargetTranslation).Status);
         }
 
-        [Test]
-        [Category("TranslationsRepositoryTests")]
-        [Description("Checks if DeleteTranslation deletes existed item")]
-        public void DeleteTranslationDeleteTest()
-        {
-            Assert.IsTrue(SystemUnderTest.DeleteTranslation(1).Status);
-        }
-
-        [Test]
-        [Category("TranslationsRepositoryTests")]
-        [Description("Checks if DeleteTranslation returns success even if translation doesn't exist")]
-        public void DeleteTranslationEmptyDeleteTest()
-        {
-            Assert.IsTrue(SystemUnderTest.DeleteTranslation(-1).Status);
-        }
-
         private ITranslationValidator MockTranslationValidator()
         {
             var mock = new Mock<ITranslationValidator>();

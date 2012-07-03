@@ -63,6 +63,26 @@ namespace VX.Service.Repositories
             return GetMultipleBanks(cacheKey, retrievingFunction, false);
         }
 
+        public IServiceOperationResponse DetachTranslation(int vocabBankId, int translationId)
+        {
+            using (var context = new Entities(ServiceSettings.ConnectionString))
+            {
+                try
+                {
+                    context.VocabBanksTranslations.DeleteObject(
+                        context.VocabBanksTranslations.FirstOrDefault(
+                            item => item.VocabularyId == vocabBankId && item.TranslationId == translationId));
+                    context.SaveChanges();
+                }
+                catch(Exception)
+                {
+                    return ServiceOperationResponseFactory.Build(false, "item not found");
+                }
+
+                return ServiceOperationResponseFactory.Build(true, string.Empty);
+            }
+        }
+
         private IList<IVocabBank> GetMultipleBanks(
             string cacheKey, 
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction,

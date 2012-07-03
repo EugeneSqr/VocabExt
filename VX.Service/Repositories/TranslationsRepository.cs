@@ -74,19 +74,5 @@ namespace VX.Service.Repositories
 
             return ServiceOperationResponseFactory.Build(true, string.Empty);
         }
-
-        public IServiceOperationResponse DeleteTranslation(int translationId)
-        {
-            using (var context = new Entities(ServiceSettings.ConnectionString))
-            {
-                var translationToDelete = context.Translations.FirstOrDefault(item => item.Id == translationId);
-                if (translationToDelete != null)
-                {
-                    context.Translations.DeleteObject(translationToDelete);
-                }
-            }
-
-            return ServiceOperationResponseFactory.Build(true, string.Empty);
-        }
     }
 }

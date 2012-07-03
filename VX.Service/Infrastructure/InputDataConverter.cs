@@ -1,6 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using System.Web.Script.Serialization;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
@@ -30,6 +33,19 @@ namespace VX.Service.Infrastructure
                 return (ITranslation)serializer.ReadObject(data);
             }
             catch (SerializationException)
+            {
+                return null;
+            }
+        }
+
+        public Dictionary<string, int> ParsePair(Stream data)
+        {
+            var serializer = new JavaScriptSerializer();
+            try
+            {
+                return serializer.Deserialize<Dictionary<string, int>>(new StreamReader(data).ReadToEnd());
+            }
+            catch (ArgumentException)
             {
                 return null;
             }

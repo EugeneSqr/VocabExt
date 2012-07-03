@@ -10,5 +10,7 @@ namespace VX.Service.Repositories.Interfaces
         IList<IVocabBank> GetVocabBanks(int[] vocabBanksIds);
 
         IList<IVocabBank> GetVocabBanksList();
+
+        IServiceOperationResponse DetachTranslation(int vocabBankId, int translationId);
     }
 }

@@ -65,9 +65,13 @@ namespace VX.Service
             return translationsRepository.UpdateTranslation(inputDataConverter.Convert(data));
         }
 
-        public IServiceOperationResponse DeleteTranslation(string translationId)
+        public IServiceOperationResponse DetachTranslation(Stream data)
         {
-            return translationsRepository.DeleteTranslation(inputDataConverter.Convert(translationId));
+            var parsedPair = inputDataConverter.ParsePair(data);
+            // TODO: think of moving mapping login to somewhere else
+            return vocabBanksRepository.DetachTranslation(
+                parsedPair["vocabbank"], 
+                parsedPair["translation"]);
         }
     }
 }

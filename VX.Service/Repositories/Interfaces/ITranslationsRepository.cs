@@ -8,7 +8,5 @@ namespace VX.Service.Repositories.Interfaces
         IList<ITranslation> GetTranslations(int vocabBankId);
 
         IServiceOperationResponse UpdateTranslation(ITranslation translation);
-
-        IServiceOperationResponse DeleteTranslation(int translationId);
     }
 }

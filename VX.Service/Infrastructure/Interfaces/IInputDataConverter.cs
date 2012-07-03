@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Service.Infrastructure.Interfaces
@@ -10,5 +11,7 @@ namespace VX.Service.Infrastructure.Interfaces
         int Convert(string id);
 
         ITranslation Convert(Stream data);
+
+        Dictionary<string, int> ParsePair(Stream data);
     }
 }
