@@ -14,7 +14,7 @@ namespace VX.Tests
 
         private const string TestUpdateTranslationIncorrectJsonString = "\asdf%as$d!k@h]";
 
-        private const string TestParsePairCorrectJsonString = "{\"vocabbank\":\"1\", \"translation\": 2}";
+        private const string TestParsePairCorrectJsonString = "{\"parent\":\"1\", \"child\": 2}";
             
         
         public InputDataConverterTests()
@@ -63,8 +63,8 @@ namespace VX.Tests
         {
             MemoryStream inputstream = new MemoryStream(Encoding.UTF8.GetBytes(TestParsePairCorrectJsonString));
             var actual = SystemUnderTest.ParsePair(inputstream);
-            Assert.AreEqual(1, actual["vocabbank"]);
-            Assert.AreEqual(2, actual["translation"]);
+            Assert.AreEqual(1, actual.ParentId);
+            Assert.AreEqual(2, actual.ChildId);
         }
 
         [Test]

@@ -12,8 +12,6 @@ namespace VX.Service.Repositories
 {
     public class TranslationsRepository : RepositoryBase, ITranslationsRepository
     {
-        private const string DependencyTableName = "Translations";
-        
         private readonly ITranslationValidator translationValidator;
 
         public TranslationsRepository(
@@ -51,7 +49,7 @@ namespace VX.Service.Repositories
                     result = new List<ITranslation>();
                 }
 
-                CacheFacade.PutIntoCache(result, cacheKey, DependencyTableName);
+                CacheFacade.PutIntoCache(result, cacheKey, new [] {"Translations", "VocabBanksTranslations"});
             }
 
             return result;

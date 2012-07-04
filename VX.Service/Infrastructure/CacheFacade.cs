@@ -7,6 +7,7 @@ namespace VX.Service.Infrastructure
 {
     public class CacheFacade : ICacheFacade
     {
+        private const int SingleElementArraySize = 1;
         private readonly IServiceSettings serviceSettings;
         
         public CacheFacade(IServiceSettings serviceSettings)
@@ -16,22 +17,25 @@ namespace VX.Service.Infrastructure
 
         public void PutIntoCache(object item, string cacheKey)
         {
-            HttpRuntime.Cache.Insert(
-                cacheKey, 
-                item, 
-                null, 
-                Cache.NoAbsoluteExpiration, 
-                TimeSpan.FromSeconds(serviceSettings.CacheSlidingExpirationSeconds));
+            PutIntoCache(item, cacheKey, (CacheDependency)null);
         }
 
-        public void PutIntoCache(object item, string cacheKey, string dependentTableName)
+        public void PutIntoCache(object item, string cacheKey, string[] dependencyTables)
         {
-            HttpRuntime.Cache.Insert(
-                cacheKey,
-                item,
-                new SqlCacheDependency(serviceSettings.DomainDatabaseName, dependentTableName),
-                Cache.NoAbsoluteExpiration,
-                TimeSpan.FromSeconds(serviceSettings.CacheSlidingExpirationSeconds));
+            if (dependencyTables.Length == SingleElementArraySize)
+            {
+                PutIntoCache(item, cacheKey, dependencyTables[0]);
+            }
+            else
+            {
+                var dependency = new AggregateCacheDependency();
+                foreach (string dependencyTable in dependencyTables)
+                {
+                    dependency.Add(new SqlCacheDependency(serviceSettings.DomainDatabaseName, dependencyTable));
+                }
+
+                PutIntoCache(item, cacheKey, dependency);
+            }
         }
 
         public bool GetFromCache<T>(string cacheKey, out T cachedItem)
@@ -54,6 +58,21 @@ namespace VX.Service.Infrastructure
                 // TODO: add logging
                 return false;
             }
+        }
+
+        private void PutIntoCache(object item, string cacheKey, CacheDependency dependencies)
+        {
+            HttpRuntime.Cache.Insert(
+                cacheKey,
+                item,
+                dependencies,
+                Cache.NoAbsoluteExpiration,
+                TimeSpan.FromSeconds(serviceSettings.CacheSlidingExpirationSeconds));
+        }
+
+        private void PutIntoCache(object item, string cacheKey, string dependentTableName)
+        {
+            PutIntoCache(item, cacheKey, new SqlCacheDependency(serviceSettings.DomainDatabaseName, dependentTableName));
         }
     }
 }

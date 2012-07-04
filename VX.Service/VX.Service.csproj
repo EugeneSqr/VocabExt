@@ -78,9 +78,11 @@
     <Compile Include="Infrastructure\InputDataConverter.cs" />
     <Compile Include="Infrastructure\Interfaces\ICacheFacade.cs" />
     <Compile Include="Infrastructure\Interfaces\IInputDataConverter.cs" />
+    <Compile Include="Infrastructure\Interfaces\IParentChildIdPair.cs" />
     <Compile Include="Infrastructure\Interfaces\ISearchStringBuilder.cs" />
     <Compile Include="Infrastructure\Interfaces\ISynonymSelector.cs" />
     <Compile Include="Infrastructure\Interfaces\ITaskValidator.cs" />
+    <Compile Include="Infrastructure\ParentChildIdPair.cs" />
     <Compile Include="Infrastructure\SearchStringBuilder.cs" />
     <Compile Include="Infrastructure\SynonymSelector.cs" />
     <Compile Include="Infrastructure\TaskValidator.cs" />

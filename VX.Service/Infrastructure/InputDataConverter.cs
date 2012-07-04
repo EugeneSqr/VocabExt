@@ -38,12 +38,13 @@ namespace VX.Service.Infrastructure
             }
         }
 
-        public Dictionary<string, int> ParsePair(Stream data)
+        public IParentChildIdPair ParsePair(Stream data)
         {
             var serializer = new JavaScriptSerializer();
             try
             {
-                return serializer.Deserialize<Dictionary<string, int>>(new StreamReader(data).ReadToEnd());
+                var deserialized = serializer.Deserialize<Dictionary<string, int>>(new StreamReader(data).ReadToEnd());
+                return new ParentChildIdPair(deserialized["parent"], deserialized["child"]);
             }
             catch (ArgumentException)
             {

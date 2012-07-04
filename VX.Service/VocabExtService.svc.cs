@@ -68,10 +68,7 @@ namespace VX.Service
         public IServiceOperationResponse DetachTranslation(Stream data)
         {
             var parsedPair = inputDataConverter.ParsePair(data);
-            // TODO: think of moving mapping login to somewhere else
-            return vocabBanksRepository.DetachTranslation(
-                parsedPair["vocabbank"], 
-                parsedPair["translation"]);
+            return vocabBanksRepository.DetachTranslation(parsedPair.ParentId, parsedPair.ChildId);
         }
     }
 }
