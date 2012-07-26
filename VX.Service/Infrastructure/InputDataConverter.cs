@@ -6,12 +6,21 @@ using System.Runtime.Serialization.Json;
 using System.Web.Script.Serialization;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
+using VX.Service.Infrastructure.JavaScriptConverters;
 
 namespace VX.Service.Infrastructure
 {
     public class InputDataConverter : IInputDataConverter
     {
+        private readonly IEntitiesFactory entitiesFactory;
+
+        public InputDataConverter(IEntitiesFactory entitiesFactory)
+        {
+            this.entitiesFactory = entitiesFactory;
+        }
+
         public int EmptyId
         {
             get { return -1; }
@@ -23,19 +32,6 @@ namespace VX.Service.Infrastructure
             return int.TryParse(id, out result) 
                 ? result 
                 : EmptyId;
-        }
-
-        public ITranslation Convert(Stream data)
-        {
-            var serializer = new DataContractJsonSerializer(typeof (TranslationContract));
-            try
-            {
-                return (ITranslation)serializer.ReadObject(data);
-            }
-            catch (SerializationException)
-            {
-                return null;
-            }
         }
 
         public IParentChildIdPair ParsePair(Stream data)
@@ -50,6 +46,14 @@ namespace VX.Service.Infrastructure
             {
                 return null;
             }
+        }
+
+        public IBankTranslationPair ParseBankTranslationPair(Stream data)
+        {
+            var serializer = new JavaScriptSerializer();
+            serializer.RegisterConverters(new JavaScriptConverter[] {new BankTranslationConverter(entitiesFactory) });
+            var deserialized = serializer.Deserialize<BankTranslationPair>(new StreamReader(data).ReadToEnd());
+            return deserialized;
         }
     }
 }

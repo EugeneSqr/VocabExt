@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Service.Infrastructure.Interfaces
 {
@@ -9,8 +8,8 @@ namespace VX.Service.Infrastructure.Interfaces
 
         int Convert(string id);
 
-        ITranslation Convert(Stream data);
-
         IParentChildIdPair ParsePair(Stream data);
+
+        IBankTranslationPair ParseBankTranslationPair(Stream data);
     }
 }

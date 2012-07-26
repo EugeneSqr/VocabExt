@@ -1,4 +1,5 @@
-﻿using VX.Domain.DataContracts.Interfaces;
+﻿using System.Collections.Generic;
+using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
 
 namespace VX.Service.Factories.Interfaces
@@ -7,12 +8,18 @@ namespace VX.Service.Factories.Interfaces
     {
         ILanguage BuildLanguage(Language language);
 
-        IVocabBank BuildVocabBank(VocabBank vocabBank);
+        ILanguage BuildLanguage(IDictionary<string, object> language);
 
-        ITag BuildTag(Tag tag);
+        IWord BuildWord(Word word);
+
+        IWord BuildWord(IDictionary<string, object> word);
 
         ITranslation BuildTranslation(Translation translation);
 
-        IWord BuildWord(Word word);
+        ITranslation BuildTranslation(IDictionary<string, object> translation);
+
+        IVocabBank BuildVocabBank(VocabBank vocabBank);
+
+        ITag BuildTag(Tag tag);
     }
 }

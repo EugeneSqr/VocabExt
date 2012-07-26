@@ -60,9 +60,10 @@ namespace VX.Service
             return wordsRepository.GetWords(searchString);
         }
 
-        public IServiceOperationResponse UpdateTranslation(Stream data)
+        public IServiceOperationResponse SaveTranslation(Stream data)
         {
-            return translationsRepository.UpdateTranslation(inputDataConverter.Convert(data));
+            var parsedPair = inputDataConverter.ParseBankTranslationPair(data);
+            return translationsRepository.SaveTranslation(parsedPair.Translation, parsedPair.VocabBankId);
         }
 
         public IServiceOperationResponse DetachTranslation(Stream data)

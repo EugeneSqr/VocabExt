@@ -38,7 +38,7 @@ namespace VX.Service
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
-        IServiceOperationResponse UpdateTranslation(Stream data);
+        IServiceOperationResponse SaveTranslation(Stream data);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]

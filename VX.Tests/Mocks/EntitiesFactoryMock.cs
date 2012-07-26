@@ -16,6 +16,50 @@ namespace VX.Tests.Mocks
 
         }
 
+        public ILanguage BuildLanguage(IDictionary<string, object> language)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IWord BuildWord(IDictionary<string, object> word)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IWord BuildWord(Word word)
+        {
+            return word == null
+                       ? null
+                       : new WordContract
+                             {
+                                 Id = word.Id,
+                                 Spelling = word.Spelling
+                             };
+        }
+
+        public ITranslation BuildTranslation(IDictionary<string, object> translation)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ITranslation BuildTranslation(Translation translation)
+        {
+            return translation == null
+                       ? null
+                       : new TranslationContract
+                             {
+                                 Id = translation.Id,
+                                 Source = new WordContract
+                                              {
+                                                  Id = translation.Source.Id
+                                              },
+                                 Target = new WordContract
+                                              {
+                                                  Id = translation.Target.Id
+                                              }
+                             };
+        }
+
         public IVocabBank BuildVocabBank(VocabBank vocabBank)
         {
             return vocabBank == null
@@ -39,35 +83,6 @@ namespace VX.Tests.Mocks
         public ITag BuildTag(Tag tag)
         {
             throw new System.NotImplementedException();
-        }
-
-        public ITranslation BuildTranslation(Translation translation)
-        {
-            return translation == null
-                       ? null
-                       : new TranslationContract
-                             {
-                                 Id = translation.Id,
-                                 Source = new WordContract
-                                              {
-                                                  Id = translation.Source.Id
-                                              },
-                                 Target = new WordContract
-                                              {
-                                                  Id = translation.Target.Id
-                                              }
-                             };
-        }
-
-        public IWord BuildWord(Word word)
-        {
-            return word == null
-                       ? null
-                       : new WordContract
-                             {
-                                 Id = word.Id,
-                                 Spelling = word.Spelling
-                             };
         }
     }
 }

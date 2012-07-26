@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CacheKeyFactoryTests.cs" />
+    <Compile Include="EntitiesFactoryTests.cs" />
     <Compile Include="InputDataConverterTests.cs" />
     <Compile Include="Mocks\EntitiesFactoryMock.cs" />
     <Compile Include="Mocks\RandomFacadeMock.cs" />

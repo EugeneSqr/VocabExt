@@ -83,10 +83,10 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("TranslationsRepositoryTests")]
-        [Description("Checks of UpdateTranslation updates translation correctly")]
+        [Description("Checks of SaveTranslation updates translation correctly")]
         public void UpdateTranslationTest()
         {
-            Assert.IsTrue(SystemUnderTest.UpdateTranslation(goodTranslation).Status);
+            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodTranslation, 1).Status);
             var actual = SystemUnderTest.GetTranslations(1).First(item => item.Id == 1);
             Assert.AreEqual(1, actual.Source.Id);
             Assert.AreEqual(4, actual.Target.Id);
@@ -94,18 +94,18 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("TranslationsRepositoryTests")]
-        [Description("Checks if UpdateTranslation rejects update because of source validation fails")]
+        [Description("Checks if SaveTranslation rejects update because of source validation fails")]
         public void UpdateTranslationSourceValidationTest()
         {
-            Assert.IsFalse(SystemUnderTest.UpdateTranslation(badSourceTranslation).Status);
+            Assert.IsFalse(SystemUnderTest.SaveTranslation(badSourceTranslation, 1).Status);
         }
 
         [Test]
         [Category("TranslationsRepositoryTests")]
-        [Description("Checks if UpdateTranslation rejects update because of target validation fails")]
+        [Description("Checks if SaveTranslation rejects update because of target validation fails")]
         public void UpdateTranslationTargetValidationTest()
         {
-            Assert.IsFalse(SystemUnderTest.UpdateTranslation(badTargetTranslation).Status);
+            Assert.IsFalse(SystemUnderTest.SaveTranslation(badTargetTranslation, 1).Status);
         }
 
         private ITranslationValidator MockTranslationValidator()

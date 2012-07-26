@@ -55,7 +55,7 @@ namespace VX.Service.Repositories
             return result;
         }
         
-        public IServiceOperationResponse UpdateTranslation(ITranslation translation)
+        public IServiceOperationResponse SaveTranslation(ITranslation translation, int vocabBankId)
         {
             if (translationValidator.Validate(translation) != ValidationResult.Success)
             {
