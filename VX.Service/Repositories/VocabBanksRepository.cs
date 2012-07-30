@@ -95,7 +95,7 @@ namespace VX.Service.Repositories
                 context.SaveChanges();
             }
 
-            return ServiceOperationResponseFactory.Build(true, string.Empty);
+            return ServiceOperationResponseFactory.Build(true, "added");
         }
 
         private IList<IVocabBank> GetMultipleBanks(

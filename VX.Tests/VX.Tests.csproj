@@ -54,6 +54,7 @@
     <Compile Include="Mocks\EntitiesFactoryMock.cs" />
     <Compile Include="Mocks\RandomFacadeMock.cs" />
     <Compile Include="SearchStringBuilderTests.cs" />
+    <Compile Include="ServiceOpertationResponseFactoryTests.cs" />
     <Compile Include="SynonymSelectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mocks\ServiceSettingsMock.cs" />

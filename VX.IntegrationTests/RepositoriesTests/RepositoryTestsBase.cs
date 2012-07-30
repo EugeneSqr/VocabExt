@@ -3,7 +3,6 @@ using Autofac;
 using Moq;
 using NUnit.Framework;
 using VX.Domain;
-using VX.Domain.DataContracts;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests;
@@ -82,7 +81,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         {
             var mock = new Mock<IServiceOperationResponseFactory>();
             mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<string>())).Returns(
-                (bool status, string message) => new ServiceOperationResponse(status, message));
+                (bool status, string message) => new ServiceOperationResponse(status) {ErrorMessage = message});
 
             return mock.Object;
         }

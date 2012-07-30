@@ -78,7 +78,7 @@ namespace VX.Service
                 .As<ITranslationValidator>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<ServiceOperationResponceFactory>()
+            builder.RegisterType<ServiceOperationResponseFactory>()
                 .As<IServiceOperationResponseFactory>()
                 .InstancePerLifetimeScope();
 

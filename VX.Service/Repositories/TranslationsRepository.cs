@@ -86,7 +86,7 @@ namespace VX.Service.Repositories
                     targetTranslation.TargetId);
             }
 
-            return ServiceOperationResponseFactory.Build(true, string.Empty);
+            return ServiceOperationResponseFactory.Build(true, "updated");
         }
 
         private Translation GetTranslation(int translationId)

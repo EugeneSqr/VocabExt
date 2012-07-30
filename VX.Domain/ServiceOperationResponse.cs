@@ -1,19 +1,20 @@
 ﻿using System.Runtime.Serialization;
-using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Domain
 {
     [DataContract]
     public class ServiceOperationResponse : IServiceOperationResponse
     {
-        public ServiceOperationResponse(bool status, string errorMessage)
+        public ServiceOperationResponse(bool status)
         {
             Status = status;
-            ErrorMessage = errorMessage;
         }
 
         [DataMember]
-        public string ErrorMessage { get; private set; }
+        public string ErrorMessage { get; set; }
+
+        [DataMember]
+        public string StatusMessage { get; set; }
 
         [DataMember]
         public bool Status { get; private set; }
