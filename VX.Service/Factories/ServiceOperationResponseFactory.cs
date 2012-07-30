@@ -1,4 +1,5 @@
-﻿using VX.Domain.DataContracts;
+﻿using VX.Domain;
+using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
 

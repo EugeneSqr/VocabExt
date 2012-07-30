@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Service.Repositories.Interfaces
@@ -7,6 +8,6 @@ namespace VX.Service.Repositories.Interfaces
     {
         IList<ITranslation> GetTranslations(int vocabBankId);
 
-        IServiceOperationResponse SaveTranslation(ITranslation translation, int vocabBankId);
+        IServiceOperationResponse SaveTranslation(ITranslation translation, out IManyToManyRelationship resultTranslation);
     }
 }

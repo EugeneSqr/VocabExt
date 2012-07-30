@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Autofac;
+using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
@@ -63,7 +64,14 @@ namespace VX.Service
         public IServiceOperationResponse SaveTranslation(Stream data)
         {
             var parsedPair = inputDataConverter.ParseBankTranslationPair(data);
-            return translationsRepository.SaveTranslation(parsedPair.Translation, parsedPair.VocabBankId);
+            IManyToManyRelationship translation;
+            IServiceOperationResponse result = translationsRepository.SaveTranslation(parsedPair.Translation, out translation);
+            if (translation != null)
+            {
+                result = vocabBanksRepository.AttachTranslation(parsedPair.VocabBankId, translation.Id);
+            }
+
+            return result;
         }
 
         public IServiceOperationResponse DetachTranslation(Stream data)

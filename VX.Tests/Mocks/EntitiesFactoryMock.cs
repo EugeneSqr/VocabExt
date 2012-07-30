@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
@@ -78,6 +79,16 @@ namespace VX.Tests.Mocks
                                          ? new List<ITranslation>()
                                          : new List<ITranslation> {new TranslationContract()}
                              };
+        }
+
+        public IManyToManyRelationship BuildManyToManyRelationship(int id, int sourceId, int targetId)
+        {
+            return new ManyToManyRelationship
+                       {
+                           Id = id,
+                           SourceId = sourceId,
+                           TargetId = targetId
+                       };
         }
 
         public ITag BuildTag(Tag tag)

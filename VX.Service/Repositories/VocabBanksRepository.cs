@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Objects;
 using System.Linq;
+using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
 using VX.Service.Factories.Interfaces;
@@ -81,6 +82,20 @@ namespace VX.Service.Repositories
 
                 return ServiceOperationResponseFactory.Build(true, string.Empty);
             }
+        }
+
+        public IServiceOperationResponse AttachTranslation(int vocabBankId, int translationId)
+        {
+            using (var context = new Entities(ServiceSettings.ConnectionString))
+            {
+                var translationToAttach = context.VocabBanksTranslations.CreateObject<VocabBanksTranslation>();
+                translationToAttach.VocabularyId = vocabBankId;
+                translationToAttach.TranslationId = translationId;
+                context.VocabBanksTranslations.AddObject(translationToAttach);
+                context.SaveChanges();
+            }
+
+            return ServiceOperationResponseFactory.Build(true, string.Empty);
         }
 
         private IList<IVocabBank> GetMultipleBanks(

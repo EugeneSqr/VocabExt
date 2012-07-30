@@ -1,5 +1,11 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using Autofac;
+using NUnit.Framework;
 using VX.Domain.DataContracts.Interfaces;
+using VX.Service.CompositeValidators;
+using VX.Service.CompositeValidators.Interfaces;
+using VX.Service.Infrastructure;
+using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
 
@@ -10,6 +16,24 @@ namespace VX.IntegrationTests.RepositoriesTests
     {
         public VocabBanksRepositoryTests()
         {
+            #region For checking attach/detach with another repo
+            ContainerBuilder.RegisterType<TranslationsRepository>()
+                .As<ITranslationsRepository>()
+                .InstancePerLifetimeScope();
+
+            ContainerBuilder.RegisterType<TranslationValidator>()
+                .As<ITranslationValidator>()
+                .InstancePerLifetimeScope();
+
+            ContainerBuilder.RegisterType<SearchStringBuilder>()
+                .As<ISearchStringBuilder>()
+                .InstancePerLifetimeScope();
+
+            ContainerBuilder.RegisterType<WordsRepository>()
+                .As<IWordsRepository>()
+                .InstancePerLifetimeScope();
+            #endregion
+
             BuildContainer();
         }
 
@@ -34,6 +58,29 @@ namespace VX.IntegrationTests.RepositoriesTests
             }
 
             Assert.Greater(actual[0].Tags.Count, 0);
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if attach translation attaches new translation")]
+        public void AttachTranslationTest()
+        {
+            SystemUnderTest.AttachTranslation(2, 1);
+            var repositoryForCheckingResultOfAttach = Container.Resolve<ITranslationsRepository>();
+            Assert.IsNotNull(
+                repositoryForCheckingResultOfAttach.GetTranslations(2).FirstOrDefault(item => item.Id == 1));
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if detach translation detaches translation")]
+        public void DetachTranslationTest()
+        {
+            SystemUnderTest.DetachTranslation(1, 1);
+            var repositoryForCheckingResultOfDetach = Container.Resolve<ITranslationsRepository>();
+            Assert.IsNull(
+                repositoryForCheckingResultOfDetach.GetTranslations(1).FirstOrDefault(item => item.Id == 1));
+
         }
     }
 }

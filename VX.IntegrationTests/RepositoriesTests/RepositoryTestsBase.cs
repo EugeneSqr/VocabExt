@@ -2,6 +2,7 @@
 using Autofac;
 using Moq;
 using NUnit.Framework;
+using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;

@@ -1,4 +1,4 @@
-﻿namespace VX.Domain.DataContracts.Interfaces
+﻿namespace VX.Domain
 {
     public interface IServiceOperationResponse
     {

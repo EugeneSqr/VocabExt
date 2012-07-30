@@ -2,6 +2,7 @@
 using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Web;
+using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 

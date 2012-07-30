@@ -84,6 +84,17 @@ namespace VX.Tests
                 () => SystemUnderTest.BuildTranslation((IDictionary<string, object>)null));
         }
 
+        [Test]
+        [Category("EntitiesFactoryTests")]
+        [Description("Checks if factory builds ManyToManyRelationship object correctly")]
+        public void BuildManyToManyRelationshipTest()
+        {
+            var actual = SystemUnderTest.BuildManyToManyRelationship(1, 2, 3);
+            Assert.AreEqual(1, actual.Id);
+            Assert.AreEqual(2, actual.SourceId);
+            Assert.AreEqual(3, actual.TargetId);
+        }
+
         private static IDictionary<string, object> ConstructLanguage(int id, string name, string abbreviation)
         {
             var language = new Dictionary<string, object>();

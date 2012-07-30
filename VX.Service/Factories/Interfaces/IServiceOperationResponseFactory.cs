@@ -1,4 +1,4 @@
-﻿using VX.Domain.DataContracts.Interfaces;
+﻿using VX.Domain;
 
 namespace VX.Service.Factories.Interfaces
 {

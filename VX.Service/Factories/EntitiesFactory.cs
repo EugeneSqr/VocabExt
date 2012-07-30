@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
@@ -93,6 +94,16 @@ namespace VX.Service.Factories
                                     .Select(item => BuildTranslation(item.Translation))
                                     .ToList()
                              };
+        }
+
+        public IManyToManyRelationship BuildManyToManyRelationship(int id, int sourceId, int targetId)
+        {
+            return new ManyToManyRelationship
+                       {
+                           Id = id,
+                           SourceId = sourceId,
+                           TargetId = targetId
+                       };
         }
 
         public ITag BuildTag(Tag tag)

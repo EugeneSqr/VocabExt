@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
 
@@ -19,6 +20,8 @@ namespace VX.Service.Factories.Interfaces
         ITranslation BuildTranslation(IDictionary<string, object> translation);
 
         IVocabBank BuildVocabBank(VocabBank vocabBank);
+
+        IManyToManyRelationship BuildManyToManyRelationship(int id, int sourceId, int targetId);
 
         ITag BuildTag(Tag tag);
     }

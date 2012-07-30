@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Service.Repositories.Interfaces
@@ -12,5 +13,7 @@ namespace VX.Service.Repositories.Interfaces
         IList<IVocabBank> GetVocabBanksList();
 
         IServiceOperationResponse DetachTranslation(int vocabBankId, int translationId);
+
+        IServiceOperationResponse AttachTranslation(int vocabBankId, int translationId);
     }
 }

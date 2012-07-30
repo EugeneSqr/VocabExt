@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Autofac;
 using Moq;
 using NUnit.Framework;
+using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.CompositeValidators.Interfaces;
@@ -14,7 +14,8 @@ namespace VX.IntegrationTests.RepositoriesTests
     [TestFixture]
     internal class TranslationsRepositoryTest : RepositoryTestsBase<ITranslationsRepository, TranslationsRepository>
     {
-        private readonly ITranslation goodTranslation = new TranslationContract
+        // This translation is correct and could be found by it's id
+        private readonly ITranslation goodExistByIdTranslation = new TranslationContract
                                                    {
                                                        Id = 1,
                                                        Source = new WordContract
@@ -26,6 +27,35 @@ namespace VX.IntegrationTests.RepositoriesTests
                                                                         Id = 4
                                                                     }
                                                    };
+
+        // This translation is correct, it could not be found by it's id but could be found by source and target ids
+        private readonly ITranslation goodNonExistByIdTranslation = new TranslationContract
+                                                                    {
+                                                                        Id = 9999,
+                                                                        Source = new WordContract
+                                                                                     {
+                                                                                         Id = 1
+                                                                                     },
+                                                                        Target = new WordContract
+                                                                                     {
+                                                                                         Id = 2
+                                                                                     }
+                                                                    };
+
+
+        // This translation is correct, but could not be found
+        private readonly ITranslation goodNonExistTranslation = new TranslationContract
+                                                                    {
+                                                                        Id = 9999,
+                                                                        Source = new WordContract
+                                                                                     {
+                                                                                         Id = 4
+                                                                                     },
+                                                                        Target = new WordContract
+                                                                                     {
+                                                                                         Id = 1
+                                                                                     }
+                                                                    };
 
         private readonly ITranslation badSourceTranslation = new TranslationContract
                                                         {
@@ -86,10 +116,35 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks of SaveTranslation updates translation correctly")]
         public void UpdateTranslationTest()
         {
-            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodTranslation, 1).Status);
-            var actual = SystemUnderTest.GetTranslations(1).First(item => item.Id == 1);
-            Assert.AreEqual(1, actual.Source.Id);
-            Assert.AreEqual(4, actual.Target.Id);
+            IManyToManyRelationship updatedTranslation;
+            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodExistByIdTranslation, out updatedTranslation).Status);
+            Assert.AreEqual(1, updatedTranslation.Id);
+            Assert.AreEqual(1, updatedTranslation.SourceId);
+            Assert.AreEqual(4, updatedTranslation.TargetId);
+        }
+
+        [Test]
+        [Category("TranslationsRepositoryTests")]
+        [Description("Checks if SaveTranslation creates translation correctly")]
+        public void CreateTranslationTest()
+        {
+            IManyToManyRelationship createdTranslation;
+            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodNonExistTranslation, out createdTranslation).Status);
+            Assert.AreNotEqual(0, createdTranslation.Id);
+            Assert.AreEqual(4, createdTranslation.SourceId);
+            Assert.AreEqual(1, createdTranslation.TargetId);
+        }
+
+        [Test]
+        [Category("TranslationsRepositoryTests")]
+        [Description("Checks if SaveTranslation finds translation by sourceId and targetId and updates it")]
+        public void UpdateTranslationCompositeKeyTest()
+        {
+            IManyToManyRelationship updatedTranslation;
+            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodNonExistByIdTranslation, out updatedTranslation).Status);
+            Assert.AreEqual(1, updatedTranslation.Id);
+            Assert.AreEqual(1, updatedTranslation.SourceId);
+            Assert.AreEqual(2, updatedTranslation.TargetId);
         }
 
         [Test]
@@ -97,7 +152,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if SaveTranslation rejects update because of source validation fails")]
         public void UpdateTranslationSourceValidationTest()
         {
-            Assert.IsFalse(SystemUnderTest.SaveTranslation(badSourceTranslation, 1).Status);
+            IManyToManyRelationship updatedTranslation;
+            Assert.IsFalse(SystemUnderTest.SaveTranslation(badSourceTranslation, out updatedTranslation).Status);
+            Assert.AreEqual(null, updatedTranslation);
         }
 
         [Test]
@@ -105,7 +162,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if SaveTranslation rejects update because of target validation fails")]
         public void UpdateTranslationTargetValidationTest()
         {
-            Assert.IsFalse(SystemUnderTest.SaveTranslation(badTargetTranslation, 1).Status);
+            IManyToManyRelationship updatedTranslation;
+            Assert.IsFalse(SystemUnderTest.SaveTranslation(badTargetTranslation, out updatedTranslation).Status);
+            Assert.AreEqual(null, updatedTranslation);
         }
 
         private ITranslationValidator MockTranslationValidator()
@@ -117,7 +176,7 @@ namespace VX.IntegrationTests.RepositoriesTests
             mock.Setup(item => item.Validate(badTargetTranslation))
                 .Returns(new ValidationResult("bad target"));
 
-            mock.Setup(item => item.Validate(goodTranslation))
+            mock.Setup(item => item.Validate(goodExistByIdTranslation))
                 .Returns(ValidationResult.Success);
 
             return mock.Object;

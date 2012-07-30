@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using VX.Domain.DataContracts.Interfaces;
 
-namespace VX.Domain.DataContracts
+namespace VX.Domain
 {
     [DataContract]
     public class ServiceOperationResponse : IServiceOperationResponse
