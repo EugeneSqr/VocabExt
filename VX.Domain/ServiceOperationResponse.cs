@@ -5,9 +5,10 @@ namespace VX.Domain
     [DataContract]
     public class ServiceOperationResponse : IServiceOperationResponse
     {
-        public ServiceOperationResponse(bool status)
+        public ServiceOperationResponse(bool status, ServiceOperationAction action)
         {
             Status = status;
+            OperationActionCode = (int)action;
         }
 
         [DataMember]
@@ -15,6 +16,9 @@ namespace VX.Domain
 
         [DataMember]
         public string StatusMessage { get; set; }
+
+        [DataMember]
+        public int OperationActionCode { get; private set; }
 
         [DataMember]
         public bool Status { get; private set; }

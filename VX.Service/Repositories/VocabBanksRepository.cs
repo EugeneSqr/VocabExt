@@ -77,25 +77,39 @@ namespace VX.Service.Repositories
                 }
                 catch(Exception)
                 {
-                    return ServiceOperationResponseFactory.Build(false, "item not found");
+                    return ServiceOperationResponseFactory.Build(
+                        false, 
+                        ServiceOperationAction.Detach, 
+                        "item not found");
                 }
 
-                return ServiceOperationResponseFactory.Build(true, string.Empty);
+                return ServiceOperationResponseFactory.Build(
+                    true, 
+                    ServiceOperationAction.Detach, 
+                    "detached successfully");
             }
         }
 
         public IServiceOperationResponse AttachTranslation(int vocabBankId, int translationId)
         {
+            var action = ServiceOperationAction.None;
             using (var context = new Entities(ServiceSettings.ConnectionString))
             {
-                var translationToAttach = context.VocabBanksTranslations.CreateObject<VocabBanksTranslation>();
-                translationToAttach.VocabularyId = vocabBankId;
-                translationToAttach.TranslationId = translationId;
-                context.VocabBanksTranslations.AddObject(translationToAttach);
-                context.SaveChanges();
+                var translation =
+                    context.VocabBanksTranslations.FirstOrDefault(
+                        item => item.VocabularyId == vocabBankId && item.TranslationId == translationId);
+                if (translation == null)
+                {
+                    action = ServiceOperationAction.Attach;
+                    translation = context.VocabBanksTranslations.CreateObject<VocabBanksTranslation>();
+                    translation.VocabularyId = vocabBankId;
+                    translation.TranslationId = translationId;
+                    context.VocabBanksTranslations.AddObject(translation);
+                    context.SaveChanges();
+                }
             }
 
-            return ServiceOperationResponseFactory.Build(true, "added");
+            return ServiceOperationResponseFactory.Build(true, action);
         }
 
         private IList<IVocabBank> GetMultipleBanks(

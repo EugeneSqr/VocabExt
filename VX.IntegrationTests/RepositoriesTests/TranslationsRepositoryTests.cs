@@ -117,7 +117,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void UpdateTranslationTest()
         {
             IManyToManyRelationship updatedTranslation;
-            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodExistByIdTranslation, out updatedTranslation).Status);
+            var actual = SystemUnderTest.SaveTranslation(goodExistByIdTranslation, out updatedTranslation);
+            Assert.IsTrue(actual.Status);
+            Assert.AreEqual((int)ServiceOperationAction.Update, actual.OperationActionCode);
             Assert.AreEqual(1, updatedTranslation.Id);
             Assert.AreEqual(1, updatedTranslation.SourceId);
             Assert.AreEqual(4, updatedTranslation.TargetId);
@@ -129,7 +131,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void CreateTranslationTest()
         {
             IManyToManyRelationship createdTranslation;
-            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodNonExistTranslation, out createdTranslation).Status);
+            var actual = SystemUnderTest.SaveTranslation(goodNonExistTranslation, out createdTranslation);
+            Assert.IsTrue(actual.Status);
+            Assert.AreEqual((int)ServiceOperationAction.Create, actual.OperationActionCode);
             Assert.AreNotEqual(0, createdTranslation.Id);
             Assert.AreEqual(4, createdTranslation.SourceId);
             Assert.AreEqual(1, createdTranslation.TargetId);
@@ -141,7 +145,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void UpdateTranslationCompositeKeyTest()
         {
             IManyToManyRelationship updatedTranslation;
-            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodNonExistByIdTranslation, out updatedTranslation).Status);
+            var actual = SystemUnderTest.SaveTranslation(goodNonExistByIdTranslation, out updatedTranslation);
+            Assert.IsTrue(actual.Status);
+            Assert.AreEqual((int)ServiceOperationAction.Update, actual.OperationActionCode);
             Assert.AreEqual(1, updatedTranslation.Id);
             Assert.AreEqual(1, updatedTranslation.SourceId);
             Assert.AreEqual(2, updatedTranslation.TargetId);

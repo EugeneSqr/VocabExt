@@ -60,18 +60,29 @@ namespace VX.Service.Repositories
             out IManyToManyRelationship resultTranslation)
         {
             resultTranslation = null;
+            var action = ServiceOperationAction.Update;
             using (var context = new Entities(ServiceSettings.ConnectionString))
             {
-                var targetTranslation = GetTranslation(translation.Id) ??
-                                        GetTranslation(translation.Source.Id, translation.Target.Id)
-                                        ?? context.Translations.CreateObject<Translation>();
+                var targetTranslation = GetTranslation(translation.Id);
+                if (targetTranslation == null)
+                {
+                    targetTranslation = GetTranslation(translation.Source.Id, translation.Target.Id);
+                    if (targetTranslation == null)
+                    {
+                        targetTranslation = context.Translations.CreateObject<Translation>();
+                        action = ServiceOperationAction.Create;
+                    }
+                }
                 
                 targetTranslation.SourceId = translation.Source.Id;
                 targetTranslation.TargetId = translation.Target.Id;
                 
                 if (translationValidator.Validate(translation) != ValidationResult.Success)
                 {
-                    return ServiceOperationResponseFactory.Build(false, "Validation failed");
+                    return ServiceOperationResponseFactory.Build(
+                        false, 
+                        action, 
+                        "Validation failed");
                 }
 
                 if (targetTranslation.EntityState == EntityState.Detached)
@@ -86,7 +97,7 @@ namespace VX.Service.Repositories
                     targetTranslation.TargetId);
             }
 
-            return ServiceOperationResponseFactory.Build(true, "updated");
+            return ServiceOperationResponseFactory.Build(true, action, "updated successfully");
         }
 
         private Translation GetTranslation(int translationId)

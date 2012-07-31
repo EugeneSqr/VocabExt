@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Autofac;
 using NUnit.Framework;
+using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.CompositeValidators;
 using VX.Service.CompositeValidators.Interfaces;
@@ -65,7 +66,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if attach translation attaches new translation")]
         public void AttachTranslationTest()
         {
-            SystemUnderTest.AttachTranslation(2, 1);
+            Assert.AreEqual(
+                (int)ServiceOperationAction.Attach, 
+                SystemUnderTest.AttachTranslation(2, 1).OperationActionCode);
             var repositoryForCheckingResultOfAttach = Container.Resolve<ITranslationsRepository>();
             Assert.IsNotNull(
                 repositoryForCheckingResultOfAttach.GetTranslations(2).FirstOrDefault(item => item.Id == 1));
@@ -73,10 +76,22 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if attach translation does not attach translation that already exist in a bank")]
+        public void AttachExistantTranslationTest()
+        {
+            Assert.AreEqual(
+                (int)ServiceOperationAction.None, 
+                SystemUnderTest.AttachTranslation(1, 1).OperationActionCode);
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
         [Description("Checks if detach translation detaches translation")]
         public void DetachTranslationTest()
         {
-            SystemUnderTest.DetachTranslation(1, 1);
+            Assert.AreEqual(
+                (int)ServiceOperationAction.Detach, 
+                SystemUnderTest.DetachTranslation(1, 1).OperationActionCode);
             var repositoryForCheckingResultOfDetach = Container.Resolve<ITranslationsRepository>();
             Assert.IsNull(
                 repositoryForCheckingResultOfDetach.GetTranslations(1).FirstOrDefault(item => item.Id == 1));
