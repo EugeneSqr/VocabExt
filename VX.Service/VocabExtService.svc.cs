@@ -30,25 +30,25 @@ namespace VX.Service
 
         public ITask GetTask()
         {
-            var vocabBanks = vocabBanksRepository.GetVocabBanks();
+            var vocabBanks = vocabBanksRepository.Get();
             return tasksFactory.BuildTask(vocabBanks);
         }
 
         public IList<ITask> GetTasks()
         {
-            var vocabBanks = vocabBanksRepository.GetVocabBanks();
+            var vocabBanks = vocabBanksRepository.Get();
             return tasksFactory.BuildTasks(vocabBanks, serviceSettings.DefaultTasksCount);
         }
 
         public IList<ITask> GetTasks(int[] vocabBanksIds)
         {
-            var vocabBanks = vocabBanksRepository.GetVocabBanks(vocabBanksIds);
+            var vocabBanks = vocabBanksRepository.Get(vocabBanksIds);
             return tasksFactory.BuildTasks(vocabBanks, serviceSettings.DefaultTasksCount);
         }
 
         public IList<IVocabBank> GetVocabBanksList()
         {
-            return vocabBanksRepository.GetVocabBanksList();
+            return vocabBanksRepository.GetListWithoutTranslations();
         }
 
         public IList<ITranslation> GetTranslations(string vocabBankId)
@@ -78,6 +78,12 @@ namespace VX.Service
         {
             var parsedPair = inputDataConverter.ParsePair(data);
             return vocabBanksRepository.DetachTranslation(parsedPair.ParentId, parsedPair.ChildId);
+        }
+
+        public IServiceOperationResponse UpdateBankHeaders(Stream data)
+        {
+            return vocabBanksRepository.UpdateHeaders(
+                inputDataConverter.ParseBankHeaders(data));
         }
     }
 }

@@ -21,6 +21,8 @@ namespace VX.Service.Factories.Interfaces
 
         IVocabBank BuildVocabBank(VocabBank vocabBank);
 
+        IVocabBank BuildVocabBankHeaders(IDictionary<string, object> vocabBank);
+
         IManyToManyRelationship BuildManyToManyRelationship(int id, int sourceId, int targetId);
 
         ITag BuildTag(Tag tag);

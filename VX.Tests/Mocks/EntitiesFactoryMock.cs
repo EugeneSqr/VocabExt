@@ -81,6 +81,15 @@ namespace VX.Tests.Mocks
                              };
         }
 
+        public IVocabBank BuildVocabBankHeaders(IDictionary<string, object> vocabBank)
+        {
+            return new VocabBankContract
+                       {
+                           Name = vocabBank["Name"].ToString(),
+                           Description = vocabBank["Description"].ToString()
+                       };
+        }
+
         public IManyToManyRelationship BuildManyToManyRelationship(int id, int sourceId, int targetId)
         {
             return new ManyToManyRelationship

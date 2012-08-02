@@ -95,6 +95,18 @@ namespace VX.Tests
             Assert.AreEqual(3, actual.TargetId);
         }
 
+        [Test]
+        [Category("EntitiesFactoryTests")]
+        [Description("Checks if factory builds vocab bank from deserialized json string")]
+        public void BuildVocabBankHeadersJsonDeserializedTest()
+        {
+            var actual = SystemUnderTest.BuildVocabBankHeaders(
+                ConstructVocabBankHeaders(1, "name", "description"));
+            Assert.AreEqual(1, actual.Id);
+            Assert.AreEqual("name", actual.Name);
+            Assert.AreEqual("description", actual.Description);
+        }
+
         private static IDictionary<string, object> ConstructLanguage(int id, string name, string abbreviation)
         {
             var language = new Dictionary<string, object>();
@@ -130,6 +142,18 @@ namespace VX.Tests
             return translation;
         }
 
+        private static IDictionary<string, object> ConstructVocabBankHeaders(
+            int id, 
+            string name, 
+            string description)
+        {
+            var vocabBank = new Dictionary<string, object>();
+            vocabBank["VocabBankId"] = id;
+            vocabBank["Name"] = name;
+            vocabBank["Description"] = description;
+            return vocabBank;
+        }
+
         private static void CheckLanguage(int expectedId, string expectedName, string expectedAbbreviation, ILanguage actual)
         {
             Assert.AreEqual(expectedId, actual.Id);
@@ -156,6 +180,5 @@ namespace VX.Tests
                 langAbbreviation, 
                 actual.Language);
         }
-
     }
 }

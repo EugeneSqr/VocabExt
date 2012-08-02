@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Service.Infrastructure.Interfaces
 {
@@ -11,5 +12,7 @@ namespace VX.Service.Infrastructure.Interfaces
         IParentChildIdPair ParsePair(Stream data);
 
         IBankTranslationPair ParseBankTranslationPair(Stream data);
+
+        IVocabBank ParseBankHeaders(Stream data);
     }
 }

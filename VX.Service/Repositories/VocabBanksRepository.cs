@@ -23,11 +23,17 @@ namespace VX.Service.Repositories
             ICacheKeyFactory cacheKeyFactory,
             IServiceOperationResponseFactory serviceOperationResponseFactory,
             IInputDataConverter inputDataConverter) 
-            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
+            : base(
+                serviceSettings, 
+                entitiesFactory, 
+                cacheFacade, 
+                cacheKeyFactory, 
+                serviceOperationResponseFactory, 
+                inputDataConverter)
         {
         }
 
-        public IList<IVocabBank> GetVocabBanks()
+        public IList<IVocabBank> Get()
         {
             var cacheKey = CacheKeyFactory.BuildKey(ServiceName, string.Empty);
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction = 
@@ -39,7 +45,7 @@ namespace VX.Service.Repositories
             return GetMultipleBanks(cacheKey, retrievingFunction, true);
         }
 
-        public IList<IVocabBank> GetVocabBanks(int[] vocabBanksIds)
+        public IList<IVocabBank> Get(int[] vocabBanksIds)
         {
             var cacheKey = CacheKeyFactory.BuildKey(ServiceName, vocabBanksIds);
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction =
@@ -52,7 +58,7 @@ namespace VX.Service.Repositories
             return GetMultipleBanks(cacheKey, retrievingFunction, true);
         }
 
-        public IList<IVocabBank> GetVocabBanksList()
+        public IList<IVocabBank> GetListWithoutTranslations()
         {
             var cacheKey = CacheKeyFactory.BuildKey(ServiceName, string.Empty);
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction =
@@ -62,6 +68,22 @@ namespace VX.Service.Repositories
                     .ToList();
 
             return GetMultipleBanks(cacheKey, retrievingFunction, false);
+        }
+
+        public IServiceOperationResponse UpdateHeaders(IVocabBank vocabBank)
+        {
+            using (var context = new Entities(ServiceSettings.ConnectionString))
+            {
+                var bankToUpdate = context.VocabBanks.FirstOrDefault(bank => bank.Id == vocabBank.Id);
+                if (bankToUpdate != null)
+                {
+                    bankToUpdate.Name = vocabBank.Name;
+                    bankToUpdate.Description = vocabBank.Description;
+                    context.SaveChanges();
+                }
+            }
+
+            return ServiceOperationResponseFactory.Build(true, ServiceOperationAction.Update);
         }
 
         public IServiceOperationResponse DetachTranslation(int vocabBankId, int translationId)
@@ -126,7 +148,7 @@ namespace VX.Service.Repositories
                     result = retrievingFunction(context.VocabBanks);
                 }
 
-                CacheFacade.PutIntoCache(result, cacheKey);
+                CacheFacade.PutIntoCache(result, cacheKey, new[] { "VocabBanks" });
             }
             
             return result;

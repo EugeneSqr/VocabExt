@@ -46,11 +46,13 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Extensions" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CacheKeyFactoryTests.cs" />
     <Compile Include="EntitiesFactoryTests.cs" />
     <Compile Include="InputDataConverterTests.cs" />
+    <Compile Include="Mocks\JavaScriptConvertersFactoryMock.cs" />
     <Compile Include="Mocks\EntitiesFactoryMock.cs" />
     <Compile Include="Mocks\RandomFacadeMock.cs" />
     <Compile Include="SearchStringBuilderTests.cs" />

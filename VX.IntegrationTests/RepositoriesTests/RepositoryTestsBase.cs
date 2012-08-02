@@ -80,8 +80,11 @@ namespace VX.IntegrationTests.RepositoriesTests
         private static IServiceOperationResponseFactory MockServiceOperationResponceFactory()
         {
             var mock = new Mock<IServiceOperationResponseFactory>();
-            mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<ServiceOperationAction>(), It.IsAny<string>())).Returns(
-                (bool status, ServiceOperationAction action, string message) => new ServiceOperationResponse(status, action) { StatusMessage = message});
+            mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<ServiceOperationAction>(), It.IsAny<string>()))
+                .Returns((bool status, ServiceOperationAction action, string message) => new ServiceOperationResponse(status, action) { StatusMessage = message });
+
+            mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<ServiceOperationAction>()))
+                .Returns((bool status, ServiceOperationAction action) => new ServiceOperationResponse(status, action));
 
             return mock.Object;
         }

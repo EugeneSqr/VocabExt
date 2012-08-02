@@ -71,8 +71,10 @@
     <Compile Include="Factories\EntitiesFactory.cs" />
     <Compile Include="Factories\Interfaces\ICacheKeyFactory.cs" />
     <Compile Include="Factories\Interfaces\IEntitiesFactory.cs" />
+    <Compile Include="Factories\Interfaces\IJavaScriptConvertersFactory.cs" />
     <Compile Include="Factories\Interfaces\IServiceOperationResponseFactory.cs" />
     <Compile Include="Factories\Interfaces\ITasksFactory.cs" />
+    <Compile Include="Factories\JavaScroptConvertersFactory.cs" />
     <Compile Include="Factories\ServiceOperationResponseFactory.cs" />
     <Compile Include="Infrastructure\BankTranslationPair.cs" />
     <Compile Include="Infrastructure\CacheFacade.cs" />
@@ -84,7 +86,9 @@
     <Compile Include="Infrastructure\Interfaces\ISearchStringBuilder.cs" />
     <Compile Include="Infrastructure\Interfaces\ISynonymSelector.cs" />
     <Compile Include="Infrastructure\Interfaces\ITaskValidator.cs" />
-    <Compile Include="Infrastructure\JavaScriptConverters\BankTranslationConverter.cs" />
+    <Compile Include="Infrastructure\JavaScriptConverters\ParentChildIdPairConverter.cs" />
+    <Compile Include="Infrastructure\JavaScriptConverters\VocabBankTranslationConverter.cs" />
+    <Compile Include="Infrastructure\JavaScriptConverters\VocabBankHeadersConverter.cs" />
     <Compile Include="Infrastructure\ParentChildIdPair.cs" />
     <Compile Include="Infrastructure\SearchStringBuilder.cs" />
     <Compile Include="Infrastructure\SynonymSelector.cs" />

@@ -86,6 +86,10 @@ namespace VX.Service
                 .As<IInputDataConverter>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<JavaScroptConvertersFactory>()
+                .As<IJavaScriptConvertersFactory>()
+                .InstancePerLifetimeScope();
+
             Container = builder.Build();
         }
     }

@@ -44,5 +44,9 @@ namespace VX.Service
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
         IServiceOperationResponse DetachTranslation(Stream data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
+        IServiceOperationResponse UpdateBankHeaders(Stream data);
     }
 }

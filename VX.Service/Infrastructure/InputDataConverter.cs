@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using System.Web.Script.Serialization;
-using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
-using VX.Service.Infrastructure.JavaScriptConverters;
 
 namespace VX.Service.Infrastructure
 {
     public class InputDataConverter : IInputDataConverter
     {
-        private readonly IEntitiesFactory entitiesFactory;
+        private readonly IJavaScriptConvertersFactory convertersFactory;
 
-        public InputDataConverter(IEntitiesFactory entitiesFactory)
+        public InputDataConverter(IJavaScriptConvertersFactory convertersFactory)
         {
-            this.entitiesFactory = entitiesFactory;
+            this.convertersFactory = convertersFactory;
         }
 
         public int EmptyId
@@ -36,24 +31,31 @@ namespace VX.Service.Infrastructure
 
         public IParentChildIdPair ParsePair(Stream data)
         {
-            var serializer = new JavaScriptSerializer();
-            try
-            {
-                var deserialized = serializer.Deserialize<Dictionary<string, int>>(new StreamReader(data).ReadToEnd());
-                return new ParentChildIdPair(deserialized["parent"], deserialized["child"]);
-            }
-            catch (ArgumentException)
-            {
-                return null;
-            }
+            return Parse<IParentChildIdPair>(data, "ParentChildIdPairConverter");
         }
 
         public IBankTranslationPair ParseBankTranslationPair(Stream data)
         {
+            return Parse<IBankTranslationPair>(data, "VocabBankTranslationConverter");
+        }
+
+        public IVocabBank ParseBankHeaders(Stream data)
+        {
+            return Parse<IVocabBank>(data, "VocabBankHeadersConverter");
+        }
+
+        private T Parse<T>(Stream data, string converterName)
+        {
             var serializer = new JavaScriptSerializer();
-            serializer.RegisterConverters(new JavaScriptConverter[] {new BankTranslationConverter(entitiesFactory) });
-            var deserialized = serializer.Deserialize<BankTranslationPair>(new StreamReader(data).ReadToEnd());
-            return deserialized;
+            serializer.RegisterConverters(new[] {convertersFactory.Build(converterName)});
+            try
+            {
+                return serializer.Deserialize<T>(new StreamReader(data).ReadToEnd());
+            }
+            catch (ArgumentException)
+            {
+                return default(T);
+            }
         }
     }
 }
