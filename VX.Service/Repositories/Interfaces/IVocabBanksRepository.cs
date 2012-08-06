@@ -6,11 +6,17 @@ namespace VX.Service.Repositories.Interfaces
 {
     public interface IVocabBanksRepository
     {
+        string NewVocabBankName { get; }
+
         IList<IVocabBank> Get();
 
         IList<IVocabBank> Get(int[] vocabBanksIds);
 
         IList<IVocabBank> GetListWithoutTranslations();
+
+        IVocabBank Create();
+
+        IServiceOperationResponse Delete(int vocabBankId);
 
         IServiceOperationResponse UpdateHeaders(IVocabBank vocabBank);
             

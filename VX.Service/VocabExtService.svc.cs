@@ -61,6 +61,16 @@ namespace VX.Service
             return wordsRepository.GetWords(searchString);
         }
 
+        public IVocabBank CreateNewVocabularyBank()
+        {
+            return vocabBanksRepository.Create();
+        }
+
+        public IServiceOperationResponse DeleteVocabularyBank(string vocabBankId)
+        {
+            return vocabBanksRepository.Delete(inputDataConverter.Convert(vocabBankId));
+        }
+
         public IServiceOperationResponse SaveTranslation(Stream data)
         {
             var parsedPair = inputDataConverter.ParseBankTranslationPair(data);

@@ -38,6 +38,14 @@ namespace VX.Service
         IList<IWord> GetWords(string searchString);
 
         [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json)]
+        IVocabBank CreateNewVocabularyBank();
+
+        [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "DeleteVocabularyBank/{vocabBankId}")]
+        IServiceOperationResponse DeleteVocabularyBank(string vocabBankId);
+
+        [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
         IServiceOperationResponse SaveTranslation(Stream data);
 

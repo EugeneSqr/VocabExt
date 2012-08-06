@@ -6,6 +6,7 @@
         Attach,
         Detach,
         Update,
-        Create
+        Create,
+        Delete
     }
 }

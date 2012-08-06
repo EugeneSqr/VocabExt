@@ -2,7 +2,6 @@
 using Autofac;
 using NUnit.Framework;
 using VX.Domain;
-using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.CompositeValidators;
 using VX.Service.CompositeValidators.Interfaces;
@@ -102,7 +101,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Test]
         [Category("VocabBanksRepositoryTests")]
         [Description("Check if UpdateHeaders updates Name and Description of the bank")]
-        public void UpdateHeaders()
+        public void UpdateHeadersTest()
         {
             var bankForUpdate = SystemUnderTest.Get()[0];
             bankForUpdate.Name = "new name";
@@ -111,6 +110,45 @@ namespace VX.IntegrationTests.RepositoriesTests
             var actual = SystemUnderTest.Get()[0];
             Assert.AreEqual("new name", actual.Name);
             Assert.AreEqual("new description", actual.Description);
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if Create creates new empty bank")]
+        public void CreateTest()
+        {
+            var actual = SystemUnderTest.Create();
+            Assert.IsNotNull(actual);
+            Assert.Greater(actual.Id, 0);
+            Assert.AreEqual(SystemUnderTest.NewVocabBankName, actual.Name);
+            Assert.IsNull(actual.Description);
+            Assert.IsNotNull(actual.Translations);
+            Assert.AreEqual(0, actual.Translations.Count);
+            Assert.IsNotNull(actual.Tags);
+            Assert.AreEqual(0, actual.Tags.Count);
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if Delete deletes specified vocabulary bank")]
+        public void DeleteTest()
+        {
+            var actual = SystemUnderTest.Delete(1);
+            Assert.AreEqual(true, actual.Status);
+            Assert.AreEqual((int)ServiceOperationAction.Delete, actual.OperationActionCode);
+            Assert.AreEqual("1", actual.StatusMessage);
+            Assert.AreEqual(0, SystemUnderTest.Get(new[] { 1 }).Count);
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if Delete fails to delete a bank if it doesn't exist")]
+        public void DeleteFailTest()
+        {
+            var actual = SystemUnderTest.Delete(999);
+            Assert.AreEqual(false, actual.Status);
+            Assert.AreEqual((int)ServiceOperationAction.Delete, actual.OperationActionCode);
+            Assert.IsNotNullOrEmpty(actual.StatusMessage);
         }
     }
 }

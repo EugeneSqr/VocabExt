@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Objects;
+using System.Globalization;
 using System.Linq;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
@@ -31,6 +32,11 @@ namespace VX.Service.Repositories
                 serviceOperationResponseFactory, 
                 inputDataConverter)
         {
+        }
+
+        public string NewVocabBankName
+        {
+            get { return "New Vocab Bank"; }
         }
 
         public IList<IVocabBank> Get()
@@ -68,6 +74,48 @@ namespace VX.Service.Repositories
                     .ToList();
 
             return GetMultipleBanks(cacheKey, retrievingFunction, false);
+        }
+
+        public IVocabBank Create()
+        {
+            IVocabBank result;
+            using (var context = new Entities(ServiceSettings.ConnectionString))
+            {
+                var newVocabBank = context.VocabBanks.CreateObject();
+                newVocabBank.Name = NewVocabBankName;
+                context.VocabBanks.AddObject(newVocabBank);
+                context.SaveChanges();
+                result = EntitiesFactory.BuildVocabBank(newVocabBank);
+            }
+
+            return result;
+        }
+
+        public IServiceOperationResponse Delete(int vocabBankId)
+        {
+            IServiceOperationResponse result;
+            using (var context = new Entities(ServiceSettings.ConnectionString))
+            {
+                var bankToDelete = context.VocabBanks.FirstOrDefault(item => item.Id == vocabBankId);
+                if (bankToDelete != null)
+                {
+                    context.VocabBanks.DeleteObject(bankToDelete);
+                    context.SaveChanges();
+                    result = ServiceOperationResponseFactory.Build(
+                        true, 
+                        ServiceOperationAction.Delete, 
+                        vocabBankId.ToString(CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    result = ServiceOperationResponseFactory.Build(
+                    false,
+                    ServiceOperationAction.Delete,
+                    "Vocabulary bank is not found");
+                }
+            }
+
+            return result;
         }
 
         public IServiceOperationResponse UpdateHeaders(IVocabBank vocabBank)
