@@ -68,8 +68,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Factories\CacheKeyFactory.cs" />
+    <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\EntitiesFactory.cs" />
     <Compile Include="Factories\Interfaces\ICacheKeyFactory.cs" />
+    <Compile Include="Factories\Interfaces\IContextFactory.cs" />
     <Compile Include="Factories\Interfaces\IEntitiesFactory.cs" />
     <Compile Include="Factories\Interfaces\IJavaScriptConvertersFactory.cs" />
     <Compile Include="Factories\Interfaces\IServiceOperationResponseFactory.cs" />

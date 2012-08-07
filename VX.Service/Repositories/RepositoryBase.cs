@@ -5,7 +5,7 @@ namespace VX.Service.Repositories
 {
     public abstract class RepositoryBase
     {
-        protected readonly IServiceSettings ServiceSettings;
+        protected readonly IContextFactory ContextFactory;
         protected readonly IEntitiesFactory EntitiesFactory;
         protected readonly ICacheFacade CacheFacade;
         protected readonly ICacheKeyFactory CacheKeyFactory;
@@ -13,14 +13,14 @@ namespace VX.Service.Repositories
         protected readonly IInputDataConverter InputDataConverter;
 
         protected RepositoryBase(
-            IServiceSettings serviceSettings, 
+            IContextFactory contextFactory,
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory,
             IServiceOperationResponseFactory serviceOperationResponseFactory,
             IInputDataConverter inputDataConverter)
         {
-            ServiceSettings = serviceSettings;
+            ContextFactory = contextFactory;
             EntitiesFactory = entitiesFactory;
             CacheFacade = cacheFacade;
             CacheKeyFactory = cacheKeyFactory;

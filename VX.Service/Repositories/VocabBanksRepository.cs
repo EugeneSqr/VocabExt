@@ -18,19 +18,12 @@ namespace VX.Service.Repositories
         private const string TagsQueryPath = "VocabBanksTags.Tag";
 
         public VocabBanksRepository(
-            IServiceSettings serviceSettings, 
+            IContextFactory contextFactory, 
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory,
-            IServiceOperationResponseFactory serviceOperationResponseFactory,
-            IInputDataConverter inputDataConverter) 
-            : base(
-                serviceSettings, 
-                entitiesFactory, 
-                cacheFacade, 
-                cacheKeyFactory, 
-                serviceOperationResponseFactory, 
-                inputDataConverter)
+            ICacheKeyFactory cacheKeyFactory, 
+            IServiceOperationResponseFactory serviceOperationResponseFactory, 
+            IInputDataConverter inputDataConverter) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
         {
         }
 
@@ -79,7 +72,7 @@ namespace VX.Service.Repositories
         public IVocabBank Create()
         {
             IVocabBank result;
-            using (var context = new Entities(ServiceSettings.ConnectionString))
+            using (var context = ContextFactory.Build())
             {
                 var newVocabBank = context.VocabBanks.CreateObject();
                 newVocabBank.Name = NewVocabBankName;
@@ -94,7 +87,7 @@ namespace VX.Service.Repositories
         public IServiceOperationResponse Delete(int vocabBankId)
         {
             IServiceOperationResponse result;
-            using (var context = new Entities(ServiceSettings.ConnectionString))
+            using (var context = ContextFactory.Build())
             {
                 var bankToDelete = context.VocabBanks.FirstOrDefault(item => item.Id == vocabBankId);
                 if (bankToDelete != null)
@@ -120,7 +113,7 @@ namespace VX.Service.Repositories
 
         public IServiceOperationResponse UpdateHeaders(IVocabBank vocabBank)
         {
-            using (var context = new Entities(ServiceSettings.ConnectionString))
+            using (var context = ContextFactory.Build())
             {
                 var bankToUpdate = context.VocabBanks.FirstOrDefault(bank => bank.Id == vocabBank.Id);
                 if (bankToUpdate != null)
@@ -136,7 +129,7 @@ namespace VX.Service.Repositories
 
         public IServiceOperationResponse DetachTranslation(int vocabBankId, int translationId)
         {
-            using (var context = new Entities(ServiceSettings.ConnectionString))
+            using (var context = ContextFactory.Build())
             {
                 try
                 {
@@ -163,7 +156,7 @@ namespace VX.Service.Repositories
         public IServiceOperationResponse AttachTranslation(int vocabBankId, int translationId)
         {
             var action = ServiceOperationAction.None;
-            using (var context = new Entities(ServiceSettings.ConnectionString))
+            using (var context = ContextFactory.Build())
             {
                 var translation =
                     context.VocabBanksTranslations.FirstOrDefault(
@@ -190,7 +183,7 @@ namespace VX.Service.Repositories
             IList<IVocabBank> result;
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
-                using (var context = new Entities(ServiceSettings.ConnectionString))
+                using (var context = ContextFactory.Build())
                 {
                     context.ContextOptions.LazyLoadingEnabled = useLazyLoading;
                     result = retrievingFunction(context.VocabBanks);

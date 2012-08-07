@@ -13,19 +13,27 @@ namespace VX.IntegrationTests.RepositoriesTests
         }
 
         [Test]
-        [Category("LanguageRepository")]
-        [Description("Checks GetLanguage method returns correct value")]
-        public void LanguageRepositoryGetLanguageTest()
+        [Category("LanguageRepositoryTests")]
+        [Description("Checks if GetLanguage method returns correct value")]
+        public void GetLanguageTest()
         {
-            Assert.AreNotEqual(SystemUnderTest.GetLanguage(1), null);
+            Assert.IsNotNull(SystemUnderTest.GetLanguage(1));
         }
 
         [Test]
-        [Category("LanguageRepository")]
-        [Description("Checks GetLanguage method returns empty value if language doesn't exist")]
-        public void LanguageRepositoryGetLanguageEmptyTest()
+        [Category("LanguageRepositoryTests")]
+        [Description("Checks if GetLanguage method returns empty value if language doesn't exist")]
+        public void GetLanguageEmptyTest()
         {
-            Assert.AreEqual(SystemUnderTest.GetLanguage(-1), null);
+            Assert.IsNull(SystemUnderTest.GetLanguage(-1), null);
+        }
+
+        [Test]
+        [Category("LanguageRepositoryTests")]
+        [Description("Checks if GetLanguages method returns all languages")]
+        public void GetLanguagesTest()
+        {
+            Assert.AreEqual(2, SystemUnderTest.GetLanguages().Count);
         }
     }
 }

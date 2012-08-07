@@ -17,18 +17,17 @@ namespace VX.Service.Repositories
         private readonly ITranslationValidator translationValidator;
 
         public TranslationsRepository(
-            IServiceSettings serviceSettings, 
+            IContextFactory contextFactory,
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory,
-            ITranslationValidator translationValidator,
-            IServiceOperationResponseFactory serviceOperationResponseFactory,
-            IInputDataConverter inputDataConverter) 
-            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
+            ICacheKeyFactory cacheKeyFactory, 
+            IServiceOperationResponseFactory serviceOperationResponseFactory, 
+            IInputDataConverter inputDataConverter, 
+            ITranslationValidator translationValidator) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
         {
             this.translationValidator = translationValidator;
         }
-        
+
         public IList<ITranslation> GetTranslations(int vocabBankId)
         {
             if (vocabBankId == InputDataConverter.EmptyId)
@@ -40,7 +39,7 @@ namespace VX.Service.Repositories
             List<ITranslation> result;
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
-                using (var context = new Entities(ServiceSettings.ConnectionString))
+                using (var context = ContextFactory.Build())
                 {
                     result = context.VocabBanksTranslations
                         .Where(item => item.VocabularyId == vocabBankId)
@@ -61,7 +60,7 @@ namespace VX.Service.Repositories
         {
             resultTranslation = null;
             var action = ServiceOperationAction.Update;
-            using (var context = new Entities(ServiceSettings.ConnectionString))
+            using (var context = ContextFactory.Build())
             {
                 var targetTranslation = GetTranslation(translation.Id);
                 if (targetTranslation == null)
@@ -111,7 +110,7 @@ namespace VX.Service.Repositories
             Translation result;
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
-                using (var context = new Entities(ServiceSettings.ConnectionString))
+                using (var context = ContextFactory.Build())
                 {
                     var translation = context.Translations.FirstOrDefault(item => item.Id == translationId);
                     if (translation != null)
@@ -140,7 +139,7 @@ namespace VX.Service.Repositories
             Translation result;
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
-                using (var context = new Entities(ServiceSettings.ConnectionString))
+                using (var context = ContextFactory.Build())
                 {
                     var translation = context.Translations.FirstOrDefault(
                         item => item.SourceId == sourceId && item.TargetId == targetId);

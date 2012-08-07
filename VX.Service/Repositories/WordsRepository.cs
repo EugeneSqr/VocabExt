@@ -13,14 +13,13 @@ namespace VX.Service.Repositories
         private readonly ISearchStringBuilder searchStringBuilder;
 
         public WordsRepository(
-            IServiceSettings serviceSettings, 
+            IContextFactory contextFactory, 
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory,
-            ISearchStringBuilder searchStringBuilder,
-            IServiceOperationResponseFactory serviceOperationResponseFactory,
-            IInputDataConverter inputDataConverter) 
-            : base(serviceSettings, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
+            ICacheKeyFactory cacheKeyFactory, 
+            IServiceOperationResponseFactory serviceOperationResponseFactory, 
+            IInputDataConverter inputDataConverter, 
+            ISearchStringBuilder searchStringBuilder) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
         {
             this.searchStringBuilder = searchStringBuilder;
         }
@@ -34,7 +33,7 @@ namespace VX.Service.Repositories
                 var actualSearchString = searchStringBuilder.BuildSearchString(searchString);
                 if (!string.IsNullOrEmpty(actualSearchString))
                 {
-                    using (Entities context = new Entities(ServiceSettings.ConnectionString))
+                    using (Entities context = ContextFactory.Build())
                     {
                         result = context.Words
                             .Where(word => word.Spelling.StartsWith(actualSearchString))
@@ -60,7 +59,7 @@ namespace VX.Service.Repositories
             var cacheKey = CacheKeyFactory.BuildKey("WordsRepositoy.GetWord", id);
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
-                using (var context = new Entities(ServiceSettings.ConnectionString))
+                using (var context = ContextFactory.Build())
                 {
                     result = EntitiesFactory.BuildWord(
                         context.Words.FirstOrDefault(item => item.Id == id));

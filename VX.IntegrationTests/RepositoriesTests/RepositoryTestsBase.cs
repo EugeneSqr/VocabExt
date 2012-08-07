@@ -3,6 +3,7 @@ using Autofac;
 using Moq;
 using NUnit.Framework;
 using VX.Domain;
+using VX.IntegrationTests.Mocks;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests;
@@ -32,10 +33,10 @@ namespace VX.IntegrationTests.RepositoriesTests
             ContainerBuilder.RegisterInstance(MockInputDataConverter())
                 .As<IInputDataConverter>()
                 .SingleInstance();
-            
-            ContainerBuilder.RegisterType<ServiceSettingsMock>()
-                .As<IServiceSettings>()
-                .InstancePerLifetimeScope();
+
+            ContainerBuilder.RegisterType<ContextFactoryMock>()
+                .As<IContextFactory>()
+                .SingleInstance();
 
             ContainerBuilder.RegisterType<EntitiesFactoryMock>()
                 .As<IEntitiesFactory>()
