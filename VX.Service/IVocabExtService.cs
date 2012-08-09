@@ -42,6 +42,10 @@ namespace VX.Service
         IVocabBank CreateNewVocabularyBank();
 
         [OperationContract]
+        [WebGet(ResponseFormat = WebMessageFormat.Json)]
+        IList<ILanguage> GetLanguages();
+
+        [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "DeleteVocabularyBank/{vocabBankId}")]
         IServiceOperationResponse DeleteVocabularyBank(string vocabBankId);
 

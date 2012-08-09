@@ -17,6 +17,7 @@ namespace VX.Service
         private readonly IWordsRepository wordsRepository;
         private readonly IServiceSettings serviceSettings;
         private readonly IInputDataConverter inputDataConverter;
+        private readonly ILanguagesRepository languagesRepository;
 
         public VocabExtService()
         {
@@ -26,6 +27,7 @@ namespace VX.Service
             serviceSettings = Initializer.Container.Resolve<IServiceSettings>();
             wordsRepository = Initializer.Container.Resolve<IWordsRepository>();
             inputDataConverter = Initializer.Container.Resolve<IInputDataConverter>();
+            languagesRepository = Initializer.Container.Resolve<ILanguagesRepository>();
         }
 
         public ITask GetTask()
@@ -64,6 +66,11 @@ namespace VX.Service
         public IVocabBank CreateNewVocabularyBank()
         {
             return vocabBanksRepository.Create();
+        }
+
+        public IList<ILanguage> GetLanguages()
+        {
+            return languagesRepository.GetLanguages();
         }
 
         public IServiceOperationResponse DeleteVocabularyBank(string vocabBankId)

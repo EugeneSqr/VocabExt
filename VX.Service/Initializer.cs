@@ -90,6 +90,10 @@ namespace VX.Service
                 .As<IJavaScriptConvertersFactory>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<ContextFactory>()
+                .As<IContextFactory>()
+                .InstancePerLifetimeScope();
+
             Container = builder.Build();
         }
     }
