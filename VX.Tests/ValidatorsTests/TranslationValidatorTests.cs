@@ -4,15 +4,14 @@ using Moq;
 using NUnit.Framework;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
-using VX.IntegrationTests.RepositoriesTests;
-using VX.Service.CompositeValidators;
-using VX.Service.CompositeValidators.Interfaces;
 using VX.Service.Repositories.Interfaces;
+using VX.Service.Validators;
+using VX.Service.Validators.Interfaces;
 
-namespace VX.IntegrationTests
+namespace VX.Tests.ValidatorsTests
 {
     [TestFixture]
-    internal class TranslationValidatorTests : RepositoryTestsBase<ITranslationValidator, TranslationValidator>
+    internal class TranslationValidatorTests : DataLayerTestsBase<ITranslationValidator, TranslationValidator>
     {
         private readonly ITranslation goodTranslation = new TranslationContract
                                                             {

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.CompositeValidators.Interfaces;
 using VX.Service.Repositories.Interfaces;
+using VX.Service.Validators.Interfaces;
 
-namespace VX.Service.CompositeValidators
+namespace VX.Service.Validators
 {
     public class TranslationValidator : ITranslationValidator
     {

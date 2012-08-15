@@ -6,20 +6,20 @@ using VX.Service.Factories.Interfaces;
 
 namespace VX.Service.Infrastructure.JavaScriptConverters
 {
-    public class VocabBankHeadersConverter : EntitiesConverter
+    public class WordsConverter : EntitiesConverter
     {
-        public VocabBankHeadersConverter(IEntitiesFactory entitiesFactory) : base(entitiesFactory)
+        public WordsConverter(IEntitiesFactory entitiesFactory) : base(entitiesFactory)
         {
         }
 
         public override IEnumerable<Type> SupportedTypes
         {
-            get { return new[] { typeof(IVocabBank) }; }
+            get { return new[] {typeof (IWord)}; }
         }
 
         public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
         {
-            return EntitiesFactory.BuildVocabBankHeaders(dictionary);
+            return EntitiesFactory.BuildWord(dictionary);
         }
 
         public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)

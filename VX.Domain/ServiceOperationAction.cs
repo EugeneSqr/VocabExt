@@ -7,6 +7,7 @@
         Detach,
         Update,
         Create,
-        Delete
+        Delete,
+        Validate
     }
 }

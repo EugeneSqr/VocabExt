@@ -6,6 +6,7 @@ using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
+using VX.Service.Validators.Interfaces;
 
 namespace VX.Service
 {
@@ -18,6 +19,7 @@ namespace VX.Service
         private readonly IServiceSettings serviceSettings;
         private readonly IInputDataConverter inputDataConverter;
         private readonly ILanguagesRepository languagesRepository;
+        private readonly IWordValidator wordValidator;
 
         public VocabExtService()
         {
@@ -28,6 +30,7 @@ namespace VX.Service
             wordsRepository = Initializer.Container.Resolve<IWordsRepository>();
             inputDataConverter = Initializer.Container.Resolve<IInputDataConverter>();
             languagesRepository = Initializer.Container.Resolve<ILanguagesRepository>();
+            wordValidator = Initializer.Container.Resolve<IWordValidator>();
         }
 
         public ITask GetTask()
@@ -101,6 +104,16 @@ namespace VX.Service
         {
             return vocabBanksRepository.UpdateHeaders(
                 inputDataConverter.ParseBankHeaders(data));
+        }
+
+        public IServiceOperationResponse SaveWord(Stream data)
+        {
+            return wordsRepository.SaveWord(inputDataConverter.ParseWord(data));
+        }
+
+        public IServiceOperationResponse ValidateWord(Stream data)
+        {
+            return wordValidator.ValidateExist(inputDataConverter.ParseWord(data));
         }
     }
 }

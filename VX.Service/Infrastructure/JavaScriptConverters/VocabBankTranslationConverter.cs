@@ -6,13 +6,10 @@ using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure.JavaScriptConverters
 {
-    public class VocabBankTranslationConverter : JavaScriptConverter
+    public class VocabBankTranslationConverter : EntitiesConverter
     {
-        private readonly IEntitiesFactory entitiesFactory;
-
-        public VocabBankTranslationConverter(IEntitiesFactory entitiesFactory)
+        public VocabBankTranslationConverter(IEntitiesFactory entitiesFactory) : base(entitiesFactory)
         {
-            this.entitiesFactory = entitiesFactory;
         }
 
         public override IEnumerable<Type> SupportedTypes
@@ -25,7 +22,7 @@ namespace VX.Service.Infrastructure.JavaScriptConverters
             var translation = (IDictionary<string, object>)dictionary["Translation"];
             return new BankTranslationPair(
                 (int)dictionary["VocabBankId"],
-                entitiesFactory.BuildTranslation(translation));
+                EntitiesFactory.BuildTranslation(translation));
         }
 
         public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)

@@ -14,5 +14,7 @@ namespace VX.Service.Infrastructure.Interfaces
         IBankTranslationPair ParseBankTranslationPair(Stream data);
 
         IVocabBank ParseBankHeaders(Stream data);
+
+        IWord ParseWord(Stream data);
     }
 }

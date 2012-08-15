@@ -27,6 +27,9 @@ namespace VX.Tests.Mocks
                 case "ParentChildIdPairConverter":
                     result = MockParentChildIdConverter();
                     break;
+                case "WordsConverter":
+                    result = MockWordsConverter();
+                    break;
             }
 
             return result;
@@ -63,13 +66,10 @@ namespace VX.Tests.Mocks
                 It.IsAny<JavaScriptSerializer>()))
                 .Returns(
                     (IDictionary<string, object> deserialized, Type type, JavaScriptSerializer serializer) =>
-                    new VocabBankContract
-                        {
-                            Name = deserialized["Name"].ToString(),
-                            Description = deserialized["Description"].ToString()
-                        });
+                    new EntitiesFactoryMock().BuildVocabBankHeaders(deserialized));
+
             mock.Setup(item => item.SupportedTypes).Returns(
-                new[] { typeof(IVocabBank) });
+                new[] {typeof (IVocabBank)});
 
             return mock.Object;
         }
@@ -86,6 +86,21 @@ namespace VX.Tests.Mocks
                         int.Parse(deserialized["parent"].ToString()), 
                         int.Parse(deserialized["child"].ToString())));
             mock.Setup(item => item.SupportedTypes).Returns(new[] {typeof (IParentChildIdPair)});
+
+            return mock.Object;
+        }
+
+        private static JavaScriptConverter MockWordsConverter()
+        {
+            var mock = new Mock<WordsConverter>(new EntitiesFactoryMock());
+            mock.Setup(item => item.Deserialize(
+                It.IsAny<IDictionary<string, object>>(),
+                It.IsAny<Type>(),
+                It.IsAny<JavaScriptSerializer>()))
+                .Returns((IDictionary<string, object> deserialized, Type type, JavaScriptSerializer serializer) =>
+                         new EntitiesFactoryMock().BuildWord(deserialized));
+
+            mock.Setup(item => item.SupportedTypes).Returns(new[] {typeof (IWord)});
 
             return mock.Object;
         }

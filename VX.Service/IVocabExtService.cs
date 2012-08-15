@@ -60,5 +60,13 @@ namespace VX.Service
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
         IServiceOperationResponse UpdateBankHeaders(Stream data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
+        IServiceOperationResponse SaveWord(Stream data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
+        IServiceOperationResponse ValidateWord(Stream data);
     }
 }

@@ -12,11 +12,11 @@ using VX.Tests.Mocks;
 namespace VX.IntegrationTests.RepositoriesTests
 {
     [TestFixture]
-    public abstract class RepositoryTestsBase<TType, TImplementation> : TestsBase<TType, TImplementation>
+    public abstract class DataLayerTestsBase<TType, TImplementation> : TestsBase<TType, TImplementation>
     {
         private TransactionScope scope;
         
-        protected RepositoryTestsBase()
+        protected DataLayerTestsBase()
         {
             ContainerBuilder.RegisterInstance(MockCacheFacade())
                 .As<ICacheFacade>()
@@ -28,10 +28,6 @@ namespace VX.IntegrationTests.RepositoriesTests
 
             ContainerBuilder.RegisterInstance(MockServiceOperationResponceFactory())
                 .As<IServiceOperationResponseFactory>()
-                .SingleInstance();
-
-            ContainerBuilder.RegisterInstance(MockInputDataConverter())
-                .As<IInputDataConverter>()
                 .SingleInstance();
 
             ContainerBuilder.RegisterType<ContextFactoryMock>()
@@ -87,16 +83,6 @@ namespace VX.IntegrationTests.RepositoriesTests
             mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<ServiceOperationAction>()))
                 .Returns((bool status, ServiceOperationAction action) => new ServiceOperationResponse(status, action));
 
-            return mock.Object;
-        }
-
-        private static IInputDataConverter MockInputDataConverter()
-        {
-            var mock = new Mock<IInputDataConverter>();
-            mock.Setup(item => item.EmptyId)
-                .Returns(-1);
-            mock.Setup(item => item.Convert(It.IsAny<string>()))
-                .Returns((string input) => int.Parse(input));
             return mock.Object;
         }
     }

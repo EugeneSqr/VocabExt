@@ -44,6 +44,11 @@ namespace VX.Service.Infrastructure
             return Parse<IVocabBank>(data, "VocabBankHeadersConverter");
         }
 
+        public IWord ParseWord(Stream data)
+        {
+            return Parse<IWord>(data, "WordsConverter");
+        }
+
         private T Parse<T>(Stream data, string converterName)
         {
             var serializer = new JavaScriptSerializer();

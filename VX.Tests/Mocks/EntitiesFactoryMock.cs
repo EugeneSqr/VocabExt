@@ -19,12 +19,23 @@ namespace VX.Tests.Mocks
 
         public ILanguage BuildLanguage(IDictionary<string, object> language)
         {
-            throw new System.NotImplementedException();
+            return new LanguageContract
+            {
+                Id = (int)language["Id"],
+                Name = language["Name"].ToString(),
+                Abbreviation = language["Abbreviation"].ToString()
+            };
         }
 
         public IWord BuildWord(IDictionary<string, object> word)
         {
-            throw new System.NotImplementedException();
+            return new WordContract
+            {
+                Id = (int)word["Id"],
+                Spelling = word["Spelling"].ToString(),
+                Transcription = word["Transcription"].ToString(),
+                Language = BuildLanguage((IDictionary<string, object>)word["Language"])
+            };
         }
 
         public IWord BuildWord(Word word)

@@ -5,14 +5,14 @@ using NUnit.Framework;
 using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.CompositeValidators.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
+using VX.Service.Validators.Interfaces;
 
 namespace VX.IntegrationTests.RepositoriesTests
 {
     [TestFixture]
-    internal class TranslationsRepositoryTest : RepositoryTestsBase<ITranslationsRepository, TranslationsRepository>
+    internal class TranslationsRepositoryTest : DataLayerTestsBase<ITranslationsRepository, TranslationsRepository>
     {
         // This translation is correct and could be found by it's id
         private readonly ITranslation goodExistByIdTranslation = new TranslationContract

@@ -42,7 +42,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
@@ -67,6 +66,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Validators\Interfaces\IWordValidator.cs" />
     <Compile Include="Factories\CacheKeyFactory.cs" />
     <Compile Include="Factories\ContextFactory.cs" />
     <Compile Include="Factories\EntitiesFactory.cs" />
@@ -88,9 +88,11 @@
     <Compile Include="Infrastructure\Interfaces\ISearchStringBuilder.cs" />
     <Compile Include="Infrastructure\Interfaces\ISynonymSelector.cs" />
     <Compile Include="Infrastructure\Interfaces\ITaskValidator.cs" />
+    <Compile Include="Infrastructure\JavaScriptConverters\EntitiesConverter.cs" />
     <Compile Include="Infrastructure\JavaScriptConverters\ParentChildIdPairConverter.cs" />
     <Compile Include="Infrastructure\JavaScriptConverters\VocabBankTranslationConverter.cs" />
     <Compile Include="Infrastructure\JavaScriptConverters\VocabBankHeadersConverter.cs" />
+    <Compile Include="Infrastructure\JavaScriptConverters\WordsConverter.cs" />
     <Compile Include="Infrastructure\ParentChildIdPair.cs" />
     <Compile Include="Infrastructure\SearchStringBuilder.cs" />
     <Compile Include="Infrastructure\SynonymSelector.cs" />
@@ -112,8 +114,9 @@
     <Compile Include="Repositories\VocabBanksRepository.cs" />
     <Compile Include="Repositories\WordsRepository.cs" />
     <Compile Include="Infrastructure\ServiceSettings.cs" />
-    <Compile Include="CompositeValidators\Interfaces\ITranslationValidator.cs" />
-    <Compile Include="CompositeValidators\TranslationValidator.cs" />
+    <Compile Include="Validators\Interfaces\ITranslationValidator.cs" />
+    <Compile Include="Validators\WordValidator.cs" />
+    <Compile Include="Validators\TranslationValidator.cs" />
     <Compile Include="VocabExtService.svc.cs">
       <DependentUpon>VocabExtService.svc</DependentUpon>
     </Compile>

@@ -21,6 +21,9 @@ namespace VX.Tests
             "{\"VocabBankId\":1,\"Name\":\"Personality\",\"Description\":\"Vocabulary bank about personality\"}";
 
         private const string TestParsePairCorrectJsonString = "{\"parent\":\"1\", \"child\": 2}";
+
+        private const string TestWordJsonString =
+            "{\"Id\":-1,\"Spelling\":\"testSpelling\",\"Transcription\":\"testTranscription\",\"Language\":{\"Id\":1,\"Name\":\"english\",\"Abbreviation\":\"en\"}}";
             
         
         public InputDataConverterTests()
@@ -92,8 +95,7 @@ namespace VX.Tests
         [Description("Checks if ParseBankHeaders gets name and description of the bank")]
         public void ParseBankHeadersTest()
         {
-            var inputStream = GetStreamFromString(TestBankHeadersCorrectJsonString);
-            var actual = SystemUnderTest.ParseBankHeaders(inputStream);
+            var actual = SystemUnderTest.ParseBankHeaders(GetStreamFromString(TestBankHeadersCorrectJsonString));
             Assert.AreEqual("Personality", actual.Name);
             Assert.AreEqual("Vocabulary bank about personality", actual.Description);
         }
@@ -104,6 +106,25 @@ namespace VX.Tests
         public void ParseBankHeadersNullTest()
         {
             Assert.IsNull(SystemUnderTest.ParseBankHeaders(GetStreamFromString(IncorrectJsonString)));
+        }
+
+        [Test]
+        [Category("InputDataConverterTests")]
+        [Description("Checks if ParseWord returns new word if input is correct")]
+        public void ParseWordNewTest()
+        {
+            var actual = SystemUnderTest.ParseWord(GetStreamFromString(TestWordJsonString));
+            Assert.AreEqual("testSpelling", actual.Spelling);
+            Assert.AreEqual("testTranscription", actual.Transcription);
+            Assert.AreEqual(1, actual.Language.Id);
+        }
+
+        [Test]
+        [Category("InputDataConverterTests")]
+        [Description("Checks if ParseWord returns null if input is incorrect")]
+        public void ParseWordNullTest()
+        {
+            Assert.IsNull(SystemUnderTest.ParseWord(GetStreamFromString(IncorrectJsonString)));
         }
 
         private static MemoryStream GetStreamFromString(string stringToConvert)

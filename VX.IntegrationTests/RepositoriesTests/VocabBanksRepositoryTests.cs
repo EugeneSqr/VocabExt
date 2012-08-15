@@ -3,17 +3,18 @@ using Autofac;
 using NUnit.Framework;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.CompositeValidators;
-using VX.Service.CompositeValidators.Interfaces;
+using VX.IntegrationTests.Mocks;
 using VX.Service.Infrastructure;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
+using VX.Service.Validators;
+using VX.Service.Validators.Interfaces;
 
 namespace VX.IntegrationTests.RepositoriesTests
 {
     [TestFixture]
-    internal class VocabBanksRepositoryTests : RepositoryTestsBase<IVocabBanksRepository, VocabBanksRepository>
+    internal class VocabBanksRepositoryTests : DataLayerTestsBase<IVocabBanksRepository, VocabBanksRepository>
     {
         public VocabBanksRepositoryTests()
         {
@@ -30,9 +31,14 @@ namespace VX.IntegrationTests.RepositoriesTests
                 .As<ISearchStringBuilder>()
                 .InstancePerLifetimeScope();
 
+            ContainerBuilder.RegisterType<WordValidatorMock>()
+                .As<IWordValidator>()
+                .InstancePerLifetimeScope();
+
             ContainerBuilder.RegisterType<WordsRepository>()
                 .As<IWordsRepository>()
                 .InstancePerLifetimeScope();
+            
             #endregion
 
             BuildContainer();

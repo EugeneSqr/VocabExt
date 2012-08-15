@@ -1,12 +1,12 @@
 ﻿using Autofac;
-using VX.Service.CompositeValidators;
-using VX.Service.CompositeValidators.Interfaces;
 using VX.Service.Factories;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
+using VX.Service.Validators;
+using VX.Service.Validators.Interfaces;
 
 namespace VX.Service
 {
@@ -92,6 +92,10 @@ namespace VX.Service
 
             builder.RegisterType<ContextFactory>()
                 .As<IContextFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<WordValidator>()
+                .As<IWordValidator>()
                 .InstancePerLifetimeScope();
 
             Container = builder.Build();

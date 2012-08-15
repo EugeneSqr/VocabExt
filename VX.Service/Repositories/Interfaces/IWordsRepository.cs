@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 
 namespace VX.Service.Repositories.Interfaces
@@ -8,5 +9,9 @@ namespace VX.Service.Repositories.Interfaces
         IList<IWord> GetWords(string searchString);
 
         IWord GetWord(int id);
+
+        bool CheckWordExists(string spelling);
+
+        IServiceOperationResponse SaveWord(IWord word);
     }
 }

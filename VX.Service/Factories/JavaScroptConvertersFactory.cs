@@ -27,6 +27,9 @@ namespace VX.Service.Factories
                 case "ParentChildIdPairConverter":
                     result = new ParentChildIdPairConverter();
                     break;
+                case "WordsConverter":
+                    result = new WordsConverter(entitiesFactory);
+                    break;
             }
 
             return result;

@@ -5,7 +5,7 @@ using VX.Service.Repositories.Interfaces;
 namespace VX.IntegrationTests.RepositoriesTests
 {
     [TestFixture]
-    internal class LanguagesRepositoryTests : RepositoryTestsBase<ILanguagesRepository, LanguagesRepository>
+    internal class LanguagesRepositoryTests : DataLayerTestsBase<ILanguagesRepository, LanguagesRepository>
     {
         public LanguagesRepositoryTests()
         {

@@ -5,10 +5,10 @@ using System.Linq;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
-using VX.Service.CompositeValidators.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
+using VX.Service.Validators.Interfaces;
 
 namespace VX.Service.Repositories
 {
@@ -21,16 +21,15 @@ namespace VX.Service.Repositories
             IEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
-            IServiceOperationResponseFactory serviceOperationResponseFactory, 
-            IInputDataConverter inputDataConverter, 
-            ITranslationValidator translationValidator) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory, inputDataConverter)
+            IServiceOperationResponseFactory serviceOperationResponseFactory,
+            ITranslationValidator translationValidator) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
         {
             this.translationValidator = translationValidator;
         }
 
         public IList<ITranslation> GetTranslations(int vocabBankId)
         {
-            if (vocabBankId == InputDataConverter.EmptyId)
+            if (vocabBankId == EmptyId)
             {
                 return new List<ITranslation>();
             }
@@ -101,7 +100,7 @@ namespace VX.Service.Repositories
 
         private Translation GetTranslation(int translationId)
         {
-            if (translationId == InputDataConverter.EmptyId)
+            if (translationId == EmptyId)
             {
                 return null;
             }
@@ -125,7 +124,7 @@ namespace VX.Service.Repositories
 
         private Translation GetTranslation(int sourceId, int targetId)
         {
-            if (sourceId == InputDataConverter.EmptyId || targetId == InputDataConverter.EmptyId)
+            if (sourceId == EmptyId || targetId == EmptyId)
             {
                 return null;
             }

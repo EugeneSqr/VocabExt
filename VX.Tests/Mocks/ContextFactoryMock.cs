@@ -1,7 +1,7 @@
 ﻿using VX.Model;
 using VX.Service.Factories.Interfaces;
 
-namespace VX.IntegrationTests.Mocks
+namespace VX.Tests.Mocks
 {
     public class ContextFactoryMock : IContextFactory
     {
