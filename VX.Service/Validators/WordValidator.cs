@@ -1,4 +1,5 @@
-﻿using VX.Domain;
+﻿using System;
+using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Factories.Interfaces;
 using VX.Service.Repositories.Interfaces;
@@ -12,6 +13,11 @@ namespace VX.Service.Validators
         private readonly ILanguagesRepository languagesRepository;
         private readonly IServiceOperationResponseFactory serviceOperationResponseFactory;
 
+        private const string EmptyWordErrorCode = "0";
+        private const string EmptySpellingErrorCode = "1";
+        private const string WrongLanguageErrorCode = "2";
+        private const string WordAlreadyExistsErrorCode = "3";
+
         public WordValidator(
             IWordsRepository wordsRepository, 
             ILanguagesRepository languagesRepository,
@@ -21,70 +27,122 @@ namespace VX.Service.Validators
             this.languagesRepository = languagesRepository;
             this.serviceOperationResponseFactory = serviceOperationResponseFactory;
         }
-
-        // TODO: finish implementation and refactoring
+        
         public IServiceOperationResponse ValidateExist(IWord word)
         {
-            if (IsEmpty(word))
-            {
-                return BuildEmptyWordResponse();
-            }
-            else
-            {
-                return serviceOperationResponseFactory.Build(true, ServiceOperationAction.Validate);
-            }
+            Func<IWord, IServiceOperationResponse> validationFunction = 
+                parameter => wordsRepository.GetWord(parameter.Id) != null 
+                    ? BuildWordExistsResponse() 
+                    : BuildValidationPassedResponse();
+
+            return PerformValidation(validationFunction, word);
         }
 
         public IServiceOperationResponse ValidateSpelling(IWord word)
         {
-            if (IsEmpty(word))
-            {
-                return BuildEmptyWordResponse();
-            }
-            
-            bool isValid = false;
-            if (word.Spelling != null)
-            {
-                isValid = word.Spelling.Trim() != string.Empty;
-            }
+            Func<IWord, IServiceOperationResponse> validationFunction =
+                parameter =>
+                    {
+                        if (parameter.Spelling != null)
+                        {
+                            if (parameter.Spelling.Trim() != string.Empty)
+                            {
+                                return BuildValidationPassedResponse();
+                            }
+                        }
 
-            return serviceOperationResponseFactory.Build(
-                isValid, 
-                ServiceOperationAction.Validate);
+                        return BuildEmptySpellingResponse();
+                    };
+
+            return PerformValidation(validationFunction, word);
         }
 
         public IServiceOperationResponse ValidateLanguage(IWord word)
         {
-            if (IsEmpty(word))
-            {
-                return BuildEmptyWordResponse();
-            }
-            else
-            {
-                return serviceOperationResponseFactory.Build(true, ServiceOperationAction.Validate);
-            }
+            Func<IWord, IServiceOperationResponse> validationFunction =
+                parameter =>
+                    {
+                        if (parameter.Language == null)
+                            return BuildWrongLanguageResponse();
+
+                        var language = languagesRepository.GetLanguage(parameter.Language.Id);
+                        return language == null
+                                   ? BuildWrongLanguageResponse()
+                                   : BuildValidationPassedResponse();
+                    };
+
+            return PerformValidation(validationFunction, word);
         }
 
         public IServiceOperationResponse Validate(IWord word)
         {
-            if (IsEmpty(word))
-            {
-                return BuildEmptyWordResponse();
-            }
-            else
-            {
-                return serviceOperationResponseFactory.Build(true, ServiceOperationAction.Validate);
-            }
+            Func<IWord, IServiceOperationResponse> validationFunction =
+                parameter =>
+                    {
+                        var result = ValidateSpelling(parameter);
+                        if (result.Status)
+                        {
+                            result = ValidateLanguage(parameter);
+                            if (result.Status)
+                            {
+                                result = ValidateExist(parameter);
+                                if (result.Status)
+                                {
+                                    return BuildValidationPassedResponse();
+                                }
+                            }
+                        }
+
+                        return result;
+                    };
+
+            return PerformValidation(validationFunction, word);
         }
 
-        private bool IsEmpty(IWord word)
+        private IServiceOperationResponse PerformValidation(
+            Func<IWord, IServiceOperationResponse> validationFunction, 
+            IWord word)
         {
-            return word == null;
+            return word == null 
+                ? BuildEmptyWordResponse() 
+                : validationFunction(word);
         }
 
         private IServiceOperationResponse BuildEmptyWordResponse()
         {
-            return serviceOperationResponseFactory.Build(false, ServiceOperationAction.Validate, "The word is null");
+            return serviceOperationResponseFactory.Build(
+                false, 
+                ServiceOperationAction.Validate, 
+                EmptyWordErrorCode);
+        }
+
+        private IServiceOperationResponse BuildWrongLanguageResponse()
+        {
+            return serviceOperationResponseFactory.Build(
+                false, 
+                ServiceOperationAction.Validate, 
+                WrongLanguageErrorCode);
+        }
+
+        private IServiceOperationResponse BuildWordExistsResponse()
+        {
+            return serviceOperationResponseFactory.Build(
+                false, 
+                ServiceOperationAction.Validate, 
+                WordAlreadyExistsErrorCode);
+        }
+
+        private IServiceOperationResponse BuildEmptySpellingResponse()
+        {
+            return serviceOperationResponseFactory.Build(
+                false, 
+                ServiceOperationAction.Validate, 
+                EmptySpellingErrorCode);
+        }
+
+        private IServiceOperationResponse BuildValidationPassedResponse()
+        {
+            return serviceOperationResponseFactory.Build(true, ServiceOperationAction.Validate);
         }
     }
 }

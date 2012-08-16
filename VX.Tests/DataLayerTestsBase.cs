@@ -76,7 +76,9 @@ namespace VX.Tests
         {
             var mock = new Mock<IServiceOperationResponseFactory>();
             mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<ServiceOperationAction>(), It.IsAny<string>()))
-                .Returns((bool status, ServiceOperationAction action, string message) => new ServiceOperationResponse(status, action) { StatusMessage = message });
+                .Returns((bool status, ServiceOperationAction action, string message) => status 
+                    ? new ServiceOperationResponse(true, action) {StatusMessage = message} 
+                    : new ServiceOperationResponse(false, action) {ErrorMessage = message});
 
             mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<ServiceOperationAction>()))
                 .Returns((bool status, ServiceOperationAction action) => new ServiceOperationResponse(status, action));
