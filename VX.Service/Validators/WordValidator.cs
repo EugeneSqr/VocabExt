@@ -18,16 +18,13 @@ namespace VX.Service.Validators
         private const string WrongLanguageErrorCode = "2";
         private const string WordAlreadyExistsErrorCode = "3";
 
-        public WordValidator(
-            IWordsRepository wordsRepository, 
-            ILanguagesRepository languagesRepository,
-            IServiceOperationResponseFactory serviceOperationResponseFactory)
+        public WordValidator(IWordsRepository wordsRepository, ILanguagesRepository languagesRepository, IServiceOperationResponseFactory serviceOperationResponseFactory)
         {
             this.wordsRepository = wordsRepository;
             this.languagesRepository = languagesRepository;
             this.serviceOperationResponseFactory = serviceOperationResponseFactory;
         }
-        
+
         public IServiceOperationResponse ValidateExist(IWord word)
         {
             Func<IWord, IServiceOperationResponse> validationFunction = 

@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Moq;
 using NUnit.Framework;
-using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Service.Repositories.Interfaces;
@@ -11,7 +10,7 @@ using VX.Service.Validators.Interfaces;
 namespace VX.Tests.ValidatorsTests
 {
     [TestFixture]
-    internal class WordValidatorTests : DataLayerTestsBase<IWordValidator, WordValidator>
+    internal class WordValidatorTests : ValidatorTestsBase<IWordValidator, WordValidator>
     {
         private const int ExistId = 1;
         private const int NonExistId = -5;
@@ -244,13 +243,6 @@ namespace VX.Tests.ValidatorsTests
             mock.Setup(item => item.GetWord(ExistId)).Returns(new WordContract());
             mock.Setup(item => item.GetWord(NonExistId)).Returns((IWord)null);
             return mock.Object;
-        }
-
-        private static void CheckValidationResult(bool status, string errorMessage, IServiceOperationResponse actual)
-        {
-            Assert.AreEqual(status, actual.Status);
-            Assert.AreEqual((int)ServiceOperationAction.Validate, actual.OperationActionCode);
-            Assert.AreEqual(errorMessage, actual.ErrorMessage);
         }
     }
 }

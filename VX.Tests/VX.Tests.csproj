@@ -67,6 +67,7 @@
     <Compile Include="TaskValidatorTests.cs" />
     <Compile Include="TestsBase.cs" />
     <Compile Include="ValidatorsTests\TranslationValidatorTests.cs" />
+    <Compile Include="ValidatorsTests\ValidatorTestsBase.cs" />
     <Compile Include="ValidatorsTests\WordValidatorTests.cs" />
   </ItemGroup>
   <ItemGroup>

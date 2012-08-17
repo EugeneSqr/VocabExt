@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Autofac;
+﻿using Autofac;
 using Moq;
 using NUnit.Framework;
 using VX.Domain;
@@ -177,13 +176,19 @@ namespace VX.IntegrationTests.RepositoriesTests
         {
             var mock = new Mock<ITranslationValidator>();
             mock.Setup(item => item.Validate(badSourceTranslation))
-                .Returns(new ValidationResult("bad source"));
+                .Returns(new ServiceOperationResponse(false, ServiceOperationAction.Validate));
 
             mock.Setup(item => item.Validate(badTargetTranslation))
-                .Returns(new ValidationResult("bad target"));
+                .Returns(new ServiceOperationResponse(false, ServiceOperationAction.Validate));
 
             mock.Setup(item => item.Validate(goodExistByIdTranslation))
-                .Returns(ValidationResult.Success);
+                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
+
+            mock.Setup(item => item.Validate(goodNonExistTranslation))
+                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
+
+            mock.Setup(item => item.Validate(goodNonExistByIdTranslation))
+                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
 
             return mock.Object;
         }

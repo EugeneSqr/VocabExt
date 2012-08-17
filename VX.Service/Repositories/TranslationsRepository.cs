@@ -75,7 +75,7 @@ namespace VX.Service.Repositories
                 targetTranslation.SourceId = translation.Source.Id;
                 targetTranslation.TargetId = translation.Target.Id;
                 
-                if (translationValidator.Validate(translation) != ValidationResult.Success)
+                if (!translationValidator.Validate(translation).Status)
                 {
                     return ServiceOperationResponseFactory.Build(
                         false, 

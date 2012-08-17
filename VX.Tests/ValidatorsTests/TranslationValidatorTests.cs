@@ -1,61 +1,57 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Autofac;
+﻿using Autofac;
 using Moq;
 using NUnit.Framework;
+using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators;
 using VX.Service.Validators.Interfaces;
 
 namespace VX.Tests.ValidatorsTests
 {
     [TestFixture]
-    internal class TranslationValidatorTests : DataLayerTestsBase<ITranslationValidator, TranslationValidator>
+    internal class TranslationValidatorTests : ValidatorTestsBase<ITranslationValidator, TranslationValidator>
     {
+        private static readonly IWord ExistWordFirst = new WordContract
+                                                    {
+                                                        Id = 1
+                                                    };
+
+        private static readonly IWord ExistWordSecond = new WordContract
+                                                     {
+                                                         Id = 4
+                                                     };
+
+        private static readonly IWord NonExistWord = new WordContract
+                                                  {
+                                                      Id = -999
+                                                  };
+        
         private readonly ITranslation goodTranslation = new TranslationContract
                                                             {
                                                                 Id = 1,
-                                                                Source = new WordContract
-                                                                             {
-                                                                                 Id = 1
-                                                                             },
-                                                                Target = new WordContract
-                                                                             {
-                                                                                 Id = 4
-                                                                             }
+                                                                Source = ExistWordFirst,
+                                                                Target = ExistWordSecond
                                                             };
 
         private readonly ITranslation badSourceTranslation = new TranslationContract
                                                                  {
                                                                      Id = 1,
-                                                                     Source = new WordContract
-                                                                                  {
-                                                                                      Id = -999
-                                                                                  },
-                                                                     Target = new WordContract
-                                                                                  {
-                                                                                      Id = 4
-                                                                                  }
+                                                                     Source = NonExistWord,
+                                                                     Target = ExistWordSecond
                                                                  };
 
         private readonly ITranslation badTargetTranslation = new TranslationContract
                                                                  {
                                                                      Id = 1,
-                                                                     Source = new WordContract
-                                                                                  {
-                                                                                      Id = 1
-                                                                                  },
-                                                                     Target = new WordContract
-                                                                                  {
-                                                                                      Id = -999
-                                                                                  }
+                                                                     Source = ExistWordFirst,
+                                                                     Target = NonExistWord
                                                                  };
         
         public TranslationValidatorTests()
         {
-            ContainerBuilder.RegisterInstance(MockWordsRepository())
-                .As<IWordsRepository>()
+            ContainerBuilder.RegisterInstance(MockWordValidator())
+                .As<IWordValidator>()
                 .SingleInstance();
             
             BuildContainer();
@@ -66,7 +62,7 @@ namespace VX.Tests.ValidatorsTests
         [Description("Checks if validation passes on good input")]
         public void ValidatePassTest()
         {
-            Assert.AreEqual(ValidationResult.Success, SystemUnderTest.Validate(goodTranslation)); 
+            CheckValidationResult(true, null, SystemUnderTest.Validate(goodTranslation));
         }
 
         [Test]
@@ -74,7 +70,7 @@ namespace VX.Tests.ValidatorsTests
         [Description("Checks if validation fails on bad source input")]
         public void ValidateSourceFailTest()
         {
-            Assert.AreNotEqual(ValidationResult.Success, SystemUnderTest.Validate(badSourceTranslation));
+            CheckValidationResult(false, null, SystemUnderTest.Validate(badSourceTranslation));
         }
 
         [Test]
@@ -82,15 +78,19 @@ namespace VX.Tests.ValidatorsTests
         [Description("Cheks if validation fails on bad target input")]
         public void ValidateTargetFailTest()
         {
-            Assert.AreNotEqual(ValidationResult.Success, SystemUnderTest.Validate(badTargetTranslation));
+            CheckValidationResult(false, null, SystemUnderTest.Validate(badTargetTranslation));
         }
 
-        private IWordsRepository MockWordsRepository()
+        private IWordValidator MockWordValidator()
         {
-            var mock = new Mock<IWordsRepository>();
-            mock.Setup(item => item.GetWord(goodTranslation.Source.Id)).Returns(goodTranslation.Source);
-            mock.Setup(item => item.GetWord(goodTranslation.Target.Id)).Returns(goodTranslation.Target);
-            mock.Setup(item => item.GetWord(badTargetTranslation.Target.Id)).Returns((WordContract)null);
+            var mock = new Mock<IWordValidator>();
+            mock.Setup(item => item.ValidateExist(ExistWordFirst))
+                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
+            mock.Setup(item => item.ValidateExist(ExistWordSecond))
+                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
+            mock.Setup(item => item.ValidateExist(NonExistWord))
+                .Returns(new ServiceOperationResponse(false, ServiceOperationAction.Validate));
+
             return mock.Object;
         }
     }

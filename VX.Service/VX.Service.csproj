@@ -115,6 +115,7 @@
     <Compile Include="Repositories\WordsRepository.cs" />
     <Compile Include="Infrastructure\ServiceSettings.cs" />
     <Compile Include="Validators\Interfaces\ITranslationValidator.cs" />
+    <Compile Include="Validators\ValidatorBase.cs" />
     <Compile Include="Validators\WordValidator.cs" />
     <Compile Include="Validators\TranslationValidator.cs" />
     <Compile Include="VocabExtService.svc.cs">
