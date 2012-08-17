@@ -4,6 +4,7 @@ using NUnit.Framework;
 using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators;
 using VX.Service.Validators.Interfaces;
 
@@ -53,6 +54,9 @@ namespace VX.Tests.ValidatorsTests
             ContainerBuilder.RegisterInstance(MockWordValidator())
                 .As<IWordValidator>()
                 .SingleInstance();
+            ContainerBuilder.RegisterInstance(new Mock<IWordsRepository>().Object)
+                .As<IWordsRepository>()
+                .SingleInstance();
             
             BuildContainer();
         }
@@ -84,11 +88,11 @@ namespace VX.Tests.ValidatorsTests
         private IWordValidator MockWordValidator()
         {
             var mock = new Mock<IWordValidator>();
-            mock.Setup(item => item.ValidateExist(ExistWordFirst))
+            mock.Setup(item => item.ValidateExist(ExistWordFirst, It.IsAny<IWordsRepository>()))
                 .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
-            mock.Setup(item => item.ValidateExist(ExistWordSecond))
+            mock.Setup(item => item.ValidateExist(ExistWordSecond, It.IsAny<IWordsRepository>()))
                 .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
-            mock.Setup(item => item.ValidateExist(NonExistWord))
+            mock.Setup(item => item.ValidateExist(NonExistWord, It.IsAny<IWordsRepository>()))
                 .Returns(new ServiceOperationResponse(false, ServiceOperationAction.Validate));
 
             return mock.Object;

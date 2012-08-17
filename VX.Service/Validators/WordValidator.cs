@@ -9,7 +9,6 @@ namespace VX.Service.Validators
 {
     public class WordValidator : IWordValidator
     {
-        private readonly IWordsRepository wordsRepository;
         private readonly ILanguagesRepository languagesRepository;
         private readonly IServiceOperationResponseFactory serviceOperationResponseFactory;
 
@@ -18,14 +17,13 @@ namespace VX.Service.Validators
         private const string WrongLanguageErrorCode = "2";
         private const string WordAlreadyExistsErrorCode = "3";
 
-        public WordValidator(IWordsRepository wordsRepository, ILanguagesRepository languagesRepository, IServiceOperationResponseFactory serviceOperationResponseFactory)
+        public WordValidator(ILanguagesRepository languagesRepository, IServiceOperationResponseFactory serviceOperationResponseFactory)
         {
-            this.wordsRepository = wordsRepository;
             this.languagesRepository = languagesRepository;
             this.serviceOperationResponseFactory = serviceOperationResponseFactory;
         }
 
-        public IServiceOperationResponse ValidateExist(IWord word)
+        public IServiceOperationResponse ValidateExist(IWord word, IWordsRepository wordsRepository)
         {
             Func<IWord, IServiceOperationResponse> validationFunction = 
                 parameter => wordsRepository.GetWord(parameter.Id) != null 
@@ -71,7 +69,7 @@ namespace VX.Service.Validators
             return PerformValidation(validationFunction, word);
         }
 
-        public IServiceOperationResponse Validate(IWord word)
+        public IServiceOperationResponse Validate(IWord word, IWordsRepository wordsRepository)
         {
             Func<IWord, IServiceOperationResponse> validationFunction =
                 parameter =>
@@ -82,7 +80,7 @@ namespace VX.Service.Validators
                             result = ValidateLanguage(parameter);
                             if (result.Status)
                             {
-                                result = ValidateExist(parameter);
+                                result = ValidateExist(parameter, wordsRepository);
                                 if (result.Status)
                                 {
                                     return BuildValidationPassedResponse();

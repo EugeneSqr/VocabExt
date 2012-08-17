@@ -150,10 +150,10 @@ namespace VX.IntegrationTests.RepositoriesTests
         private IWordValidator MockWordValidator()
         {
             var mock = new Mock<IWordValidator>();
-            mock.Setup(item => item.Validate(validationFailWord))
+            mock.Setup(item => item.Validate(validationFailWord, It.IsAny<IWordsRepository>()))
                 .Returns(new ServiceOperationResponse(false, ServiceOperationAction.Create));
 
-            mock.Setup(item => item.Validate(validationPassWord))
+            mock.Setup(item => item.Validate(validationPassWord, It.IsAny<IWordsRepository>()))
                 .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Create));
 
             return mock.Object;

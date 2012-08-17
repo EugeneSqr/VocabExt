@@ -79,7 +79,7 @@ namespace VX.Service.Repositories
 
         public IServiceOperationResponse SaveWord(IWord word)
         {
-            var validationResult = wordValidator.Validate(word);
+            var validationResult = wordValidator.Validate(word, this);
             if (!validationResult.Status)
             {
                 return validationResult;

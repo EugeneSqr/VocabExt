@@ -14,10 +14,11 @@ namespace VX.Tests.ValidatorsTests
     {
         private const int ExistId = 1;
         private const int NonExistId = -5;
+
+        private readonly IWordsRepository wordsRepository = MockWordsRepository();
         
         public WordValidatorTests()
         {
-            ContainerBuilder.RegisterInstance(MockWordRepository()).SingleInstance();
             ContainerBuilder.RegisterInstance(MockLanguageRepository()).SingleInstance();
             BuildContainer();
         }
@@ -126,7 +127,7 @@ namespace VX.Tests.ValidatorsTests
         [Description("Checks if ValidateExist returns false if word is null")]
         public void ValidateExistNullTest()
         {
-            CheckValidationResult(false, "0", SystemUnderTest.ValidateExist(null));
+            CheckValidationResult(false, "0", SystemUnderTest.ValidateExist(null, wordsRepository));
         }
 
         [Test]
@@ -137,7 +138,7 @@ namespace VX.Tests.ValidatorsTests
             CheckValidationResult(
                 false,
                 "3",
-                SystemUnderTest.ValidateExist(new WordContract {Id = ExistId}));
+                SystemUnderTest.ValidateExist(new WordContract {Id = ExistId}, wordsRepository));
         }
 
         [Test]
@@ -148,7 +149,7 @@ namespace VX.Tests.ValidatorsTests
             CheckValidationResult(
                 true, 
                 null, 
-                SystemUnderTest.ValidateExist(new WordContract {Id = NonExistId}));
+                SystemUnderTest.ValidateExist(new WordContract {Id = NonExistId}, wordsRepository));
         }
 
         [Test]
@@ -156,7 +157,7 @@ namespace VX.Tests.ValidatorsTests
         [Description("Checks if Validate returns false if word is null")]
         public void ValidateWordNullTest()
         {
-            CheckValidationResult(false, "0", SystemUnderTest.Validate(null));
+            CheckValidationResult(false, "0", SystemUnderTest.Validate(null, wordsRepository));
         }
 
         [Test]
@@ -175,7 +176,7 @@ namespace VX.Tests.ValidatorsTests
                                                                 {
                                                                     Id = ExistId
                                                                 }
-                                             }));
+                                             }, wordsRepository));
         }
 
         [Test]
@@ -189,7 +190,7 @@ namespace VX.Tests.ValidatorsTests
                 SystemUnderTest.Validate(new WordContract
                                              {
                                                  Spelling = null
-                                             }));
+                                             }, wordsRepository));
         }
 
         [Test]
@@ -207,7 +208,7 @@ namespace VX.Tests.ValidatorsTests
                                                                 {
                                                                     Id = NonExistId
                                                                 }
-                                             }));
+                                             }, wordsRepository));
         }
 
         [Test]
@@ -226,7 +227,7 @@ namespace VX.Tests.ValidatorsTests
                                                                 {
                                                                     Id = ExistId
                                                                 }
-                                             }));
+                                             }, wordsRepository));
         }
 
         private static ILanguagesRepository MockLanguageRepository()
@@ -237,7 +238,7 @@ namespace VX.Tests.ValidatorsTests
             return mock.Object;
         }
 
-        private static IWordsRepository MockWordRepository()
+        private static IWordsRepository MockWordsRepository()
         {
             var mock = new Mock<IWordsRepository>();
             mock.Setup(item => item.GetWord(ExistId)).Returns(new WordContract());
