@@ -14,6 +14,8 @@ namespace VX.Tests.ValidatorsTests
     {
         private const int ExistId = 1;
         private const int NonExistId = -5;
+        private const string ExistSpelling = "arrival";
+        private const string NonExistSpelling = "test_spelling";
 
         private readonly IWordsRepository wordsRepository = MockWordsRepository();
         
@@ -132,13 +134,37 @@ namespace VX.Tests.ValidatorsTests
 
         [Test]
         [Category("WordValidatorTests")]
-        [Description("Checks if ValidateExist returns false if word already exists")]
-        public void ValidateExistNegativeTest()
+        [Description("Checks if ValidateExist returns false if word already exists (by id)")]
+        public void ValidateExistIdNegativeTest()
         {
             CheckValidationResult(
                 false,
                 "3",
                 SystemUnderTest.ValidateExist(new WordContract {Id = ExistId}, wordsRepository));
+        }
+
+        [Test]
+        [Category("WordValidatorTests")]
+        [Description("Checks if ValidateExist returns false if word already exists (by id and spelling)")]
+        public void ValidateExistIdSpellingNegativeTest()
+        {
+            CheckValidationResult(
+                false,
+                "3",
+                SystemUnderTest.ValidateExist(
+                    new WordContract { Id = ExistId, Spelling = ExistSpelling}, wordsRepository));
+        }
+
+        [Test]
+        [Category("WordValidatorTests")]
+        [Description("Checks if ValidateExist returns false if word already exists (by spelling)")]
+        public void ValidateExistSpellingTest()
+        {
+            CheckValidationResult(
+                false,
+                "3",
+                SystemUnderTest.ValidateExist(
+                    new WordContract {Id = NonExistId, Spelling = ExistSpelling}, wordsRepository));
         }
 
         [Test]
@@ -149,7 +175,8 @@ namespace VX.Tests.ValidatorsTests
             CheckValidationResult(
                 true, 
                 null, 
-                SystemUnderTest.ValidateExist(new WordContract {Id = NonExistId}, wordsRepository));
+                SystemUnderTest.ValidateExist(
+                    new WordContract {Id = NonExistId, Spelling = NonExistSpelling}, wordsRepository));
         }
 
         [Test]
@@ -171,7 +198,7 @@ namespace VX.Tests.ValidatorsTests
                 SystemUnderTest.Validate(new WordContract
                                              {
                                                  Id = NonExistId,
-                                                 Spelling = "test",
+                                                 Spelling = NonExistSpelling,
                                                  Language = new LanguageContract
                                                                 {
                                                                     Id = ExistId
@@ -203,7 +230,7 @@ namespace VX.Tests.ValidatorsTests
                 "2",
                 SystemUnderTest.Validate(new WordContract
                                              {
-                                                 Spelling = "test",
+                                                 Spelling = NonExistSpelling,
                                                  Language = new LanguageContract
                                                                 {
                                                                     Id = NonExistId
@@ -222,7 +249,7 @@ namespace VX.Tests.ValidatorsTests
                 SystemUnderTest.Validate(new WordContract
                                              {
                                                  Id = ExistId,
-                                                 Spelling = "test",
+                                                 Spelling = NonExistSpelling,
                                                  Language = new LanguageContract
                                                                 {
                                                                     Id = ExistId
@@ -243,6 +270,8 @@ namespace VX.Tests.ValidatorsTests
             var mock = new Mock<IWordsRepository>();
             mock.Setup(item => item.GetWord(ExistId)).Returns(new WordContract());
             mock.Setup(item => item.GetWord(NonExistId)).Returns((IWord)null);
+            mock.Setup(item => item.CheckWordExists(ExistSpelling)).Returns(true);
+            mock.Setup(item => item.CheckWordExists(NonExistSpelling)).Returns(false);
             return mock.Object;
         }
     }

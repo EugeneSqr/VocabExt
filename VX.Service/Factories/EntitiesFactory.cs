@@ -47,12 +47,23 @@ namespace VX.Service.Factories
 
         public IWord BuildWord(IDictionary<string, object> word)
         {
+            const string idKey = "Id";
+            const string spellingKey = "Spelling";
+            const string transciptionKey = "Transcription";
+            const string languageKey = "Language";
+            if (!word.ContainsKey(idKey) || !word.ContainsKey(spellingKey) || !word.ContainsKey(languageKey))
+            {
+                return null;
+            }
+
             return new WordContract
             {
-                Id = (int)word["Id"],
-                Spelling = word["Spelling"].ToString(),
-                Transcription = word["Transcription"].ToString(),
-                Language = BuildLanguage((IDictionary<string, object>)word["Language"])
+                Id = (int)word[idKey],
+                Spelling = word[spellingKey].ToString(),
+                Transcription = word.ContainsKey(transciptionKey) 
+                    ? word[transciptionKey].ToString() 
+                    : null,
+                Language = BuildLanguage((IDictionary<string, object>)word[languageKey])
             };
         }
 

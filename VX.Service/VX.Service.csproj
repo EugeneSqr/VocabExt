@@ -66,6 +66,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\CacheNullItem.cs" />
     <Compile Include="Validators\Interfaces\IWordValidator.cs" />
     <Compile Include="Factories\CacheKeyFactory.cs" />
     <Compile Include="Factories\ContextFactory.cs" />

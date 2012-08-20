@@ -74,7 +74,7 @@ namespace VX.Tests.ValidatorsTests
         [Description("Checks if validation fails on bad source input")]
         public void ValidateSourceFailTest()
         {
-            CheckValidationResult(false, null, SystemUnderTest.Validate(badSourceTranslation));
+            CheckValidationResult(false, "Source word does not exist", SystemUnderTest.Validate(badSourceTranslation));
         }
 
         [Test]
@@ -82,18 +82,18 @@ namespace VX.Tests.ValidatorsTests
         [Description("Cheks if validation fails on bad target input")]
         public void ValidateTargetFailTest()
         {
-            CheckValidationResult(false, null, SystemUnderTest.Validate(badTargetTranslation));
+            CheckValidationResult(false, "Target word does not exist", SystemUnderTest.Validate(badTargetTranslation));
         }
 
-        private IWordValidator MockWordValidator()
+        private static IWordValidator MockWordValidator()
         {
             var mock = new Mock<IWordValidator>();
             mock.Setup(item => item.ValidateExist(ExistWordFirst, It.IsAny<IWordsRepository>()))
-                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
-            mock.Setup(item => item.ValidateExist(ExistWordSecond, It.IsAny<IWordsRepository>()))
-                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
-            mock.Setup(item => item.ValidateExist(NonExistWord, It.IsAny<IWordsRepository>()))
                 .Returns(new ServiceOperationResponse(false, ServiceOperationAction.Validate));
+            mock.Setup(item => item.ValidateExist(ExistWordSecond, It.IsAny<IWordsRepository>()))
+                .Returns(new ServiceOperationResponse(false, ServiceOperationAction.Validate));
+            mock.Setup(item => item.ValidateExist(NonExistWord, It.IsAny<IWordsRepository>()))
+                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
 
             return mock.Object;
         }

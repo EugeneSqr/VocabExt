@@ -44,7 +44,7 @@ namespace VX.Service.Infrastructure
             try
             {
                 var item = HttpRuntime.Cache.Get(cacheKey);
-                if (item is T)
+                if (item != CacheNullItem.Value && item is T)
                 {
                     cachedItem = (T)item;
                     return true;
@@ -64,7 +64,7 @@ namespace VX.Service.Infrastructure
         {
             HttpRuntime.Cache.Insert(
                 cacheKey,
-                item,
+                item ?? CacheNullItem.Value,
                 dependencies,
                 Cache.NoAbsoluteExpiration,
                 TimeSpan.FromSeconds(serviceSettings.CacheSlidingExpirationSeconds));

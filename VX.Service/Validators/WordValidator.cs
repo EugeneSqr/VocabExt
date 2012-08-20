@@ -7,28 +7,36 @@ using VX.Service.Validators.Interfaces;
 
 namespace VX.Service.Validators
 {
-    public class WordValidator : IWordValidator
+    public class WordValidator : ValidatorBase, IWordValidator
     {
         private readonly ILanguagesRepository languagesRepository;
-        private readonly IServiceOperationResponseFactory serviceOperationResponseFactory;
 
         private const string EmptyWordErrorCode = "0";
         private const string EmptySpellingErrorCode = "1";
         private const string WrongLanguageErrorCode = "2";
         private const string WordAlreadyExistsErrorCode = "3";
 
-        public WordValidator(ILanguagesRepository languagesRepository, IServiceOperationResponseFactory serviceOperationResponseFactory)
+        public WordValidator(
+            IServiceOperationResponseFactory serviceOperationResponseFactory, 
+            ILanguagesRepository languagesRepository) : base(serviceOperationResponseFactory)
         {
             this.languagesRepository = languagesRepository;
-            this.serviceOperationResponseFactory = serviceOperationResponseFactory;
         }
 
         public IServiceOperationResponse ValidateExist(IWord word, IWordsRepository wordsRepository)
         {
-            Func<IWord, IServiceOperationResponse> validationFunction = 
-                parameter => wordsRepository.GetWord(parameter.Id) != null 
-                    ? BuildWordExistsResponse() 
-                    : BuildValidationPassedResponse();
+            Func<IWord, IServiceOperationResponse> validationFunction =
+                parameter =>
+                    {
+                        if (wordsRepository.GetWord(parameter.Id) == null)
+                        {
+                            return wordsRepository.CheckWordExists(parameter.Spelling)
+                                       ? BuildWordExistsResponse()
+                                       : BuildValidationPassedResponse();
+                        }
+
+                        return BuildWordExistsResponse();
+                    };
 
             return PerformValidation(validationFunction, word);
         }
@@ -105,7 +113,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildEmptyWordResponse()
         {
-            return serviceOperationResponseFactory.Build(
+            return ServiceOperationResponseFactory.Build(
                 false, 
                 ServiceOperationAction.Validate, 
                 EmptyWordErrorCode);
@@ -113,7 +121,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildWrongLanguageResponse()
         {
-            return serviceOperationResponseFactory.Build(
+            return ServiceOperationResponseFactory.Build(
                 false, 
                 ServiceOperationAction.Validate, 
                 WrongLanguageErrorCode);
@@ -121,7 +129,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildWordExistsResponse()
         {
-            return serviceOperationResponseFactory.Build(
+            return ServiceOperationResponseFactory.Build(
                 false, 
                 ServiceOperationAction.Validate, 
                 WordAlreadyExistsErrorCode);
@@ -129,7 +137,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildEmptySpellingResponse()
         {
-            return serviceOperationResponseFactory.Build(
+            return ServiceOperationResponseFactory.Build(
                 false, 
                 ServiceOperationAction.Validate, 
                 EmptySpellingErrorCode);
@@ -137,7 +145,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildValidationPassedResponse()
         {
-            return serviceOperationResponseFactory.Build(true, ServiceOperationAction.Validate);
+            return ServiceOperationResponseFactory.Build(true, ServiceOperationAction.Validate);
         }
     }
 }

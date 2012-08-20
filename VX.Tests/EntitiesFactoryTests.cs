@@ -41,14 +41,44 @@ namespace VX.Tests
         [Description("Checks if factory builds word if input is correct")]
         public void BuildWordJsonDeserializedTest()
         {
-            CheckWord(
-                1, 
-                "spelling", 
-                "transcription", 
-                1, 
-                "russian", 
-                "ru", 
+            CheckWord(1, "spelling", "transcription", 1, "russian", "ru", 
                 SystemUnderTest.BuildWord(ConstructWord(1, "spelling", "transcription", ConstructLanguage(1, "russian", "ru"))));
+        }
+
+        [Test]
+        [Category("EntitiesFactoryTests")]
+        [Description("Checks if factory builds word with null transcription if transcription is absent")]
+        public void BuildWordJsonDeserializedPartialTest()
+        {
+            CheckWord(1, "spelling", null, 1, "russian", "ru",
+                      SystemUnderTest.BuildWord(ConstructWord(1, "spelling", null, ConstructLanguage(1, "russian", "ru"))));
+        }
+
+        [Test]
+        [Category("EntitiesFactoryTests")]
+        [Description("Checks if factory returns null if input id is null")]
+        public void BuildWordJsonDeserializedPartialNullIdTest()
+        {
+            Assert.IsNull(
+                SystemUnderTest.BuildWord(ConstructWord(null, "spelling", null, ConstructLanguage(1, "russian", "ru"))));
+        }
+
+        [Test]
+        [Category("EntitiesFactoryTests")]
+        [Description("Checks if factory returns null if input spelling is null")]
+        public void BuildWordJsonDeserializedPartialNullSpellingTest()
+        {
+            Assert.IsNull(
+                SystemUnderTest.BuildWord(ConstructWord(1, null, null, ConstructLanguage(1, "russian", "ru"))));
+        }
+
+        [Test]
+        [Category("EntitiesFactoryTests")]
+        [Description("Checks if factory returns null if input language is null")]
+        public void BuildWordJsonDeserializedPartialNullLanguageTest()
+        {
+            Assert.IsNull(
+                SystemUnderTest.BuildWord(ConstructWord(1, "spelling", null, null)));
         }
 
         [Test]
@@ -110,23 +140,23 @@ namespace VX.Tests
         private static IDictionary<string, object> ConstructLanguage(int id, string name, string abbreviation)
         {
             var language = new Dictionary<string, object>();
-            language["Id"] = id;
-            language["Name"] = name;
-            language["Abbreviation"] = abbreviation;
+            InsertIntoDictionary(language, "Id", id);
+            InsertIntoDictionary(language, "Name", name);
+            InsertIntoDictionary(language, "Abbreviation", abbreviation);
             return language;
         }
 
         private static IDictionary<string, object> ConstructWord(
-            int id, 
+            int? id, 
             string spelling, 
             string transcription, 
             IDictionary<string, object> language)
         {
             var word = new Dictionary<string, object>();
-            word["Id"] = id;
-            word["Spelling"] = spelling;
-            word["Transcription"] = transcription;
-            word["Language"] = language;
+            InsertIntoDictionary(word, "Id", id);
+            InsertIntoDictionary(word, "Spelling", spelling);
+            InsertIntoDictionary(word, "Transcription", transcription);
+            InsertIntoDictionary(word, "Language", language);
             return word;
         }
 
@@ -136,9 +166,9 @@ namespace VX.Tests
             IDictionary<string, object> target)
         {
             var translation = new Dictionary<string, object>();
-            translation["Id"] = id;
-            translation["Source"] = source;
-            translation["Target"] = target;
+            InsertIntoDictionary(translation, "Id", id);
+            InsertIntoDictionary(translation, "Source", source);
+            InsertIntoDictionary(translation, "Target", target);
             return translation;
         }
 
@@ -148,9 +178,9 @@ namespace VX.Tests
             string description)
         {
             var vocabBank = new Dictionary<string, object>();
-            vocabBank["VocabBankId"] = id;
-            vocabBank["Name"] = name;
-            vocabBank["Description"] = description;
+            InsertIntoDictionary(vocabBank, "VocabBankId", id);
+            InsertIntoDictionary(vocabBank, "Name", name);
+            InsertIntoDictionary(vocabBank, "Description", description);
             return vocabBank;
         }
 
@@ -179,6 +209,14 @@ namespace VX.Tests
                 langName, 
                 langAbbreviation, 
                 actual.Language);
+        }
+
+        private static void InsertIntoDictionary(IDictionary<string, object> dictionary, string key, object value)
+        {
+            if (value != null)
+            {
+                dictionary[key] = value;
+            }
         }
     }
 }
