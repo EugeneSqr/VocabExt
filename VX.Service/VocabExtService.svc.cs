@@ -113,7 +113,7 @@ namespace VX.Service
 
         public IServiceOperationResponse ValidateWord(Stream data)
         {
-            return wordValidator.ValidateExist(inputDataConverter.ParseWord(data), wordsRepository);
+            return wordValidator.Validate(inputDataConverter.ParseWord(data), wordsRepository);
         }
     }
 }

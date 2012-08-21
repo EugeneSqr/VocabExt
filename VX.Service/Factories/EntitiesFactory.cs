@@ -51,19 +51,21 @@ namespace VX.Service.Factories
             const string spellingKey = "Spelling";
             const string transciptionKey = "Transcription";
             const string languageKey = "Language";
-            if (!word.ContainsKey(idKey) || !word.ContainsKey(spellingKey) || !word.ContainsKey(languageKey))
-            {
-                return null;
-            }
 
             return new WordContract
             {
-                Id = (int)word[idKey],
-                Spelling = word[spellingKey].ToString(),
+                Id = word.ContainsKey(idKey) 
+                    ? (int)word[idKey] 
+                    : -1,
+                Spelling = word.ContainsKey(spellingKey) 
+                    ? word[spellingKey].ToString()
+                    : null,
                 Transcription = word.ContainsKey(transciptionKey) 
                     ? word[transciptionKey].ToString() 
                     : null,
-                Language = BuildLanguage((IDictionary<string, object>)word[languageKey])
+                Language = word.ContainsKey(languageKey) 
+                    ? BuildLanguage((IDictionary<string, object>)word[languageKey])
+                    : null
             };
         }
 

@@ -56,11 +56,12 @@ namespace VX.Tests
 
         [Test]
         [Category("EntitiesFactoryTests")]
-        [Description("Checks if factory returns null if input id is null")]
+        [Description("Checks if factory returns word with id = -1 if input id is null")]
         public void BuildWordJsonDeserializedPartialNullIdTest()
         {
-            Assert.IsNull(
+            CheckWord(-1, "spelling", null, 1, "russian", "ru", 
                 SystemUnderTest.BuildWord(ConstructWord(null, "spelling", null, ConstructLanguage(1, "russian", "ru"))));
+                
         }
 
         [Test]
@@ -68,7 +69,7 @@ namespace VX.Tests
         [Description("Checks if factory returns null if input spelling is null")]
         public void BuildWordJsonDeserializedPartialNullSpellingTest()
         {
-            Assert.IsNull(
+            CheckWord(1, null, null, 1, "russian", "ru", 
                 SystemUnderTest.BuildWord(ConstructWord(1, null, null, ConstructLanguage(1, "russian", "ru"))));
         }
 
@@ -77,8 +78,11 @@ namespace VX.Tests
         [Description("Checks if factory returns null if input language is null")]
         public void BuildWordJsonDeserializedPartialNullLanguageTest()
         {
-            Assert.IsNull(
-                SystemUnderTest.BuildWord(ConstructWord(1, "spelling", null, null)));
+            var actual = SystemUnderTest.BuildWord(ConstructWord(1, "spelling", null, null));
+            Assert.AreEqual(1, actual.Id);
+            Assert.AreEqual("spelling", actual.Spelling);
+            Assert.IsNull(actual.Transcription);
+            Assert.IsNull(actual.Language);
         }
 
         [Test]
