@@ -53,7 +53,7 @@ namespace VX.Service.Repositories
                     result = new List<IWord>();
                 }
 
-                CacheFacade.PutIntoCache(result, cacheKey);
+                CacheFacade.PutIntoCache(result, cacheKey, new[] {"Words"});
             }
             
             return result;
@@ -110,7 +110,7 @@ namespace VX.Service.Repositories
                     result = retrievalFunction(context, parameter);
                 }
 
-                CacheFacade.PutIntoCache(result, cacheKey);
+                CacheFacade.PutIntoCache(result, cacheKey, new[] {"Words"});
             }
 
             return result;
