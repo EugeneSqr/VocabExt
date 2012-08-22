@@ -4,38 +4,40 @@ using System.Web.Script.Serialization;
 using Moq;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure;
+using VX.Service.Infrastructure.Factories.Converters;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Infrastructure.JavaScriptConverters;
 
 namespace VX.Tests.Mocks
 {
-    public class JavaScriptConvertersFactoryMock : IJavaScriptConvertersFactory
+    public class JavaScriptConvertersFactoryMock : ConverterFactory,
+        IConverterFactoryMethod<VocabBankTranslationConverter>,
+        IConverterFactoryMethod<VocabBankHeadersConverter>,
+        IConverterFactoryMethod<ParentChildIdPairConverter>,
+        IConverterFactoryMethod<WordsConverter>
     {
-        public JavaScriptConverter Build(string converterName)
+        VocabBankTranslationConverter IConverterFactoryMethod<VocabBankTranslationConverter>.Create()
         {
-            JavaScriptConverter result = null;
-            switch (converterName)
-            {
-                case "VocabBankTranslationConverter":
-                    result = MockVocabBankTranslationConverter();
-                    break;
-                case "VocabBankHeadersConverter":
-                    result = MockVocabBankHeadersConverter();
-                    break;
-                case "ParentChildIdPairConverter":
-                    result = MockParentChildIdConverter();
-                    break;
-                case "WordsConverter":
-                    result = MockWordsConverter();
-                    break;
-            }
-
-            return result;
+            return MockVocabBankTranslationConverter();
         }
 
-        private static JavaScriptConverter MockVocabBankTranslationConverter()
+        VocabBankHeadersConverter IConverterFactoryMethod<VocabBankHeadersConverter>.Create()
+        {
+            return MockVocabBankHeadersConverter();
+        }
+
+        ParentChildIdPairConverter IConverterFactoryMethod<ParentChildIdPairConverter>.Create()
+        {
+            return MockParentChildIdConverter();
+        }
+
+        WordsConverter IConverterFactoryMethod<WordsConverter>.Create()
+        {
+            return MockWordsConverter();
+        }
+
+        private static VocabBankTranslationConverter MockVocabBankTranslationConverter()
         {
             var mock = new Mock<VocabBankTranslationConverter>(new EntitiesFactoryMock());
             mock.Setup(item => item.Deserialize(
@@ -57,7 +59,7 @@ namespace VX.Tests.Mocks
             return mock.Object;
         }
 
-        private static JavaScriptConverter MockVocabBankHeadersConverter()
+        private static VocabBankHeadersConverter MockVocabBankHeadersConverter()
         {
             var mock = new Mock<VocabBankHeadersConverter>(new EntitiesFactoryMock());
             mock.Setup(item => item.Deserialize(
@@ -66,7 +68,7 @@ namespace VX.Tests.Mocks
                 It.IsAny<JavaScriptSerializer>()))
                 .Returns(
                     (IDictionary<string, object> deserialized, Type type, JavaScriptSerializer serializer) =>
-                    new EntitiesFactoryMock().BuildVocabBankHeaders(deserialized));
+                    new EntitiesFactoryMock().Create<IVocabBank, IDictionary<string, object>>(deserialized));
 
             mock.Setup(item => item.SupportedTypes).Returns(
                 new[] {typeof (IVocabBank)});
@@ -74,7 +76,7 @@ namespace VX.Tests.Mocks
             return mock.Object;
         }
 
-        private static JavaScriptConverter MockParentChildIdConverter()
+        private static ParentChildIdPairConverter MockParentChildIdConverter()
         {
             var mock = new Mock<ParentChildIdPairConverter>();
             mock.Setup(item => item.Deserialize(It.IsAny<IDictionary<string, object>>(),
@@ -90,7 +92,7 @@ namespace VX.Tests.Mocks
             return mock.Object;
         }
 
-        private static JavaScriptConverter MockWordsConverter()
+        private static WordsConverter MockWordsConverter()
         {
             var mock = new Mock<WordsConverter>(new EntitiesFactoryMock());
             mock.Setup(item => item.Deserialize(
@@ -98,7 +100,7 @@ namespace VX.Tests.Mocks
                 It.IsAny<Type>(),
                 It.IsAny<JavaScriptSerializer>()))
                 .Returns((IDictionary<string, object> deserialized, Type type, JavaScriptSerializer serializer) =>
-                         new EntitiesFactoryMock().BuildWord(deserialized));
+                         new EntitiesFactoryMock().Create<IWord, IDictionary<string, object>>(deserialized));
 
             mock.Setup(item => item.SupportedTypes).Returns(new[] {typeof (IWord)});
 

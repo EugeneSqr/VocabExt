@@ -6,7 +6,10 @@ using System.Linq;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories.CacheKeys;
+using VX.Service.Infrastructure.Factories.EntitiesContext;
+using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
@@ -19,7 +22,7 @@ namespace VX.Service.Repositories
 
         public VocabBanksRepository(
             IContextFactory contextFactory, 
-            IEntitiesFactory entitiesFactory, 
+            IAdapterFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
             IServiceOperationResponseFactory serviceOperationResponseFactory) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
@@ -37,7 +40,7 @@ namespace VX.Service.Repositories
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction = 
                 vocabBanks => vocabBanks
                     .ToList()
-                    .Select(entity => EntitiesFactory.BuildVocabBank(entity))
+                    .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
                     .ToList();
             
             return GetMultipleBanks(cacheKey, retrievingFunction, true);
@@ -50,7 +53,7 @@ namespace VX.Service.Repositories
                 vocabBanks => vocabBanks
                                   .Where(bank => vocabBanksIds.Contains(bank.Id))
                                   .ToList()
-                                  .Select(entity => EntitiesFactory.BuildVocabBank(entity))
+                                  .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
                                   .ToList();
 
             return GetMultipleBanks(cacheKey, retrievingFunction, true);
@@ -62,7 +65,7 @@ namespace VX.Service.Repositories
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction =
                 vocabBanks => vocabBanks.Include(TagsQueryPath)
                     .ToList()
-                    .Select(bank => EntitiesFactory.BuildVocabBank(bank))
+                    .Select(bank => EntitiesFactory.Create<IVocabBank, VocabBank>(bank))
                     .ToList();
 
             return GetMultipleBanks(cacheKey, retrievingFunction, false);
@@ -77,7 +80,7 @@ namespace VX.Service.Repositories
                 newVocabBank.Name = NewVocabBankName;
                 context.VocabBanks.AddObject(newVocabBank);
                 context.SaveChanges();
-                result = EntitiesFactory.BuildVocabBank(newVocabBank);
+                result = EntitiesFactory.Create<IVocabBank, VocabBank>(newVocabBank);
             }
 
             return result;

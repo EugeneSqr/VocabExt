@@ -1,7 +1,6 @@
 ﻿using VX.Domain;
-using VX.Service.Factories.Interfaces;
 
-namespace VX.Service.Factories
+namespace VX.Service.Infrastructure.Factories.ServiceOperationResponses
 {
     public class ServiceOperationResponseFactory : IServiceOperationResponseFactory
     {

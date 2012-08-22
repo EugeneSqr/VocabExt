@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
-using VX.Service.Factories.Interfaces;
+using VX.Domain.DataContracts.Interfaces;
+using VX.Service.Infrastructure.Factories.Adapters;
 using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure.JavaScriptConverters
 {
     public class VocabBankTranslationConverter : EntitiesConverter
     {
-        public VocabBankTranslationConverter(IEntitiesFactory entitiesFactory) : base(entitiesFactory)
+        public VocabBankTranslationConverter(IAdapterFactory entitiesFactory) : base(entitiesFactory)
         {
         }
 
@@ -22,7 +23,7 @@ namespace VX.Service.Infrastructure.JavaScriptConverters
             var translation = (IDictionary<string, object>)dictionary["Translation"];
             return new BankTranslationPair(
                 (int)dictionary["VocabBankId"],
-                EntitiesFactory.BuildTranslation(translation));
+                EntitiesFactory.Create<ITranslation, IDictionary<string, object>>(translation));
         }
 
         public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)

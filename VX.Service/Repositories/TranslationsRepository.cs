@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories.CacheKeys;
+using VX.Service.Infrastructure.Factories.EntitiesContext;
+using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
@@ -18,7 +20,7 @@ namespace VX.Service.Repositories
 
         public TranslationsRepository(
             IContextFactory contextFactory,
-            IEntitiesFactory entitiesFactory, 
+            IAdapterFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
             IServiceOperationResponseFactory serviceOperationResponseFactory,
@@ -43,7 +45,7 @@ namespace VX.Service.Repositories
                     result = context.VocabBanksTranslations
                         .Where(item => item.VocabularyId == vocabBankId)
                         .ToList()
-                        .Select(item => EntitiesFactory.BuildTranslation(item.Translation))
+                        .Select(item => EntitiesFactory.Create<ITranslation, Translation>(item.Translation))
                         .ToList();
                 }
 
@@ -89,10 +91,13 @@ namespace VX.Service.Repositories
                 }
 
                 context.SaveChanges();
-                resultTranslation = EntitiesFactory.BuildManyToManyRelationship(
-                    targetTranslation.Id, 
-                    targetTranslation.SourceId, 
-                    targetTranslation.TargetId);
+                // TODO: to factory
+                resultTranslation = new ManyToManyRelationship
+                                        {
+                                            Id = targetTranslation.Id,
+                                            SourceId = targetTranslation.SourceId,
+                                            TargetId = targetTranslation.TargetId
+                                        };
             }
 
             return ServiceOperationResponseFactory.Build(true, action, "updated successfully");

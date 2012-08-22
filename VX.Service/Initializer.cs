@@ -1,7 +1,11 @@
 ﻿using Autofac;
-using VX.Service.Factories;
-using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure;
+using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories.CacheKeys;
+using VX.Service.Infrastructure.Factories.Converters;
+using VX.Service.Infrastructure.Factories.EntitiesContext;
+using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
+using VX.Service.Infrastructure.Factories.Tasks;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
@@ -46,8 +50,8 @@ namespace VX.Service
                 .As<IRandomPicker>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<EntitiesFactory>()
-                .As<IEntitiesFactory>()
+            builder.RegisterType<EntityAdapterFactory>()
+                .As<IAdapterFactory>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<TaskValidator>()
@@ -87,7 +91,7 @@ namespace VX.Service
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<JavaScroptConvertersFactory>()
-                .As<IJavaScriptConvertersFactory>()
+                .As<IConverterFactory>()
                 .InstancePerLifetimeScope();
 
             builder.RegisterType<ContextFactory>()

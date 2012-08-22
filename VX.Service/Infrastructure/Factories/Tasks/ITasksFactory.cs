@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using VX.Domain.DataContracts.Interfaces;
 
-namespace VX.Service.Factories.Interfaces
+namespace VX.Service.Infrastructure.Factories.Tasks
 {
     public interface ITasksFactory
     {

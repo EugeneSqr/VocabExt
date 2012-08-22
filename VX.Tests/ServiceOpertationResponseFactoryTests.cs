@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using VX.Domain;
-using VX.Service.Factories;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
 
 namespace VX.Tests
 {

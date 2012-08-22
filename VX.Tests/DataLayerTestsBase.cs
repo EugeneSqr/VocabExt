@@ -3,7 +3,10 @@ using Autofac;
 using Moq;
 using NUnit.Framework;
 using VX.Domain;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories.CacheKeys;
+using VX.Service.Infrastructure.Factories.EntitiesContext;
+using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests.Mocks;
 
@@ -33,7 +36,7 @@ namespace VX.Tests
                 .SingleInstance();
 
             ContainerBuilder.RegisterType<EntitiesFactoryMock>()
-                .As<IEntitiesFactory>()
+                .As<IAdapterFactory>()
                 .InstancePerLifetimeScope();
         }
 

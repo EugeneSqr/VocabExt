@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure.Interfaces;
 
-namespace VX.Service.Factories
+namespace VX.Service.Infrastructure.Factories.Tasks
 {
     public class TasksFactory : ITasksFactory
     {

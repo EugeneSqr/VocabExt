@@ -1,117 +1,116 @@
 ﻿using System.Collections.Generic;
-using VX.Domain;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Adapters;
 
 namespace VX.Tests.Mocks
 {
-    public class EntitiesFactoryMock : IEntitiesFactory
+    public class EntitiesFactoryMock : AdapterFactory, 
+        IAdapterFactoryMethod<ILanguage, Language>,
+        IAdapterFactoryMethod<ILanguage, IDictionary<string, object>>,
+        IAdapterFactoryMethod<IWord, Word>,
+        IAdapterFactoryMethod<IWord, IDictionary<string, object>>,
+        IAdapterFactoryMethod<ITranslation, Translation>,
+        IAdapterFactoryMethod<ITranslation, IDictionary<string, object>>,
+        IAdapterFactoryMethod<IVocabBank, VocabBank>,
+        IAdapterFactoryMethod<IVocabBank, IDictionary<string, object>>,
+        IAdapterFactoryMethod<ITag, Tag>
     {
-        public ILanguage BuildLanguage(Language language)
+        ILanguage IAdapterFactoryMethod<ILanguage, Language>.Create(Language entity)
         {
-            return language == null
+            return entity == null
                        ? null
                        : new LanguageContract();
-
         }
 
-        public ILanguage BuildLanguage(IDictionary<string, object> language)
+        ILanguage IAdapterFactoryMethod<ILanguage, IDictionary<string, object>>.Create(IDictionary<string, object> entity)
         {
             return new LanguageContract
             {
-                Id = (int)language["Id"],
-                Name = language["Name"].ToString(),
-                Abbreviation = language["Abbreviation"].ToString()
+                Id = (int)entity["Id"],
+                Name = entity["Name"].ToString(),
+                Abbreviation = entity["Abbreviation"].ToString()
             };
+            
+            
         }
 
-        public IWord BuildWord(IDictionary<string, object> word)
+        IWord IAdapterFactoryMethod<IWord, Word>.Create(Word entity)
+        {
+            return entity == null
+                       ? null
+                       : new WordContract
+                       {
+                           Id = entity.Id,
+                           Spelling = entity.Spelling
+                       };
+        }
+
+        IWord IAdapterFactoryMethod<IWord, IDictionary<string, object>>.Create(IDictionary<string, object> entity)
         {
             return new WordContract
             {
-                Id = (int)word["Id"],
-                Spelling = word["Spelling"].ToString(),
-                Transcription = word["Transcription"].ToString(),
-                Language = BuildLanguage((IDictionary<string, object>)word["Language"])
+                Id = (int)entity["Id"],
+                Spelling = entity["Spelling"].ToString(),
+                Transcription = entity["Transcription"].ToString(),
+                Language = Create<ILanguage, IDictionary<string, object>>((IDictionary<string, object>)entity["Language"])
             };
         }
 
-        public IWord BuildWord(Word word)
+        ITranslation IAdapterFactoryMethod<ITranslation, Translation>.Create(Translation entity)
         {
-            return word == null
+            return entity == null
                        ? null
-                       : new WordContract
-                             {
-                                 Id = word.Id,
-                                 Spelling = word.Spelling
-                             };
+                       : new TranslationContract
+                       {
+                           Id = entity.Id,
+                           Source = new WordContract
+                           {
+                               Id = entity.Source.Id
+                           },
+                           Target = new WordContract
+                           {
+                               Id = entity.Target.Id
+                           }
+                       };
         }
 
-        public ITranslation BuildTranslation(IDictionary<string, object> translation)
+        ITranslation IAdapterFactoryMethod<ITranslation, IDictionary<string, object>>.Create(IDictionary<string, object> entity)
         {
             throw new System.NotImplementedException();
         }
 
-        public ITranslation BuildTranslation(Translation translation)
+        IVocabBank IAdapterFactoryMethod<IVocabBank, VocabBank>.Create(VocabBank entity)
         {
-            return translation == null
-                       ? null
-                       : new TranslationContract
-                             {
-                                 Id = translation.Id,
-                                 Source = new WordContract
-                                              {
-                                                  Id = translation.Source.Id
-                                              },
-                                 Target = new WordContract
-                                              {
-                                                  Id = translation.Target.Id
-                                              }
-                             };
-        }
-
-        public IVocabBank BuildVocabBank(VocabBank vocabBank)
-        {
-            return vocabBank == null
+            return entity == null
                        ? null
                        : new VocabBankContract
-                             {
-                                 Id = vocabBank.Id,
-                                 Name = vocabBank.Name,
-                                 Description = vocabBank.Description,
-                                 Tags =
-                                     vocabBank.VocabBanksTags.Count == 0
-                                         ? new List<ITag>()
-                                         : new List<ITag> {new TagContract()},
-                                 Translations =
-                                     vocabBank.VocabBanksTranslations.Count == 0
-                                         ? new List<ITranslation>()
-                                         : new List<ITranslation> {new TranslationContract()}
-                             };
+                       {
+                           Id = entity.Id,
+                           Name = entity.Name,
+                           Description = entity.Description,
+                           Tags =
+                               entity.VocabBanksTags.Count == 0
+                                   ? new List<ITag>()
+                                   : new List<ITag> { new TagContract() },
+                           Translations =
+                               entity.VocabBanksTranslations.Count == 0
+                                   ? new List<ITranslation>()
+                                   : new List<ITranslation> { new TranslationContract() }
+                       };
         }
 
-        public IVocabBank BuildVocabBankHeaders(IDictionary<string, object> vocabBank)
+        IVocabBank IAdapterFactoryMethod<IVocabBank, IDictionary<string, object>>.Create(IDictionary<string, object> entity)
         {
             return new VocabBankContract
-                       {
-                           Name = vocabBank["Name"].ToString(),
-                           Description = vocabBank["Description"].ToString()
-                       };
+            {
+                Name = entity["Name"].ToString(),
+                Description = entity["Description"].ToString()
+            };
         }
 
-        public IManyToManyRelationship BuildManyToManyRelationship(int id, int sourceId, int targetId)
-        {
-            return new ManyToManyRelationship
-                       {
-                           Id = id,
-                           SourceId = sourceId,
-                           TargetId = targetId
-                       };
-        }
-
-        public ITag BuildTag(Tag tag)
+        ITag IAdapterFactoryMethod<ITag, Tag>.Create(Tag entity)
         {
             throw new System.NotImplementedException();
         }

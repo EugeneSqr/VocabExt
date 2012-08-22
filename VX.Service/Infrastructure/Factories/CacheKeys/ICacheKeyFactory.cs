@@ -1,4 +1,4 @@
-﻿namespace VX.Service.Factories.Interfaces
+﻿namespace VX.Service.Infrastructure.Factories.CacheKeys
 {
     public interface ICacheKeyFactory
     {

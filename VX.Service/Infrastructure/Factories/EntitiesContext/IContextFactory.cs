@@ -1,6 +1,6 @@
 ﻿using VX.Model;
 
-namespace VX.Service.Factories.Interfaces
+namespace VX.Service.Infrastructure.Factories.EntitiesContext
 {
     public interface IContextFactory
     {

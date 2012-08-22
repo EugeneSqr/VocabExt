@@ -6,8 +6,7 @@ using Moq;
 using NUnit.Framework;
 using VX.Domain.DataContracts;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Factories;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Tasks;
 using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Tests

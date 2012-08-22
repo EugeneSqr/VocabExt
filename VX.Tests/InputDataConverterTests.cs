@@ -2,8 +2,8 @@
 using System.Text;
 using Autofac;
 using NUnit.Framework;
-using VX.Service.Factories.Interfaces;
 using VX.Service.Infrastructure;
+using VX.Service.Infrastructure.Factories.Converters;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests.Mocks;
 
@@ -29,7 +29,7 @@ namespace VX.Tests
         public InputDataConverterTests()
         {
             ContainerBuilder.RegisterInstance(new JavaScriptConvertersFactoryMock())
-                .As<IJavaScriptConvertersFactory>()
+                .As<IConverterFactory>()
                 .SingleInstance();
             
             BuildContainer();

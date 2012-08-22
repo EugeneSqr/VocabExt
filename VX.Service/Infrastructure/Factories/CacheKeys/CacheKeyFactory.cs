@@ -1,7 +1,6 @@
 ﻿using System.Text;
-using VX.Service.Factories.Interfaces;
 
-namespace VX.Service.Factories
+namespace VX.Service.Infrastructure.Factories.CacheKeys
 {
     public class CacheKeyFactory : ICacheKeyFactory
     {

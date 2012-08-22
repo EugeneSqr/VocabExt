@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
-using VX.Service.Factories;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.CacheKeys;
 
 namespace VX.Tests
 {

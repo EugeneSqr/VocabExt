@@ -3,7 +3,7 @@ using System.IO;
 using Autofac;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Tasks;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;

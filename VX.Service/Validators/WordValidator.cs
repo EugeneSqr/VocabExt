@@ -1,7 +1,7 @@
 ﻿using System;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
 

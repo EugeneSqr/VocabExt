@@ -1,4 +1,4 @@
-﻿using VX.Service.Factories.Interfaces;
+﻿using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
 
 namespace VX.Service.Validators
 {

@@ -66,19 +66,23 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Factories\Adapters\AdapterFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Adapters\IAdapterFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Adapters\IAdapterFactoryMethod.cs" />
+    <Compile Include="Infrastructure\Factories\Converters\ConverterFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Converters\IConverterFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Converters\IConverterFactoryMethod.cs" />
     <Compile Include="Infrastructure\CacheNullItem.cs" />
     <Compile Include="Validators\Interfaces\IWordValidator.cs" />
-    <Compile Include="Factories\CacheKeyFactory.cs" />
-    <Compile Include="Factories\ContextFactory.cs" />
-    <Compile Include="Factories\EntitiesFactory.cs" />
-    <Compile Include="Factories\Interfaces\ICacheKeyFactory.cs" />
-    <Compile Include="Factories\Interfaces\IContextFactory.cs" />
-    <Compile Include="Factories\Interfaces\IEntitiesFactory.cs" />
-    <Compile Include="Factories\Interfaces\IJavaScriptConvertersFactory.cs" />
-    <Compile Include="Factories\Interfaces\IServiceOperationResponseFactory.cs" />
-    <Compile Include="Factories\Interfaces\ITasksFactory.cs" />
-    <Compile Include="Factories\JavaScroptConvertersFactory.cs" />
-    <Compile Include="Factories\ServiceOperationResponseFactory.cs" />
+    <Compile Include="Infrastructure\Factories\CacheKeys\CacheKeyFactory.cs" />
+    <Compile Include="Infrastructure\Factories\EntitiesContext\ContextFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Adapters\EntityAdapterFactory.cs" />
+    <Compile Include="Infrastructure\Factories\CacheKeys\ICacheKeyFactory.cs" />
+    <Compile Include="Infrastructure\Factories\EntitiesContext\IContextFactory.cs" />
+    <Compile Include="Infrastructure\Factories\ServiceOperationResponses\IServiceOperationResponseFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Tasks\ITasksFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Converters\JavaScroptConvertersFactory.cs" />
+    <Compile Include="Infrastructure\Factories\ServiceOperationResponses\ServiceOperationResponseFactory.cs" />
     <Compile Include="Infrastructure\BankTranslationPair.cs" />
     <Compile Include="Infrastructure\CacheFacade.cs" />
     <Compile Include="Infrastructure\InputDataConverter.cs" />
@@ -101,7 +105,7 @@
     <Compile Include="Initializer.cs" />
     <Compile Include="Infrastructure\Interfaces\IRandomPicker.cs" />
     <Compile Include="Infrastructure\Interfaces\IServiceSettings.cs" />
-    <Compile Include="Factories\TasksFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Tasks\TasksFactory.cs" />
     <Compile Include="Infrastructure\Interfaces\IRandomFacade.cs" />
     <Compile Include="Infrastructure\RandomFacade.cs" />
     <Compile Include="Infrastructure\RandomPicker.cs" />

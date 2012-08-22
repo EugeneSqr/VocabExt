@@ -1,5 +1,5 @@
 ﻿using VX.Model;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.EntitiesContext;
 
 namespace VX.Tests.Mocks
 {

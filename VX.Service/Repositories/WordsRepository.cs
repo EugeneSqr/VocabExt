@@ -5,7 +5,10 @@ using System.Linq;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
 using VX.Model;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories.CacheKeys;
+using VX.Service.Infrastructure.Factories.EntitiesContext;
+using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
@@ -19,7 +22,7 @@ namespace VX.Service.Repositories
 
         public WordsRepository(
             IContextFactory contextFactory, 
-            IEntitiesFactory entitiesFactory, 
+            IAdapterFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
             IServiceOperationResponseFactory serviceOperationResponseFactory,
@@ -44,7 +47,7 @@ namespace VX.Service.Repositories
                         result = context.Words
                             .Where(word => word.Spelling.StartsWith(actualSearchString))
                             .ToList()
-                            .Select(item => EntitiesFactory.BuildWord(item))
+                            .Select(item => EntitiesFactory.Create<IWord, Word>(item))
                             .ToList();
                     }
                 }
@@ -62,7 +65,7 @@ namespace VX.Service.Repositories
         public IWord GetWord(int id)
         {
             var cacheKey = CacheKeyFactory.BuildKey("WordsRepository.GetWord", id);
-            Func<Entities, int, IWord> retrievalFunction = (context, parameter) => EntitiesFactory.BuildWord(
+            Func<Entities, int, IWord> retrievalFunction = (context, parameter) => EntitiesFactory.Create<IWord, Word>(
                 context.Words.FirstOrDefault(item => item.Id == id));
 
             return Retrieve(retrievalFunction, cacheKey, id);

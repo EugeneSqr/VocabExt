@@ -2,16 +2,17 @@
 using System.IO;
 using System.Web.Script.Serialization;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Converters;
 using VX.Service.Infrastructure.Interfaces;
+using VX.Service.Infrastructure.JavaScriptConverters;
 
 namespace VX.Service.Infrastructure
 {
     public class InputDataConverter : IInputDataConverter
     {
-        private readonly IJavaScriptConvertersFactory convertersFactory;
+        private readonly IConverterFactory convertersFactory;
 
-        public InputDataConverter(IJavaScriptConvertersFactory convertersFactory)
+        public InputDataConverter(IConverterFactory convertersFactory)
         {
             this.convertersFactory = convertersFactory;
         }
@@ -31,28 +32,28 @@ namespace VX.Service.Infrastructure
 
         public IParentChildIdPair ParsePair(Stream data)
         {
-            return Parse<IParentChildIdPair>(data, "ParentChildIdPairConverter");
+            return Parse<IParentChildIdPair, ParentChildIdPairConverter>(data);
         }
 
         public IBankTranslationPair ParseBankTranslationPair(Stream data)
         {
-            return Parse<IBankTranslationPair>(data, "VocabBankTranslationConverter");
+            return Parse<IBankTranslationPair, VocabBankTranslationConverter>(data);
         }
 
         public IVocabBank ParseBankHeaders(Stream data)
         {
-            return Parse<IVocabBank>(data, "VocabBankHeadersConverter");
+            return Parse<IVocabBank, VocabBankHeadersConverter>(data);
         }
 
         public IWord ParseWord(Stream data)
         {
-            return Parse<IWord>(data, "WordsConverter");
+            return Parse<IWord, WordsConverter>(data);
         }
 
-        private T Parse<T>(Stream data, string converterName)
+        private T Parse<T, TConverter>(Stream data) where TConverter : JavaScriptConverter
         {
             var serializer = new JavaScriptSerializer();
-            serializer.RegisterConverters(new[] {convertersFactory.Build(converterName)});
+            serializer.RegisterConverters(new[] {convertersFactory.Create<TConverter>()});
             try
             {
                 return serializer.Deserialize<T>(new StreamReader(data).ReadToEnd());

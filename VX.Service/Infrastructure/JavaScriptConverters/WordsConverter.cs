@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Web.Script.Serialization;
 using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Factories.Interfaces;
+using VX.Service.Infrastructure.Factories.Adapters;
 
 namespace VX.Service.Infrastructure.JavaScriptConverters
 {
     public class WordsConverter : EntitiesConverter
     {
-        public WordsConverter(IEntitiesFactory entitiesFactory) : base(entitiesFactory)
+        public WordsConverter(IAdapterFactory entitiesFactory) : base(entitiesFactory)
         {
         }
 
@@ -19,7 +19,7 @@ namespace VX.Service.Infrastructure.JavaScriptConverters
 
         public override object Deserialize(IDictionary<string, object> dictionary, Type type, JavaScriptSerializer serializer)
         {
-            return EntitiesFactory.BuildWord(dictionary);
+            return EntitiesFactory.Create<IWord, IDictionary<string, object>>(dictionary);
         }
 
         public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
