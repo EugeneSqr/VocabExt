@@ -36,27 +36,22 @@ namespace VX.Service.Repositories
 
         public IList<IVocabBank> Get()
         {
-            var cacheKey = CacheKeyFactory.BuildKey(ServiceName, string.Empty);
-            Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction = 
-                vocabBanks => vocabBanks
-                    .ToList()
-                    .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
-                    .ToList();
-            
-            return GetMultipleBanks(cacheKey, retrievingFunction, true);
+            return Get(new int[] {}, true);
+        }
+
+        public IList<IVocabBank> GetWithTranslationsOnly()
+        {
+            return Get(new int[] {}, false);
         }
 
         public IList<IVocabBank> Get(int[] vocabBanksIds)
         {
-            var cacheKey = CacheKeyFactory.BuildKey(ServiceName, vocabBanksIds);
-            Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction =
-                vocabBanks => vocabBanks
-                                  .Where(bank => vocabBanksIds.Contains(bank.Id))
-                                  .ToList()
-                                  .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
-                                  .ToList();
+            return Get(vocabBanksIds, true);
+        }
 
-            return GetMultipleBanks(cacheKey, retrievingFunction, true);
+        public IList<IVocabBank> GetWithTranslationsOnly(int[] vocabBanksIds)
+        {
+            return Get(vocabBanksIds, false);
         }
 
         public IList<IVocabBank> GetListWithoutTranslations()
@@ -175,6 +170,34 @@ namespace VX.Service.Repositories
             }
 
             return ServiceOperationResponseFactory.Build(true, action);
+        }
+
+        private IList<IVocabBank> Get(int[] vocabBanksIds, bool keepEmptyTranslations)
+        {
+            var cacheKey = CacheKeyFactory.BuildKey(ServiceName, vocabBanksIds, keepEmptyTranslations);
+            Func<VocabBank, bool> emptyTranslationsFilterExpression = 
+                bank => keepEmptyTranslations || bank.VocabBanksTranslations.Any();
+
+            Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction;
+            if (vocabBanksIds.Any())
+            {
+                retrievingFunction = vocabBanks => vocabBanks
+                                                       .Where(bank => vocabBanksIds.Contains(bank.Id))
+                                                       .Where(emptyTranslationsFilterExpression)
+                                                       .ToList()
+                                                       .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
+                                                       .ToList();
+            }
+            else
+            {
+                retrievingFunction = vocabBanks => vocabBanks
+                                                       .Where(emptyTranslationsFilterExpression)
+                                                       .ToList()
+                                                       .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
+                                                       .ToList();
+            }
+
+            return GetMultipleBanks(cacheKey, retrievingFunction, true);
         }
 
         private IList<IVocabBank> GetMultipleBanks(

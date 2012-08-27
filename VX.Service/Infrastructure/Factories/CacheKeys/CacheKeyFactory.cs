@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace VX.Service.Infrastructure.Factories.CacheKeys
 {
@@ -8,6 +9,11 @@ namespace VX.Service.Infrastructure.Factories.CacheKeys
         
         public string BuildKey(string serviceName, int[] parameters)
         {
+            if (parameters == null)
+            {
+                throw new ArgumentNullException("parameters");
+            }
+
             StringBuilder intKeyPart = new StringBuilder();
             foreach (int parameter in parameters)
             {
@@ -25,6 +31,12 @@ namespace VX.Service.Infrastructure.Factories.CacheKeys
         public string BuildKey(string serviceName, string parameter)
         {
             return string.Format(NameParametersTemplate, serviceName, parameter);
+        }
+
+        public string BuildKey(string serviceName, int[] parameters, bool flag)
+        {
+            var builder = new StringBuilder(BuildKey(serviceName, parameters));
+            return builder.Append("flag:").Append(flag).ToString();
         }
     }
 }

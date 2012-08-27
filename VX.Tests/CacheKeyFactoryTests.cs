@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 
 namespace VX.Tests
@@ -33,12 +34,50 @@ namespace VX.Tests
 
         [Test]
         [Category("CacheKeyFactoryTests")]
+        [Description("Checks if BuildKey correctly builds a key from empty int array")]
+        public void BuildKeyIntArrayEmptyTest()
+        {
+            Assert.AreEqual(
+                "serviceName:", 
+                SystemUnderTest.BuildKey("serviceName", new int[] { }));
+        }
+
+        [Test]
+        [Category("CacheKeyFactoryTests")]
         [Description("Checks if BuildKey correctly builds a key from single int")]
         public void BuildKeyIntTest()
         {
             Assert.AreEqual(
                 "serviceName:1",
                 SystemUnderTest.BuildKey("serviceName", 1));
+        }
+
+        [Test]
+        [Category("CacheKeyFactoryTests")]
+        [Description("Checks if BuildKey correctly builds a key from int array and a bool flag")]
+        public void BuildKeyIntArrayBoolTest()
+        {
+            Assert.AreEqual(
+                "serviceName:1-2-3-flag:True", 
+                SystemUnderTest.BuildKey("serviceName", new[] { 1, 2, 3 }, true));
+        }
+
+        [Test]
+        [Category("CacheKeyFactoryTests")]
+        [Description("Checks if BuildKey correctly builds a key feom empty int array and a bool flag")]
+        public void BuildKeyEmptyIntArrayBoolTest()
+        {
+            Assert.AreEqual(
+                "serviceName:flag:True", 
+                SystemUnderTest.BuildKey("serviceName", new int[] { }, true));
+        }
+
+        [Test]
+        [Category("CacheKeyFactoryTests")]
+        [Description("Checks if BuildKey throws ArgumentNullException in input array is null")]
+        public void BuildKeyNullIntArrayTest()
+        {
+            Assert.Throws<ArgumentNullException>(() => SystemUnderTest.BuildKey("serviceName", (int[]) null));
         }
     }
 }

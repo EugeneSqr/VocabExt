@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Autofac;
 using VX.Domain;
 using VX.Domain.DataContracts.Interfaces;
@@ -10,6 +11,8 @@ using VX.Service.Validators.Interfaces;
 
 namespace VX.Service
 {
+    // TODO: create dispatcher to move logic to separate classes
+    // TODO: or use this class as dispatcher and add unit tests
     public class VocabExtService : IVocabExtService
     {
         private readonly ITasksFactory tasksFactory;
@@ -41,14 +44,24 @@ namespace VX.Service
 
         public IList<ITask> GetTasks()
         {
-            var vocabBanks = vocabBanksRepository.Get();
-            return tasksFactory.BuildTasks(vocabBanks, serviceSettings.DefaultTasksCount);
+            IList<ITask> result = new List<ITask>();
+            var banks = vocabBanksRepository.GetWithTranslationsOnly();
+            if (banks.Any())
+            {
+                result = tasksFactory.BuildTasks(
+                    vocabBanksRepository.GetWithTranslationsOnly(),
+                    serviceSettings.DefaultTasksCount);
+            }
+
+            return result;
         }
 
         public IList<ITask> GetTasks(int[] vocabBanksIds)
         {
-            var vocabBanks = vocabBanksRepository.Get(vocabBanksIds);
-            return tasksFactory.BuildTasks(vocabBanks, serviceSettings.DefaultTasksCount);
+            var banks = vocabBanksRepository.GetWithTranslationsOnly(vocabBanksIds);
+            return banks.Any() 
+                ? tasksFactory.BuildTasks(banks, serviceSettings.DefaultTasksCount) 
+                : GetTasks();
         }
 
         public IList<IVocabBank> GetVocabBanksList()

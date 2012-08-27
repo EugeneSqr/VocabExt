@@ -10,7 +10,11 @@ namespace VX.Service.Repositories.Interfaces
 
         IList<IVocabBank> Get();
 
+        IList<IVocabBank> GetWithTranslationsOnly();
+
         IList<IVocabBank> Get(int[] vocabBanksIds);
+
+        IList<IVocabBank> GetWithTranslationsOnly(int[] vocabBanksIds);
 
         IList<IVocabBank> GetListWithoutTranslations();
 

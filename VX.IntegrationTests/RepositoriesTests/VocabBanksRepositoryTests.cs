@@ -54,6 +54,30 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if Get returns vocabbanks by specified ids")]
+        public void GetVocabBanksByIds()
+        {
+            Assert.AreEqual(3, SystemUnderTest.Get(new[] {1, 2, 3}).Count);
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if Get returns vocabbanks by specified ids with translations only")]
+        public void GetVocabBanksByIdsWithTranslationsOnlyTest()
+        {
+            Assert.AreEqual(3, SystemUnderTest.GetWithTranslationsOnly(new[] {1, 2, 3}).Count);
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
+        [Description("Checks if Get returns vocabbanks list with translations only")]
+        public void GetVocabBanksWithTranslationsOnlyTest()
+        {
+            Assert.AreEqual(7, SystemUnderTest.GetWithTranslationsOnly().Count);
+        }
+
+        [Test]
+        [Category("VocabBanksRepositoryTests")]
         [Description("Checks if GetListWithoutTranslations returns list without translations and still with tags")]
         public void GetVocabBanksListPositiveTest()
         {
