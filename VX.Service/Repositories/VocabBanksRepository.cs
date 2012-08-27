@@ -176,23 +176,23 @@ namespace VX.Service.Repositories
         {
             var cacheKey = CacheKeyFactory.BuildKey(ServiceName, vocabBanksIds, keepEmptyTranslations);
             Func<VocabBank, bool> emptyTranslationsFilterExpression = 
-                bank => keepEmptyTranslations || bank.VocabBanksTranslations.Any();
+                bank => keepEmptyTranslations || (bank.VocabBanksTranslations.Any());
 
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction;
             if (vocabBanksIds.Any())
             {
                 retrievingFunction = vocabBanks => vocabBanks
                                                        .Where(bank => vocabBanksIds.Contains(bank.Id))
-                                                       .Where(emptyTranslationsFilterExpression)
                                                        .ToList()
+                                                       .Where(emptyTranslationsFilterExpression)
                                                        .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
                                                        .ToList();
             }
             else
             {
                 retrievingFunction = vocabBanks => vocabBanks
-                                                       .Where(emptyTranslationsFilterExpression)
                                                        .ToList()
+                                                       .Where(emptyTranslationsFilterExpression)
                                                        .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
                                                        .ToList();
             }
