@@ -1,7 +1,7 @@
 ﻿using System;
-using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
+using VX.Domain.Entities;
+using VX.Domain.Surrogates;
+using VX.Service.Infrastructure.Factories;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
 
@@ -16,9 +16,7 @@ namespace VX.Service.Validators
         private const string WrongLanguageErrorCode = "2";
         private const string WordAlreadyExistsErrorCode = "3";
 
-        public WordValidator(
-            IServiceOperationResponseFactory serviceOperationResponseFactory, 
-            ILanguagesRepository languagesRepository) : base(serviceOperationResponseFactory)
+        public WordValidator(IAbstractFactory factory, ILanguagesRepository languagesRepository) : base(factory)
         {
             this.languagesRepository = languagesRepository;
         }
@@ -113,7 +111,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildEmptyWordResponse()
         {
-            return ServiceOperationResponseFactory.Build(
+            return Factory.Create<IServiceOperationResponse>(
                 false, 
                 ServiceOperationAction.Validate, 
                 EmptyWordErrorCode);
@@ -121,7 +119,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildWrongLanguageResponse()
         {
-            return ServiceOperationResponseFactory.Build(
+            return Factory.Create<IServiceOperationResponse>(
                 false, 
                 ServiceOperationAction.Validate, 
                 WrongLanguageErrorCode);
@@ -129,7 +127,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildWordExistsResponse()
         {
-            return ServiceOperationResponseFactory.Build(
+            return Factory.Create<IServiceOperationResponse>(
                 false, 
                 ServiceOperationAction.Validate, 
                 WordAlreadyExistsErrorCode);
@@ -137,7 +135,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildEmptySpellingResponse()
         {
-            return ServiceOperationResponseFactory.Build(
+            return Factory.Create<IServiceOperationResponse>(
                 false, 
                 ServiceOperationAction.Validate, 
                 EmptySpellingErrorCode);
@@ -145,7 +143,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildValidationPassedResponse()
         {
-            return ServiceOperationResponseFactory.Build(true, ServiceOperationAction.Validate);
+            return Factory.Create<IServiceOperationResponse>(true, ServiceOperationAction.Validate);
         }
     }
 }

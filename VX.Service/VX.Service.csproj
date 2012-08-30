@@ -36,13 +36,18 @@
     <Reference Include="Autofac">
       <HintPath>..\.Libraries\Autofac\Autofac.dll</HintPath>
     </Reference>
+    <Reference Include="Autofac.Integration.Wcf">
+      <HintPath>..\.Libraries\Autofac\Autofac.Integration.Wcf.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -66,43 +71,32 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\Factories\Adapters\AdapterFactory.cs" />
-    <Compile Include="Infrastructure\Factories\Adapters\IAdapterFactory.cs" />
-    <Compile Include="Infrastructure\Factories\Adapters\IAdapterFactoryMethod.cs" />
-    <Compile Include="Infrastructure\Factories\Converters\ConverterFactory.cs" />
-    <Compile Include="Infrastructure\Factories\Converters\IConverterFactory.cs" />
-    <Compile Include="Infrastructure\Factories\Converters\IConverterFactoryMethod.cs" />
+    <Compile Include="Infrastructure\Factories\AbstractFactory.cs" />
+    <Compile Include="Infrastructure\Factories\IFactoryMethod.cs" />
+    <Compile Include="Infrastructure\Factories\IAbstractFactory.cs" />
+    <Compile Include="Infrastructure\Factories\ISourceToTargetFactoryMethod.cs" />
     <Compile Include="Infrastructure\CacheNullItem.cs" />
+    <Compile Include="ServiceHostFactory.cs" />
     <Compile Include="Validators\Interfaces\IWordValidator.cs" />
     <Compile Include="Infrastructure\Factories\CacheKeys\CacheKeyFactory.cs" />
-    <Compile Include="Infrastructure\Factories\EntitiesContext\ContextFactory.cs" />
-    <Compile Include="Infrastructure\Factories\Adapters\EntityAdapterFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Context\ContextFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Factory.cs" />
     <Compile Include="Infrastructure\Factories\CacheKeys\ICacheKeyFactory.cs" />
-    <Compile Include="Infrastructure\Factories\EntitiesContext\IContextFactory.cs" />
-    <Compile Include="Infrastructure\Factories\ServiceOperationResponses\IServiceOperationResponseFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Context\IContextFactory.cs" />
+    <Compile Include="Infrastructure\Factories\IResponseFactoryMethod.cs" />
     <Compile Include="Infrastructure\Factories\Tasks\ITasksFactory.cs" />
-    <Compile Include="Infrastructure\Factories\Converters\JavaScroptConvertersFactory.cs" />
-    <Compile Include="Infrastructure\Factories\ServiceOperationResponses\ServiceOperationResponseFactory.cs" />
     <Compile Include="Infrastructure\BankTranslationPair.cs" />
     <Compile Include="Infrastructure\CacheFacade.cs" />
-    <Compile Include="Infrastructure\InputDataConverter.cs" />
     <Compile Include="Infrastructure\Interfaces\IBankTranslationPair.cs" />
     <Compile Include="Infrastructure\Interfaces\ICacheFacade.cs" />
-    <Compile Include="Infrastructure\Interfaces\IInputDataConverter.cs" />
     <Compile Include="Infrastructure\Interfaces\IParentChildIdPair.cs" />
     <Compile Include="Infrastructure\Interfaces\ISearchStringBuilder.cs" />
     <Compile Include="Infrastructure\Interfaces\ISynonymSelector.cs" />
     <Compile Include="Infrastructure\Interfaces\ITaskValidator.cs" />
-    <Compile Include="Infrastructure\JavaScriptConverters\EntitiesConverter.cs" />
-    <Compile Include="Infrastructure\JavaScriptConverters\ParentChildIdPairConverter.cs" />
-    <Compile Include="Infrastructure\JavaScriptConverters\VocabBankTranslationConverter.cs" />
-    <Compile Include="Infrastructure\JavaScriptConverters\VocabBankHeadersConverter.cs" />
-    <Compile Include="Infrastructure\JavaScriptConverters\WordsConverter.cs" />
     <Compile Include="Infrastructure\ParentChildIdPair.cs" />
     <Compile Include="Infrastructure\SearchStringBuilder.cs" />
     <Compile Include="Infrastructure\SynonymSelector.cs" />
     <Compile Include="Infrastructure\TaskValidator.cs" />
-    <Compile Include="Initializer.cs" />
     <Compile Include="Infrastructure\Interfaces\IRandomPicker.cs" />
     <Compile Include="Infrastructure\Interfaces\IServiceSettings.cs" />
     <Compile Include="Infrastructure\Factories\Tasks\TasksFactory.cs" />

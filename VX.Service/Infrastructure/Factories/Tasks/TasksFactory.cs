@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using VX.Domain.DataContracts;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Entities.Impl;
 using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure.Factories.Tasks

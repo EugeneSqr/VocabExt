@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Data.Objects;
 using System.Globalization;
 using System.Linq;
-using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Surrogates;
 using VX.Model;
-using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
-using VX.Service.Infrastructure.Factories.EntitiesContext;
-using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
+using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
@@ -22,10 +21,10 @@ namespace VX.Service.Repositories
 
         public VocabBanksRepository(
             IContextFactory contextFactory, 
-            IAdapterFactory entitiesFactory, 
+            IAbstractFactory factory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory, 
-            IServiceOperationResponseFactory serviceOperationResponseFactory) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
+            ICacheKeyFactory cacheKeyFactory
+            ) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
         {
         }
 
@@ -60,7 +59,7 @@ namespace VX.Service.Repositories
             Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction =
                 vocabBanks => vocabBanks.Include(TagsQueryPath)
                     .ToList()
-                    .Select(bank => EntitiesFactory.Create<IVocabBank, VocabBank>(bank))
+                    .Select(bank => Factory.Create<IVocabBank, VocabBank>(bank))
                     .ToList();
 
             return GetMultipleBanks(cacheKey, retrievingFunction, false);
@@ -75,7 +74,7 @@ namespace VX.Service.Repositories
                 newVocabBank.Name = NewVocabBankName;
                 context.VocabBanks.AddObject(newVocabBank);
                 context.SaveChanges();
-                result = EntitiesFactory.Create<IVocabBank, VocabBank>(newVocabBank);
+                result = Factory.Create<IVocabBank, VocabBank>(newVocabBank);
             }
 
             return result;
@@ -91,17 +90,17 @@ namespace VX.Service.Repositories
                 {
                     context.VocabBanks.DeleteObject(bankToDelete);
                     context.SaveChanges();
-                    result = ServiceOperationResponseFactory.Build(
+                    result = Factory.Create<IServiceOperationResponse>(
                         true, 
                         ServiceOperationAction.Delete, 
                         vocabBankId.ToString(CultureInfo.InvariantCulture));
                 }
                 else
                 {
-                    result = ServiceOperationResponseFactory.Build(
-                    false,
-                    ServiceOperationAction.Delete,
-                    "Vocabulary bank is not found");
+                    result = Factory.Create<IServiceOperationResponse>(
+                        false,
+                        ServiceOperationAction.Delete,
+                        "Vocabulary bank is not found");
                 }
             }
 
@@ -121,7 +120,7 @@ namespace VX.Service.Repositories
                 }
             }
 
-            return ServiceOperationResponseFactory.Build(true, ServiceOperationAction.Update);
+            return Factory.Create<IServiceOperationResponse>(true, ServiceOperationAction.Update);
         }
 
         public IServiceOperationResponse DetachTranslation(int vocabBankId, int translationId)
@@ -137,13 +136,13 @@ namespace VX.Service.Repositories
                 }
                 catch(Exception)
                 {
-                    return ServiceOperationResponseFactory.Build(
+                    return Factory.Create<IServiceOperationResponse>(
                         false, 
                         ServiceOperationAction.Detach, 
                         "item not found");
                 }
 
-                return ServiceOperationResponseFactory.Build(
+                return Factory.Create<IServiceOperationResponse>(
                     true, 
                     ServiceOperationAction.Detach, 
                     "detached successfully");
@@ -169,7 +168,7 @@ namespace VX.Service.Repositories
                 }
             }
 
-            return ServiceOperationResponseFactory.Build(true, action);
+            return Factory.Create<IServiceOperationResponse>(true, action);
         }
 
         private IList<IVocabBank> Get(int[] vocabBanksIds, bool keepEmptyTranslations)
@@ -185,7 +184,7 @@ namespace VX.Service.Repositories
                                                        .Where(bank => vocabBanksIds.Contains(bank.Id))
                                                        .ToList()
                                                        .Where(emptyTranslationsFilterExpression)
-                                                       .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
+                                                       .Select(entity => Factory.Create<IVocabBank, VocabBank>(entity))
                                                        .ToList();
             }
             else
@@ -193,7 +192,7 @@ namespace VX.Service.Repositories
                 retrievingFunction = vocabBanks => vocabBanks
                                                        .ToList()
                                                        .Where(emptyTranslationsFilterExpression)
-                                                       .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
+                                                       .Select(entity => Factory.Create<IVocabBank, VocabBank>(entity))
                                                        .ToList();
             }
 

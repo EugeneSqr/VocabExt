@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using VX.Domain;
+using VX.Domain.Surrogates;
 
 namespace VX.Tests.ValidatorsTests
 {

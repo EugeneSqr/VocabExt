@@ -33,28 +33,31 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataContracts\Interfaces\ILanguage.cs" />
-    <Compile Include="IManyToManyRelationship.cs" />
-    <Compile Include="IServiceOperationResponse.cs" />
-    <Compile Include="DataContracts\Interfaces\ITask.cs" />
-    <Compile Include="DataContracts\Interfaces\ITag.cs" />
-    <Compile Include="DataContracts\Interfaces\ITranslation.cs" />
-    <Compile Include="DataContracts\Interfaces\IVocabBank.cs" />
-    <Compile Include="DataContracts\Interfaces\IWord.cs" />
-    <Compile Include="ManyToManyRelationship.cs" />
-    <Compile Include="ServiceOperationAction.cs" />
-    <Compile Include="ServiceOperationResponse.cs" />
+    <Compile Include="Entities\ILanguage.cs" />
+    <Compile Include="Surrogates\IManyToManyRelationship.cs" />
+    <Compile Include="Surrogates\Impl\VocabBankSummary.cs" />
+    <Compile Include="Surrogates\IServiceOperationResponse.cs" />
+    <Compile Include="Entities\ITask.cs" />
+    <Compile Include="Entities\ITag.cs" />
+    <Compile Include="Entities\ITranslation.cs" />
+    <Compile Include="Entities\IVocabBank.cs" />
+    <Compile Include="Entities\IWord.cs" />
+    <Compile Include="Surrogates\IVocabBankSummary.cs" />
+    <Compile Include="Surrogates\Impl\ManyToManyRelationship.cs" />
+    <Compile Include="Surrogates\ServiceOperationAction.cs" />
+    <Compile Include="Surrogates\Impl\ServiceOperationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataContracts\LanguageContract.cs" />
-    <Compile Include="DataContracts\TagContract.cs" />
-    <Compile Include="DataContracts\TranslationContract.cs" />
-    <Compile Include="DataContracts\VocabBankContract.cs" />
-    <Compile Include="DataContracts\WordContract.cs" />
-    <Compile Include="DataContracts\TaskContract.cs" />
+    <Compile Include="Entities\Impl\LanguageContract.cs" />
+    <Compile Include="Entities\Impl\TagContract.cs" />
+    <Compile Include="Entities\Impl\TranslationContract.cs" />
+    <Compile Include="Entities\Impl\VocabBankContract.cs" />
+    <Compile Include="Entities\Impl\WordContract.cs" />
+    <Compile Include="Entities\Impl\TaskContract.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

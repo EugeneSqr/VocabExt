@@ -2,8 +2,10 @@
 using Moq;
 using NUnit.Framework;
 using VX.Domain;
-using VX.Domain.DataContracts;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Entities.Impl;
+using VX.Domain.Surrogates;
+using VX.Domain.Surrogates.Impl;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;

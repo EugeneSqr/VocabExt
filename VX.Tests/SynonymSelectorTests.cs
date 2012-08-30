@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using VX.Domain.DataContracts;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Entities.Impl;
 using VX.Service.Infrastructure;
 using VX.Service.Infrastructure.Interfaces;
 

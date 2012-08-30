@@ -187,7 +187,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VXModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="EntitiesContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Languages" EntityType="VXModel.Language" />
           <EntitySet Name="Tags" EntityType="VXModel.Tag" />
           <EntitySet Name="Translations" EntityType="VXModel.Translation" />
@@ -384,7 +384,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VXModelStoreContainer" CdmEntityContainer="Entities">
+        <EntityContainerMapping StorageEntityContainer="VXModelStoreContainer" CdmEntityContainer="EntitiesContext">
           <EntitySetMapping Name="Languages">
             <EntityTypeMapping TypeName="VXModel.Language">
               <MappingFragment StoreEntitySet="Languages">

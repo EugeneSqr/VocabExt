@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="VX.Service.VocabExtService" CodeBehind="VocabExtService.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="VX.Service.VocabExtService, VX.Service" CodeBehind="VocabExtService.svc.cs" Factory="VX.Service.ServiceHostFactory, VX.Service"%>

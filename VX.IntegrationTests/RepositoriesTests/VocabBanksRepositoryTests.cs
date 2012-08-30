@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Autofac;
 using NUnit.Framework;
-using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Surrogates;
 using VX.IntegrationTests.Mocks;
 using VX.Service.Infrastructure;
 using VX.Service.Infrastructure.Interfaces;
@@ -178,7 +178,7 @@ namespace VX.IntegrationTests.RepositoriesTests
             var actual = SystemUnderTest.Delete(999);
             Assert.AreEqual(false, actual.Status);
             Assert.AreEqual((int)ServiceOperationAction.Delete, actual.OperationActionCode);
-            Assert.IsNotNullOrEmpty(actual.StatusMessage);
+            Assert.IsNull(actual.StatusMessage);
         }
     }
 }

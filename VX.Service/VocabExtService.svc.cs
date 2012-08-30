@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Autofac;
-using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Surrogates;
+using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.Tasks;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
@@ -20,20 +20,20 @@ namespace VX.Service
         private readonly ITranslationsRepository translationsRepository;
         private readonly IWordsRepository wordsRepository;
         private readonly IServiceSettings serviceSettings;
-        private readonly IInputDataConverter inputDataConverter;
+        private readonly IAbstractFactory entitiesFactory;
         private readonly ILanguagesRepository languagesRepository;
         private readonly IWordValidator wordValidator;
 
-        public VocabExtService()
+        public VocabExtService(ITasksFactory tasksFactory, IVocabBanksRepository vocabBanksRepository, ITranslationsRepository translationsRepository, IWordsRepository wordsRepository, IServiceSettings serviceSettings, IAbstractFactory entitiesFactory, ILanguagesRepository languagesRepository, IWordValidator wordValidator)
         {
-            tasksFactory = Initializer.Container.Resolve<ITasksFactory>();
-            vocabBanksRepository = Initializer.Container.Resolve<IVocabBanksRepository>();
-            translationsRepository = Initializer.Container.Resolve<ITranslationsRepository>();
-            serviceSettings = Initializer.Container.Resolve<IServiceSettings>();
-            wordsRepository = Initializer.Container.Resolve<IWordsRepository>();
-            inputDataConverter = Initializer.Container.Resolve<IInputDataConverter>();
-            languagesRepository = Initializer.Container.Resolve<ILanguagesRepository>();
-            wordValidator = Initializer.Container.Resolve<IWordValidator>();
+            this.tasksFactory = tasksFactory;
+            this.vocabBanksRepository = vocabBanksRepository;
+            this.translationsRepository = translationsRepository;
+            this.wordsRepository = wordsRepository;
+            this.serviceSettings = serviceSettings;
+            this.entitiesFactory = entitiesFactory;
+            this.languagesRepository = languagesRepository;
+            this.wordValidator = wordValidator;
         }
 
         public ITask GetTask()
@@ -71,7 +71,8 @@ namespace VX.Service
 
         public IList<ITranslation> GetTranslations(string vocabBankId)
         {
-            return translationsRepository.GetTranslations(inputDataConverter.Convert(vocabBankId));
+            // TODO: parse safely
+            return translationsRepository.GetTranslations(int.Parse(vocabBankId));
         }
 
         public IList<IWord> GetWords(string searchString)
@@ -91,12 +92,14 @@ namespace VX.Service
 
         public IServiceOperationResponse DeleteVocabularyBank(string vocabBankId)
         {
-            return vocabBanksRepository.Delete(inputDataConverter.Convert(vocabBankId));
+            // TODO: parse safely
+            return vocabBanksRepository.Delete(int.Parse(vocabBankId));
         }
 
         public IServiceOperationResponse SaveTranslation(Stream data)
         {
-            var parsedPair = inputDataConverter.ParseBankTranslationPair(data);
+            // TODO: surrogate factory
+            var parsedPair = entitiesFactory.Create<IBankTranslationPair, Stream>(data);
             IManyToManyRelationship translation;
             IServiceOperationResponse result = translationsRepository.SaveTranslation(parsedPair.Translation, out translation);
             if (translation != null)
@@ -109,24 +112,27 @@ namespace VX.Service
 
         public IServiceOperationResponse DetachTranslation(Stream data)
         {
-            var parsedPair = inputDataConverter.ParsePair(data);
+            // TODO: surrogate factory
+            var parsedPair = entitiesFactory.Create<IParentChildIdPair, Stream>(data);
             return vocabBanksRepository.DetachTranslation(parsedPair.ParentId, parsedPair.ChildId);
         }
 
         public IServiceOperationResponse UpdateBankHeaders(Stream data)
         {
+            /*var aaa = entitiesFactory.Create<IVocabBankSummary, Stream>(data);
             return vocabBanksRepository.UpdateHeaders(
-                inputDataConverter.ParseBankHeaders(data));
+                inputDataConverter.ParseBankSummary(data));*/
+            return null;
         }
 
         public IServiceOperationResponse SaveWord(Stream data)
         {
-            return wordsRepository.SaveWord(inputDataConverter.ParseWord(data));
+            return wordsRepository.SaveWord(entitiesFactory.Create<IWord, Stream>(data));
         }
 
         public IServiceOperationResponse ValidateWord(Stream data)
         {
-            return wordValidator.Validate(inputDataConverter.ParseWord(data), wordsRepository);
+            return wordValidator.Validate(entitiesFactory.Create<IWord, Stream>(data), wordsRepository);
         }
     }
 }

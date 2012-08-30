@@ -2,11 +2,9 @@
 using Autofac;
 using Moq;
 using NUnit.Framework;
-using VX.Domain;
-using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
-using VX.Service.Infrastructure.Factories.EntitiesContext;
-using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
+using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests.Mocks;
 
@@ -27,16 +25,12 @@ namespace VX.Tests
                 .As<ICacheKeyFactory>()
                 .SingleInstance();
 
-            ContainerBuilder.RegisterInstance(MockServiceOperationResponceFactory())
-                .As<IServiceOperationResponseFactory>()
-                .SingleInstance();
-
             ContainerBuilder.RegisterType<ContextFactoryMock>()
                 .As<IContextFactory>()
                 .SingleInstance();
 
-            ContainerBuilder.RegisterType<EntitiesFactoryMock>()
-                .As<IAdapterFactory>()
+            ContainerBuilder.RegisterType<FactoryMock>()
+                .As<IAbstractFactory>()
                 .InstancePerLifetimeScope();
         }
 
@@ -72,20 +66,6 @@ namespace VX.Tests
                 .Returns("serviceName:string");
             mock.Setup(cacheKeyFactory => cacheKeyFactory.BuildKey(It.IsAny<string>(), It.IsAny<int[]>()))
                 .Returns("serviceName:1-2-3-");
-            return mock.Object;
-        }
-
-        private static IServiceOperationResponseFactory MockServiceOperationResponceFactory()
-        {
-            var mock = new Mock<IServiceOperationResponseFactory>();
-            mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<ServiceOperationAction>(), It.IsAny<string>()))
-                .Returns((bool status, ServiceOperationAction action, string message) => status 
-                    ? new ServiceOperationResponse(true, action) {StatusMessage = message} 
-                    : new ServiceOperationResponse(false, action) {ErrorMessage = message});
-
-            mock.Setup(factory => factory.Build(It.IsAny<bool>(), It.IsAny<ServiceOperationAction>()))
-                .Returns((bool status, ServiceOperationAction action) => new ServiceOperationResponse(status, action));
-
             return mock.Object;
         }
     }

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Surrogates;
 using VX.Model;
-using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
-using VX.Service.Infrastructure.Factories.EntitiesContext;
-using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
+using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
@@ -22,12 +21,11 @@ namespace VX.Service.Repositories
 
         public WordsRepository(
             IContextFactory contextFactory, 
-            IAdapterFactory entitiesFactory, 
+            IAbstractFactory factory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
-            IServiceOperationResponseFactory serviceOperationResponseFactory,
             ISearchStringBuilder searchStringBuilder,
-            IWordValidator wordValidator) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
+            IWordValidator wordValidator) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
         {
             this.searchStringBuilder = searchStringBuilder;
             this.wordValidator = wordValidator;
@@ -42,12 +40,12 @@ namespace VX.Service.Repositories
                 var actualSearchString = searchStringBuilder.BuildSearchString(searchString);
                 if (!string.IsNullOrEmpty(actualSearchString))
                 {
-                    using (Entities context = ContextFactory.Build())
+                    using (EntitiesContext context = ContextFactory.Build())
                     {
                         result = context.Words
                             .Where(word => word.Spelling.StartsWith(actualSearchString))
                             .ToList()
-                            .Select(item => EntitiesFactory.Create<IWord, Word>(item))
+                            .Select(item => Factory.Create<IWord, Word>(item))
                             .ToList();
                     }
                 }
@@ -65,7 +63,7 @@ namespace VX.Service.Repositories
         public IWord GetWord(int id)
         {
             var cacheKey = CacheKeyFactory.BuildKey("WordsRepository.GetWord", id);
-            Func<Entities, int, IWord> retrievalFunction = (context, parameter) => EntitiesFactory.Create<IWord, Word>(
+            Func<EntitiesContext, int, IWord> retrievalFunction = (context, parameter) => Factory.Create<IWord, Word>(
                 context.Words.FirstOrDefault(item => item.Id == id));
 
             return Retrieve(retrievalFunction, cacheKey, id);
@@ -74,7 +72,7 @@ namespace VX.Service.Repositories
         public bool CheckWordExists(string spelling)
         {
             var cacheKey = CacheKeyFactory.BuildKey("WordsRepository.CheckWord", spelling);
-            Func<Entities, string, bool> retrievalFunction = (context, parameter) => 
+            Func<EntitiesContext, string, bool> retrievalFunction = (context, parameter) => 
                 context.Words.FirstOrDefault(item => item.Spelling == spelling) != null;
             
             return Retrieve(retrievalFunction, cacheKey, spelling);
@@ -88,7 +86,7 @@ namespace VX.Service.Repositories
                 return validationResult;
             }
 
-            using (Entities context = ContextFactory.Build())
+            using (EntitiesContext context = ContextFactory.Build())
             {
                 var newWord = context.Words.CreateObject();
                 newWord.LanguageId = word.Language.Id;
@@ -96,14 +94,14 @@ namespace VX.Service.Repositories
                 newWord.Transcription = word.Transcription;
                 context.Words.AddObject(newWord);
                 context.SaveChanges();
-                return ServiceOperationResponseFactory.Build(
+                return Factory.Create<IServiceOperationResponse>(
                     true, 
                     ServiceOperationAction.Create, 
                     newWord.Id.ToString(CultureInfo.InvariantCulture));
             }
         }
 
-        private TResult Retrieve<TParameter, TResult>(Func<Entities, TParameter, TResult> retrievalFunction, string cacheKey, TParameter parameter)
+        private TResult Retrieve<TParameter, TResult>(Func<EntitiesContext, TParameter, TResult> retrievalFunction, string cacheKey, TParameter parameter)
         {
             TResult result;
             if (!CacheFacade.GetFromCache(cacheKey, out result))

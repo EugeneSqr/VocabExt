@@ -1,6 +1,6 @@
-﻿using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
-using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
+﻿using VX.Domain.Entities;
+using VX.Domain.Surrogates;
+using VX.Service.Infrastructure.Factories;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
 
@@ -12,9 +12,9 @@ namespace VX.Service.Validators
         private readonly IWordsRepository wordsRepository;
 
         public TranslationValidator(
-            IServiceOperationResponseFactory serviceOperationResponseFactory, 
+            IAbstractFactory factory, 
             IWordValidator wordValidator, 
-            IWordsRepository wordsRepository) : base(serviceOperationResponseFactory)
+            IWordsRepository wordsRepository) : base(factory)
         {
             this.wordValidator = wordValidator;
             this.wordsRepository = wordsRepository;
@@ -28,7 +28,7 @@ namespace VX.Service.Validators
             {
                 validationResult = wordValidator.ValidateExist(translation.Target, wordsRepository);
                 return !validationResult.Status
-                           ? ServiceOperationResponseFactory.Build(true, ServiceOperationAction.Validate)
+                           ? Factory.Create<IServiceOperationResponse>(true, ServiceOperationAction.Validate)
                            : BuildFailResponse("Target word does not exist");
             }
             return BuildFailResponse("Source word does not exist");
@@ -36,7 +36,7 @@ namespace VX.Service.Validators
 
         private IServiceOperationResponse BuildFailResponse(string errorMessage)
         {
-            return ServiceOperationResponseFactory.Build(false, ServiceOperationAction.Validate, errorMessage);
+            return Factory.Create<IServiceOperationResponse>(false, ServiceOperationAction.Validate, errorMessage);
         }
     }
 }

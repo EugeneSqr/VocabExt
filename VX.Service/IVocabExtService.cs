@@ -3,8 +3,10 @@ using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using VX.Domain;
-using VX.Domain.DataContracts;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Entities.Impl;
+using VX.Domain.Surrogates;
+using VX.Domain.Surrogates.Impl;
 
 namespace VX.Service
 {

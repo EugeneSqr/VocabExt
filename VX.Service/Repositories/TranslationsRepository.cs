@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Surrogates;
+using VX.Domain.Surrogates.Impl;
 using VX.Model;
-using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
-using VX.Service.Infrastructure.Factories.EntitiesContext;
-using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
+using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
@@ -19,12 +19,11 @@ namespace VX.Service.Repositories
         private readonly ITranslationValidator translationValidator;
 
         public TranslationsRepository(
-            IContextFactory contextFactory,
-            IAdapterFactory entitiesFactory, 
+            IContextFactory contextFactory, 
+            IAbstractFactory factory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
-            IServiceOperationResponseFactory serviceOperationResponseFactory,
-            ITranslationValidator translationValidator) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
+            ITranslationValidator translationValidator) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
         {
             this.translationValidator = translationValidator;
         }
@@ -45,7 +44,7 @@ namespace VX.Service.Repositories
                     result = context.VocabBanksTranslations
                         .Where(item => item.VocabularyId == vocabBankId)
                         .ToList()
-                        .Select(item => EntitiesFactory.Create<ITranslation, Translation>(item.Translation))
+                        .Select(item => Factory.Create<ITranslation, Translation>(item.Translation))
                         .ToList();
                 }
 
@@ -79,7 +78,7 @@ namespace VX.Service.Repositories
                 
                 if (!translationValidator.Validate(translation).Status)
                 {
-                    return ServiceOperationResponseFactory.Build(
+                    return Factory.Create<IServiceOperationResponse>(
                         false, 
                         action, 
                         "Validation failed");
@@ -100,7 +99,7 @@ namespace VX.Service.Repositories
                                         };
             }
 
-            return ServiceOperationResponseFactory.Build(true, action, "updated successfully");
+            return Factory.Create<IServiceOperationResponse>(true, action, "updated successfully");
         }
 
         private Translation GetTranslation(int translationId)

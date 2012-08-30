@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
 using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
 using VX.Model;
-using VX.Service.Infrastructure.Factories.Adapters;
+using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
-using VX.Service.Infrastructure.Factories.EntitiesContext;
-using VX.Service.Infrastructure.Factories.ServiceOperationResponses;
+using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
@@ -17,19 +15,18 @@ namespace VX.Service.Repositories
     {
         public LanguagesRepository(
             IContextFactory contextFactory, 
-            IAdapterFactory entitiesFactory, 
+            IAbstractFactory factory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory, 
-            IServiceOperationResponseFactory serviceOperationResponseFactory) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory, serviceOperationResponseFactory)
+            ICacheKeyFactory cacheKeyFactory) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
         {
         }
 
         public ILanguage GetLanguage(int languageId)
         {
             var cacheKey = CacheKeyFactory.BuildKey("LanguageRepository", languageId);
-            Func<Entities, ILanguage> retrievalFunction = context =>
+            Func<EntitiesContext, ILanguage> retrievalFunction = context =>
                                                               {
-                                                                  var result = EntitiesFactory.Create
+                                                                  var result = Factory.Create
                                                                       <ILanguage, Language>(
                                                                           context.Languages.FirstOrDefault(
                                                                               lang => lang.Id == languageId));
@@ -42,12 +39,12 @@ namespace VX.Service.Repositories
         public IList<ILanguage> GetLanguages()
         {
             var cacheKey = CacheKeyFactory.BuildKey("LanguageRepository", "AllLanguages");
-            Func<Entities, IList<ILanguage>> retrievalFunction = context =>
+            Func<EntitiesContext, IList<ILanguage>> retrievalFunction = context =>
                                                                      {
                                                                          var result = context.Languages.ToList()
                                                                              .Select(
                                                                                  item =>
-                                                                                 EntitiesFactory.Create
+                                                                                 Factory.Create
                                                                                      <ILanguage, Language>(item)).
                                                                              ToList();
                                                                          CacheFacade.PutIntoCache(result, cacheKey);
@@ -58,7 +55,7 @@ namespace VX.Service.Repositories
 
 
 
-        private T Retrieve<T>(Func<Entities, T> retrievalMethod, string cacheKey)
+        private T Retrieve<T>(Func<EntitiesContext, T> retrievalMethod, string cacheKey)
         {
             T result;
             if (!CacheFacade.GetFromCache(cacheKey, out result))

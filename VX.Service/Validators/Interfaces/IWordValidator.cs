@@ -1,5 +1,6 @@
 ﻿using VX.Domain;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Surrogates;
 using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service.Validators.Interfaces

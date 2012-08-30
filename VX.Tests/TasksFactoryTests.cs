@@ -4,8 +4,8 @@ using System.Linq;
 using Autofac;
 using Moq;
 using NUnit.Framework;
-using VX.Domain.DataContracts;
-using VX.Domain.DataContracts.Interfaces;
+using VX.Domain.Entities;
+using VX.Domain.Entities.Impl;
 using VX.Service.Infrastructure.Factories.Tasks;
 using VX.Service.Infrastructure.Interfaces;
 

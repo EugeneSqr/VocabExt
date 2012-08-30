@@ -35,32 +35,32 @@ namespace VX.Model
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    public partial class Entities : ObjectContext
+    public partial class EntitiesContext : ObjectContext
     {
         #region Constructors
     
         /// <summary>
-        /// Initializes a new Entities object using the connection string found in the 'Entities' section of the application configuration file.
+        /// Initializes a new EntitiesContext object using the connection string found in the 'EntitiesContext' section of the application configuration file.
         /// </summary>
-        public Entities() : base("name=Entities", "Entities")
+        public EntitiesContext() : base("name=EntitiesContext", "EntitiesContext")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new Entities object.
+        /// Initialize a new EntitiesContext object.
         /// </summary>
-        public Entities(string connectionString) : base(connectionString, "Entities")
+        public EntitiesContext(string connectionString) : base(connectionString, "EntitiesContext")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
         }
     
         /// <summary>
-        /// Initialize a new Entities object.
+        /// Initialize a new EntitiesContext object.
         /// </summary>
-        public Entities(EntityConnection connection) : base(connection, "Entities")
+        public EntitiesContext(EntityConnection connection) : base(connection, "EntitiesContext")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
             OnContextCreated();
@@ -253,7 +253,7 @@ namespace VX.Model
 
     #endregion
     
-    #region Entities
+    #region EntitiesContext
     
     /// <summary>
     /// No Metadata Documentation available.

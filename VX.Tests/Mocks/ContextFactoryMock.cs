@@ -1,13 +1,13 @@
 ﻿using VX.Model;
-using VX.Service.Infrastructure.Factories.EntitiesContext;
+using VX.Service.Infrastructure.Factories.Context;
 
 namespace VX.Tests.Mocks
 {
     public class ContextFactoryMock : IContextFactory
     {
-        public Entities Build()
+        public EntitiesContext Build()
         {
-            return new Entities("metadata=res://*/VocabModel.csdl|res://*/VocabModel.ssdl|res://*/VocabModel.msl;provider=System.Data.SqlClient;provider connection string=\"Data Source=.;Initial Catalog=VXTest;User ID=sa;Password=sa;MultipleActiveResultSets=True\"");
+            return new EntitiesContext("metadata=res://*/VocabModel.csdl|res://*/VocabModel.ssdl|res://*/VocabModel.msl;provider=System.Data.SqlClient;provider connection string=\"Data Source=.;Initial Catalog=VXTest;User ID=sa;Password=sa;MultipleActiveResultSets=True\"");
         }
     }
 }
