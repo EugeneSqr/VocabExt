@@ -11,6 +11,7 @@ using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service.Repositories
 {
+    [RegisterService]
     public class LanguagesRepository : RepositoryBase, ILanguagesRepository
     {
         public LanguagesRepository(

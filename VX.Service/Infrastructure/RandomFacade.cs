@@ -3,6 +3,7 @@ using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure
 {
+    [RegisterService]
     internal class RandomFacade : IRandomFacade
     {
         private readonly Random generator;

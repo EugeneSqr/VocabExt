@@ -7,6 +7,7 @@ using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure.Factories.Tasks
 {
+    [RegisterService]
     public class TasksFactory : ITasksFactory
     {
         private const int DefaultAnswersCount = 3;

@@ -2,6 +2,7 @@
 
 namespace VX.Service.Infrastructure
 {
+    [RegisterService]
     public class SearchStringBuilder : ISearchStringBuilder
     {
         // TODO: to config

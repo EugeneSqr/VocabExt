@@ -14,6 +14,7 @@ using VX.Service.Repositories.Interfaces;
 
 namespace VX.Service.Repositories
 {
+    [RegisterService]
     public class VocabBanksRepository : RepositoryBase, IVocabBanksRepository
     {
         private const string ServiceName = "vocabBanksRepositoy";

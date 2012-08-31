@@ -7,6 +7,7 @@ using VX.Service.Validators.Interfaces;
 
 namespace VX.Service.Validators
 {
+    [RegisterService]
     public class WordValidator : ValidatorBase, IWordValidator
     {
         private readonly ILanguagesRepository languagesRepository;

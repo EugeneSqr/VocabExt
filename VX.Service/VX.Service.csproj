@@ -76,6 +76,7 @@
     <Compile Include="Infrastructure\Factories\IAbstractFactory.cs" />
     <Compile Include="Infrastructure\Factories\ISourceToTargetFactoryMethod.cs" />
     <Compile Include="Infrastructure\CacheNullItem.cs" />
+    <Compile Include="RegisterServiceAttribute.cs" />
     <Compile Include="ServiceHostFactory.cs" />
     <Compile Include="Validators\Interfaces\IWordValidator.cs" />
     <Compile Include="Infrastructure\Factories\CacheKeys\CacheKeyFactory.cs" />

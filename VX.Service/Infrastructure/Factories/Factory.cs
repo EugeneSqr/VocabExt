@@ -11,6 +11,7 @@ using VX.Model;
 
 namespace VX.Service.Infrastructure.Factories
 {
+    [RegisterService]
     public class Factory : AbstractFactory, 
         ISourceToTargetFactoryMethod<ILanguage, Language>,
         ISourceToTargetFactoryMethod<ILanguage, Stream>,

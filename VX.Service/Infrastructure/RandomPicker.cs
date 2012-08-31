@@ -4,6 +4,7 @@ using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure
 {
+    [RegisterService]
     public class RandomPicker : IRandomPicker
     {
         private readonly IRandomFacade randomFacade;

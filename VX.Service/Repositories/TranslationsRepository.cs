@@ -14,6 +14,7 @@ using VX.Service.Validators.Interfaces;
 
 namespace VX.Service.Repositories
 {
+    [RegisterService]
     public class TranslationsRepository : RepositoryBase, ITranslationsRepository
     {
         private readonly ITranslationValidator translationValidator;

@@ -5,6 +5,7 @@ using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure
 {
+    [RegisterService]
     public class SynonymSelector : ISynonymSelector
     {
         public IList<ITranslation> GetSimilarTranslations(

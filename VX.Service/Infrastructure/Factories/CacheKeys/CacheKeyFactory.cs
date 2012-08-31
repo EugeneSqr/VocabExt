@@ -3,6 +3,7 @@ using System.Text;
 
 namespace VX.Service.Infrastructure.Factories.CacheKeys
 {
+    [RegisterService]
     public class CacheKeyFactory : ICacheKeyFactory
     {
         private const string NameParametersTemplate = "{0}:{1}";

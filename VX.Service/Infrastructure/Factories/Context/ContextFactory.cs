@@ -3,6 +3,7 @@ using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure.Factories.Context
 {
+    [RegisterService]
     public class ContextFactory : IContextFactory
     {
         private readonly IServiceSettings serviceSettings;

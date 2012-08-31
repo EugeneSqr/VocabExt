@@ -3,6 +3,7 @@ using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure
 {
+    [RegisterService]
     public class TaskValidator : ITaskValidator
     {
         public bool IsValidTask(ITask task)

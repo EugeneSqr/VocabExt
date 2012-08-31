@@ -5,6 +5,7 @@ using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Infrastructure
 {
+    [RegisterService]
     public class CacheFacade : ICacheFacade
     {
         private const int SingleElementArraySize = 1;
