@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Objects;
-using System.Globalization;
 using System.Linq;
 using VX.Domain.Entities;
-using VX.Domain.Surrogates;
 using VX.Model;
 using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
+using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
@@ -22,7 +21,7 @@ namespace VX.Service.Repositories
 
         public VocabBanksRepository(
             IContextFactory contextFactory, 
-            IAbstractFactory factory, 
+            IAbstractEntitiesFactory factory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory
             ) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
@@ -81,9 +80,9 @@ namespace VX.Service.Repositories
             return result;
         }
 
-        public IServiceOperationResponse Delete(int vocabBankId)
+        public bool Delete(int vocabBankId)
         {
-            IServiceOperationResponse result;
+            bool result;
             using (var context = ContextFactory.Build())
             {
                 var bankToDelete = context.VocabBanks.FirstOrDefault(item => item.Id == vocabBankId);
@@ -91,24 +90,18 @@ namespace VX.Service.Repositories
                 {
                     context.VocabBanks.DeleteObject(bankToDelete);
                     context.SaveChanges();
-                    result = Factory.Create<IServiceOperationResponse>(
-                        true, 
-                        ServiceOperationAction.Delete, 
-                        vocabBankId.ToString(CultureInfo.InvariantCulture));
+                    result = true;
                 }
                 else
                 {
-                    result = Factory.Create<IServiceOperationResponse>(
-                        false,
-                        ServiceOperationAction.Delete,
-                        "Vocabulary bank is not found");
+                    result = false;
                 }
             }
 
             return result;
         }
 
-        public IServiceOperationResponse UpdateHeaders(IVocabBank vocabBank)
+        public bool UpdateHeaders(IVocabBank vocabBank)
         {
             using (var context = ContextFactory.Build())
             {
@@ -121,10 +114,10 @@ namespace VX.Service.Repositories
                 }
             }
 
-            return Factory.Create<IServiceOperationResponse>(true, ServiceOperationAction.Update);
+            return true;
         }
 
-        public IServiceOperationResponse DetachTranslation(int vocabBankId, int translationId)
+        public bool DetachTranslation(int vocabBankId, int translationId)
         {
             using (var context = ContextFactory.Build())
             {
@@ -137,22 +130,15 @@ namespace VX.Service.Repositories
                 }
                 catch(Exception)
                 {
-                    return Factory.Create<IServiceOperationResponse>(
-                        false, 
-                        ServiceOperationAction.Detach, 
-                        "item not found");
+                    return false;
                 }
 
-                return Factory.Create<IServiceOperationResponse>(
-                    true, 
-                    ServiceOperationAction.Detach, 
-                    "detached successfully");
+                return true;
             }
         }
 
-        public IServiceOperationResponse AttachTranslation(int vocabBankId, int translationId)
+        public bool AttachTranslation(int vocabBankId, int translationId)
         {
-            var action = ServiceOperationAction.None;
             using (var context = ContextFactory.Build())
             {
                 var translation =
@@ -160,16 +146,16 @@ namespace VX.Service.Repositories
                         item => item.VocabularyId == vocabBankId && item.TranslationId == translationId);
                 if (translation == null)
                 {
-                    action = ServiceOperationAction.Attach;
                     translation = context.VocabBanksTranslations.CreateObject<VocabBanksTranslation>();
                     translation.VocabularyId = vocabBankId;
                     translation.TranslationId = translationId;
                     context.VocabBanksTranslations.AddObject(translation);
                     context.SaveChanges();
+                    return true;
                 }
             }
 
-            return Factory.Create<IServiceOperationResponse>(true, action);
+            return false;
         }
 
         private IList<IVocabBank> Get(int[] vocabBanksIds, bool keepEmptyTranslations)

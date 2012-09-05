@@ -39,18 +39,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ILanguage.cs" />
+    <Compile Include="Surrogates\IBankTranslationPair.cs" />
     <Compile Include="Surrogates\IManyToManyRelationship.cs" />
+    <Compile Include="Surrogates\Impl\BankTranslationPair.cs" />
+    <Compile Include="Surrogates\Impl\ParentChildIdPair.cs" />
     <Compile Include="Surrogates\Impl\VocabBankSummary.cs" />
-    <Compile Include="Surrogates\IServiceOperationResponse.cs" />
+    <Compile Include="Responses\IOperationResponse.cs" />
     <Compile Include="Entities\ITask.cs" />
     <Compile Include="Entities\ITag.cs" />
     <Compile Include="Entities\ITranslation.cs" />
     <Compile Include="Entities\IVocabBank.cs" />
     <Compile Include="Entities\IWord.cs" />
+    <Compile Include="Surrogates\IParentChildIdPair.cs" />
     <Compile Include="Surrogates\IVocabBankSummary.cs" />
     <Compile Include="Surrogates\Impl\ManyToManyRelationship.cs" />
     <Compile Include="Surrogates\ServiceOperationAction.cs" />
-    <Compile Include="Surrogates\Impl\ServiceOperationResponse.cs" />
+    <Compile Include="Responses\Impl\OperationResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\Impl\LanguageContract.cs" />
     <Compile Include="Entities\Impl\TagContract.cs" />

@@ -1,6 +1,6 @@
-﻿namespace VX.Domain.Surrogates
+﻿namespace VX.Domain.Responses
 {
-    public interface IServiceOperationResponse
+    public interface IOperationResponse
     {
         string ErrorMessage { get; set; }
 

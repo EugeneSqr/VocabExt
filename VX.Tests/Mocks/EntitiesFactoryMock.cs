@@ -1,30 +1,27 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
-using VX.Domain.Surrogates;
-using VX.Domain.Surrogates.Impl;
 using VX.Model;
 using VX.Service.Infrastructure.Factories;
+using VX.Service.Infrastructure.Factories.Entities;
 
 namespace VX.Tests.Mocks
 {
-    public class FactoryMock : AbstractFactory, 
+    public class EntitiesFactoryMock : AbstractEntitiesFactory,
         ISourceToTargetFactoryMethod<ILanguage, Language>,
-        ISourceToTargetFactoryMethod<ILanguage, IDictionary<string, object>>,
+        ISourceToTargetFactoryMethod<ILanguage, Stream>,
         ISourceToTargetFactoryMethod<IWord, Word>,
-        ISourceToTargetFactoryMethod<IWord, IDictionary<string, object>>,
+        ISourceToTargetFactoryMethod<IWord, Stream>,
         ISourceToTargetFactoryMethod<ITranslation, Translation>,
-        ISourceToTargetFactoryMethod<ITranslation, IDictionary<string, object>>,
+        ISourceToTargetFactoryMethod<ITranslation, Stream>,
         ISourceToTargetFactoryMethod<IVocabBank, VocabBank>,
-        ISourceToTargetFactoryMethod<IVocabBank, IDictionary<string, object>>,
         ISourceToTargetFactoryMethod<ITag, Tag>,
-        IFactoryMethod<ILanguage>,
-        IFactoryMethod<IWord>,
-        IFactoryMethod<ITranslation>,
-        IFactoryMethod<IVocabBankSummary>,
-        IFactoryMethod<IVocabBank>,
-        IFactoryMethod<ITag>,
-        IResponseFactoryMethod<IServiceOperationResponse>
+        IDefaultFactoryMethod<ILanguage>,
+        IDefaultFactoryMethod<IWord>,
+        IDefaultFactoryMethod<ITranslation>,
+        IDefaultFactoryMethod<IVocabBank>,
+        IDefaultFactoryMethod<ITag>
     {
         ILanguage ISourceToTargetFactoryMethod<ILanguage, Language>.Create(Language entity)
         {
@@ -33,16 +30,9 @@ namespace VX.Tests.Mocks
                        : new LanguageContract();
         }
 
-        ILanguage ISourceToTargetFactoryMethod<ILanguage, IDictionary<string, object>>.Create(IDictionary<string, object> entity)
+        ILanguage ISourceToTargetFactoryMethod<ILanguage, Stream>.Create(Stream source)
         {
-            return new LanguageContract
-            {
-                Id = (int)entity["Id"],
-                Name = entity["Name"].ToString(),
-                Abbreviation = entity["Abbreviation"].ToString()
-            };
-            
-            
+            throw new System.NotImplementedException();
         }
 
         IWord ISourceToTargetFactoryMethod<IWord, Word>.Create(Word entity)
@@ -56,15 +46,9 @@ namespace VX.Tests.Mocks
                        };
         }
 
-        IWord ISourceToTargetFactoryMethod<IWord, IDictionary<string, object>>.Create(IDictionary<string, object> entity)
+        IWord ISourceToTargetFactoryMethod<IWord, Stream>.Create(Stream source)
         {
-            return new WordContract
-            {
-                Id = (int)entity["Id"],
-                Spelling = entity["Spelling"].ToString(),
-                Transcription = entity["Transcription"].ToString(),
-                Language = Create<ILanguage, IDictionary<string, object>>((IDictionary<string, object>)entity["Language"])
-            };
+            throw new System.NotImplementedException();
         }
 
         ITranslation ISourceToTargetFactoryMethod<ITranslation, Translation>.Create(Translation entity)
@@ -85,7 +69,7 @@ namespace VX.Tests.Mocks
                        };
         }
 
-        ITranslation ISourceToTargetFactoryMethod<ITranslation, IDictionary<string, object>>.Create(IDictionary<string, object> entity)
+        ITranslation ISourceToTargetFactoryMethod<ITranslation, Stream>.Create(Stream source)
         {
             throw new System.NotImplementedException();
         }
@@ -110,62 +94,36 @@ namespace VX.Tests.Mocks
                        };
         }
 
-        IVocabBank ISourceToTargetFactoryMethod<IVocabBank, IDictionary<string, object>>.Create(IDictionary<string, object> entity)
-        {
-            return new VocabBankContract
-            {
-                Name = entity["Name"].ToString(),
-                Description = entity["Description"].ToString()
-            };
-        }
+        
 
         ITag ISourceToTargetFactoryMethod<ITag, Tag>.Create(Tag entity)
         {
             throw new System.NotImplementedException();
         }
 
-        ILanguage IFactoryMethod<ILanguage>.Create()
+        ILanguage IDefaultFactoryMethod<ILanguage>.Create()
         {
             return new LanguageContract();
         }
 
-        IWord IFactoryMethod<IWord>.Create()
+        IWord IDefaultFactoryMethod<IWord>.Create()
         {
             return new WordContract();
         }
 
-        ITranslation IFactoryMethod<ITranslation>.Create()
+        ITranslation IDefaultFactoryMethod<ITranslation>.Create()
         {
             return new TranslationContract();
         }
 
-        IVocabBankSummary IFactoryMethod<IVocabBankSummary>.Create()
-        {
-            return new VocabBankSummary();
-        }
-
-        IVocabBank IFactoryMethod<IVocabBank>.Create()
+        IVocabBank IDefaultFactoryMethod<IVocabBank>.Create()
         {
             return new VocabBankContract();
         }
 
-        ITag IFactoryMethod<ITag>.Create()
+        ITag IDefaultFactoryMethod<ITag>.Create()
         {
             return new TagContract();
-        }
-
-        IServiceOperationResponse IResponseFactoryMethod<IServiceOperationResponse>.Create(
-            bool status, 
-            ServiceOperationAction action)
-        {
-            return new ServiceOperationResponse(status, action);
-        }
-
-        public IServiceOperationResponse Create(bool status, ServiceOperationAction action, string message)
-        {
-            return status 
-                    ? new ServiceOperationResponse(true, action) {StatusMessage = message} 
-                    : new ServiceOperationResponse(false, action) {ErrorMessage = message};
         }
     }
 }

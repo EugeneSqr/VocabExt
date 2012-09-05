@@ -1,14 +1,14 @@
-﻿using VX.Service.Infrastructure.Factories;
+﻿using VX.Service.Infrastructure.Factories.Responses;
 
 namespace VX.Service.Validators
 {
     public abstract class ValidatorBase
     {
-        protected readonly IAbstractFactory Factory;
+        protected readonly IResponsesFactory ResponsesFactory;
 
-        protected ValidatorBase(IAbstractFactory factory)
+        protected ValidatorBase(IResponsesFactory responsesFactory)
         {
-            Factory = factory;
+            ResponsesFactory = responsesFactory;
         }
     }
 }

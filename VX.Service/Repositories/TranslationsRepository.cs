@@ -8,6 +8,7 @@ using VX.Model;
 using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
+using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
@@ -21,7 +22,7 @@ namespace VX.Service.Repositories
 
         public TranslationsRepository(
             IContextFactory contextFactory, 
-            IAbstractFactory factory, 
+            IAbstractEntitiesFactory factory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
             ITranslationValidator translationValidator) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
@@ -55,12 +56,13 @@ namespace VX.Service.Repositories
             return result;
         }
 
-        public IServiceOperationResponse SaveTranslation(
+        public bool SaveTranslation(
             ITranslation translation, 
-            out IManyToManyRelationship resultTranslation)
+            out IManyToManyRelationship resultTranslation, 
+            out ServiceOperationAction action)
         {
             resultTranslation = null;
-            var action = ServiceOperationAction.Update;
+            action = ServiceOperationAction.Update;
             using (var context = ContextFactory.Build())
             {
                 var targetTranslation = GetTranslation(translation.Id);
@@ -79,10 +81,7 @@ namespace VX.Service.Repositories
                 
                 if (!translationValidator.Validate(translation).Status)
                 {
-                    return Factory.Create<IServiceOperationResponse>(
-                        false, 
-                        action, 
-                        "Validation failed");
+                    return false;
                 }
 
                 if (targetTranslation.EntityState == EntityState.Detached)
@@ -100,7 +99,7 @@ namespace VX.Service.Repositories
                                         };
             }
 
-            return Factory.Create<IServiceOperationResponse>(true, action, "updated successfully");
+            return true;
         }
 
         private Translation GetTranslation(int translationId)

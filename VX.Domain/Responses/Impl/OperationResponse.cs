@@ -1,9 +1,10 @@
 ﻿using System.Runtime.Serialization;
+using VX.Domain.Surrogates;
 
-namespace VX.Domain.Surrogates.Impl
+namespace VX.Domain.Responses.Impl
 {
     [DataContract]
-    public class ServiceOperationResponse : IServiceOperationResponse
+    public class ServiceOperationResponse : IOperationResponse
     {
         public ServiceOperationResponse(bool status, ServiceOperationAction action)
         {

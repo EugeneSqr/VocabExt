@@ -1,6 +1,7 @@
 ﻿using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
+using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Interfaces;
 
 namespace VX.Service.Repositories
@@ -8,7 +9,7 @@ namespace VX.Service.Repositories
     public abstract class RepositoryBase
     {
         protected readonly IContextFactory ContextFactory;
-        protected readonly IAbstractFactory Factory;
+        protected readonly IAbstractEntitiesFactory Factory;
         protected readonly ICacheFacade CacheFacade;
         protected readonly ICacheKeyFactory CacheKeyFactory;
 
@@ -16,7 +17,7 @@ namespace VX.Service.Repositories
 
         protected RepositoryBase(
             IContextFactory contextFactory,
-            IAbstractFactory factory, 
+            IAbstractEntitiesFactory factory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory)
         {

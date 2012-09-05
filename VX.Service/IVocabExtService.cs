@@ -5,6 +5,8 @@ using System.ServiceModel.Web;
 using VX.Domain;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
+using VX.Domain.Responses;
+using VX.Domain.Responses.Impl;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
 
@@ -49,26 +51,26 @@ namespace VX.Service
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "DeleteVocabularyBank/{vocabBankId}")]
-        IServiceOperationResponse DeleteVocabularyBank(string vocabBankId);
+        IOperationResponse DeleteVocabularyBank(string vocabBankId);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
-        IServiceOperationResponse SaveTranslation(Stream data);
+        IOperationResponse SaveTranslation(Stream data);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
-        IServiceOperationResponse DetachTranslation(Stream data);
+        IOperationResponse DetachTranslation(Stream data);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
-        IServiceOperationResponse UpdateBankHeaders(Stream data);
+        IOperationResponse UpdateBankHeaders(Stream data);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
-        IServiceOperationResponse SaveWord(Stream data);
+        IOperationResponse SaveWord(Stream data);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
-        IServiceOperationResponse ValidateWord(Stream data);
+        IOperationResponse ValidateWord(Stream data);
     }
 }

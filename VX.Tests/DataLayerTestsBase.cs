@@ -5,6 +5,7 @@ using NUnit.Framework;
 using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
+using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Tests.Mocks;
 
@@ -29,8 +30,8 @@ namespace VX.Tests
                 .As<IContextFactory>()
                 .SingleInstance();
 
-            ContainerBuilder.RegisterType<FactoryMock>()
-                .As<IAbstractFactory>()
+            ContainerBuilder.RegisterType<EntitiesFactoryMock>()
+                .As<IAbstractEntitiesFactory>()
                 .InstancePerLifetimeScope();
         }
 

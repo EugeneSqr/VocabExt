@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Moq;
 using NUnit.Framework;
-using VX.Domain;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
+using VX.Domain.Responses.Impl;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
 using VX.Service.Infrastructure.Interfaces;
@@ -104,13 +104,10 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("WordsRepositoryTests")]
-        [Description("Checks if SaveWord creates new word and returns status true")]
+        [Description("Checks if SaveWord creates new word and returns true")]
         public void SaveWordNewTest()
         {
-            var actual = SystemUnderTest.SaveWord(validationPassWord);
-            Assert.IsTrue(actual.Status);
-            Assert.AreEqual((int)ServiceOperationAction.Create, actual.OperationActionCode);
-            Assert.Greater(int.Parse(actual.StatusMessage), 0);
+            Assert.IsTrue(SystemUnderTest.SaveWord(validationPassWord));
         }
 
         [Test]
@@ -118,9 +115,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if SaveWord returns status false if validation fails")]
         public void SaveWordExistsTest()
         {
-            var actual = SystemUnderTest.SaveWord(validationFailWord);
-            Assert.IsFalse(actual.Status);
-            Assert.AreEqual((int)ServiceOperationAction.Create, actual.OperationActionCode);
+            Assert.IsFalse(SystemUnderTest.SaveWord(validationFailWord));
         }
 
         [Test]

@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Moq;
 using NUnit.Framework;
-using VX.Domain;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
+using VX.Domain.Responses.Impl;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
 using VX.Service.Repositories;
@@ -118,9 +118,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void UpdateTranslationTest()
         {
             IManyToManyRelationship updatedTranslation;
-            var actual = SystemUnderTest.SaveTranslation(goodExistByIdTranslation, out updatedTranslation);
-            Assert.IsTrue(actual.Status);
-            Assert.AreEqual((int)ServiceOperationAction.Update, actual.OperationActionCode);
+            ServiceOperationAction action;
+            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodExistByIdTranslation, out updatedTranslation, out action));
+            Assert.AreEqual(ServiceOperationAction.Update, action);
             Assert.AreEqual(1, updatedTranslation.Id);
             Assert.AreEqual(1, updatedTranslation.SourceId);
             Assert.AreEqual(4, updatedTranslation.TargetId);
@@ -132,9 +132,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void CreateTranslationTest()
         {
             IManyToManyRelationship createdTranslation;
-            var actual = SystemUnderTest.SaveTranslation(goodNonExistTranslation, out createdTranslation);
-            Assert.IsTrue(actual.Status);
-            Assert.AreEqual((int)ServiceOperationAction.Create, actual.OperationActionCode);
+            ServiceOperationAction action;
+            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodNonExistTranslation, out createdTranslation, out action));
+            Assert.AreEqual(ServiceOperationAction.Create, action);
             Assert.AreNotEqual(0, createdTranslation.Id);
             Assert.AreEqual(4, createdTranslation.SourceId);
             Assert.AreEqual(1, createdTranslation.TargetId);
@@ -146,9 +146,9 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void UpdateTranslationCompositeKeyTest()
         {
             IManyToManyRelationship updatedTranslation;
-            var actual = SystemUnderTest.SaveTranslation(goodNonExistByIdTranslation, out updatedTranslation);
-            Assert.IsTrue(actual.Status);
-            Assert.AreEqual((int)ServiceOperationAction.Update, actual.OperationActionCode);
+            ServiceOperationAction action;
+            Assert.IsTrue(SystemUnderTest.SaveTranslation(goodNonExistByIdTranslation, out updatedTranslation, out action));
+            Assert.AreEqual(ServiceOperationAction.Update, action);
             Assert.AreEqual(1, updatedTranslation.Id);
             Assert.AreEqual(1, updatedTranslation.SourceId);
             Assert.AreEqual(2, updatedTranslation.TargetId);
@@ -160,7 +160,8 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void UpdateTranslationSourceValidationTest()
         {
             IManyToManyRelationship updatedTranslation;
-            Assert.IsFalse(SystemUnderTest.SaveTranslation(badSourceTranslation, out updatedTranslation).Status);
+            ServiceOperationAction action;
+            Assert.IsFalse(SystemUnderTest.SaveTranslation(badSourceTranslation, out updatedTranslation, out action));
             Assert.AreEqual(null, updatedTranslation);
         }
 
@@ -170,7 +171,8 @@ namespace VX.IntegrationTests.RepositoriesTests
         public void UpdateTranslationTargetValidationTest()
         {
             IManyToManyRelationship updatedTranslation;
-            Assert.IsFalse(SystemUnderTest.SaveTranslation(badTargetTranslation, out updatedTranslation).Status);
+            ServiceOperationAction action;
+            Assert.IsFalse(SystemUnderTest.SaveTranslation(badTargetTranslation, out updatedTranslation, out action));
             Assert.AreEqual(null, updatedTranslation);
         }
 

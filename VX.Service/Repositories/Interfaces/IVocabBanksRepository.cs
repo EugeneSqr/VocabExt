@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using VX.Domain;
 using VX.Domain.Entities;
-using VX.Domain.Surrogates;
 
 namespace VX.Service.Repositories.Interfaces
 {
@@ -21,12 +19,12 @@ namespace VX.Service.Repositories.Interfaces
 
         IVocabBank Create();
 
-        IServiceOperationResponse Delete(int vocabBankId);
+        bool Delete(int vocabBankId);
 
-        IServiceOperationResponse UpdateHeaders(IVocabBank vocabBank);
+        bool UpdateHeaders(IVocabBank vocabBank);
             
-        IServiceOperationResponse DetachTranslation(int vocabBankId, int translationId);
+        bool DetachTranslation(int vocabBankId, int translationId);
 
-        IServiceOperationResponse AttachTranslation(int vocabBankId, int translationId);
+        bool AttachTranslation(int vocabBankId, int translationId);
     }
 }

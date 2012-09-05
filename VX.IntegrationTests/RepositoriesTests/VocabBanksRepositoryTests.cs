@@ -5,6 +5,7 @@ using VX.Domain.Entities;
 using VX.Domain.Surrogates;
 using VX.IntegrationTests.Mocks;
 using VX.Service.Infrastructure;
+using VX.Service.Infrastructure.Factories.Responses;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
@@ -38,7 +39,10 @@ namespace VX.IntegrationTests.RepositoriesTests
             ContainerBuilder.RegisterType<WordsRepository>()
                 .As<IWordsRepository>()
                 .InstancePerLifetimeScope();
-            
+
+            ContainerBuilder.RegisterType<ResponsesFactory>()
+                .As<IResponsesFactory>()
+                .InstancePerLifetimeScope();
             #endregion
 
             BuildContainer();
@@ -96,9 +100,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if attach translation attaches new translation")]
         public void AttachTranslationTest()
         {
-            Assert.AreEqual(
-                (int)ServiceOperationAction.Attach, 
-                SystemUnderTest.AttachTranslation(2, 1).OperationActionCode);
+            Assert.IsTrue(SystemUnderTest.AttachTranslation(2, 1));
             var repositoryForCheckingResultOfAttach = Container.Resolve<ITranslationsRepository>();
             Assert.IsNotNull(
                 repositoryForCheckingResultOfAttach.GetTranslations(2).FirstOrDefault(item => item.Id == 1));
@@ -109,9 +111,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if attach translation does not attach translation that already exist in a bank")]
         public void AttachExistTranslationTest()
         {
-            Assert.AreEqual(
-                (int)ServiceOperationAction.None, 
-                SystemUnderTest.AttachTranslation(1, 1).OperationActionCode);
+            Assert.IsFalse(SystemUnderTest.AttachTranslation(1, 1));
         }
 
         [Test]
@@ -119,13 +119,10 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if detach translation detaches translation")]
         public void DetachTranslationTest()
         {
-            Assert.AreEqual(
-                (int)ServiceOperationAction.Detach, 
-                SystemUnderTest.DetachTranslation(1, 1).OperationActionCode);
+            Assert.IsTrue(SystemUnderTest.DetachTranslation(1, 1));
             var repositoryForCheckingResultOfDetach = Container.Resolve<ITranslationsRepository>();
             Assert.IsNull(
                 repositoryForCheckingResultOfDetach.GetTranslations(1).FirstOrDefault(item => item.Id == 1));
-
         }
 
         [Test]
@@ -163,10 +160,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if Delete deletes specified vocabulary bank")]
         public void DeleteTest()
         {
-            var actual = SystemUnderTest.Delete(1);
-            Assert.AreEqual(true, actual.Status);
-            Assert.AreEqual((int)ServiceOperationAction.Delete, actual.OperationActionCode);
-            Assert.AreEqual("1", actual.StatusMessage);
+            Assert.IsTrue(SystemUnderTest.Delete(1));
             Assert.AreEqual(0, SystemUnderTest.Get(new[] { 1 }).Count);
         }
 
@@ -175,10 +169,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if Delete fails to delete a bank if it doesn't exist")]
         public void DeleteFailTest()
         {
-            var actual = SystemUnderTest.Delete(999);
-            Assert.AreEqual(false, actual.Status);
-            Assert.AreEqual((int)ServiceOperationAction.Delete, actual.OperationActionCode);
-            Assert.IsNull(actual.StatusMessage);
+            Assert.IsFalse(SystemUnderTest.Delete(999));
         }
     }
 }

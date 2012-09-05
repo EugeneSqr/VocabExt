@@ -1,7 +1,8 @@
 ﻿using System;
 using VX.Domain.Entities;
+using VX.Domain.Responses;
 using VX.Domain.Surrogates;
-using VX.Service.Infrastructure.Factories;
+using VX.Service.Infrastructure.Factories.Responses;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
 
@@ -17,14 +18,16 @@ namespace VX.Service.Validators
         private const string WrongLanguageErrorCode = "2";
         private const string WordAlreadyExistsErrorCode = "3";
 
-        public WordValidator(IAbstractFactory factory, ILanguagesRepository languagesRepository) : base(factory)
+        public WordValidator(
+            IResponsesFactory responsesFactory, 
+            ILanguagesRepository languagesRepository) : base(responsesFactory)
         {
             this.languagesRepository = languagesRepository;
         }
 
-        public IServiceOperationResponse ValidateExist(IWord word, IWordsRepository wordsRepository)
+        public IOperationResponse ValidateExist(IWord word, IWordsRepository wordsRepository)
         {
-            Func<IWord, IServiceOperationResponse> validationFunction =
+            Func<IWord, IOperationResponse> validationFunction =
                 parameter =>
                     {
                         if (wordsRepository.GetWord(parameter.Id) == null)
@@ -40,9 +43,9 @@ namespace VX.Service.Validators
             return PerformValidation(validationFunction, word);
         }
 
-        public IServiceOperationResponse ValidateSpelling(IWord word)
+        public IOperationResponse ValidateSpelling(IWord word)
         {
-            Func<IWord, IServiceOperationResponse> validationFunction =
+            Func<IWord, IOperationResponse> validationFunction =
                 parameter =>
                     {
                         if (parameter.Spelling != null)
@@ -59,9 +62,9 @@ namespace VX.Service.Validators
             return PerformValidation(validationFunction, word);
         }
 
-        public IServiceOperationResponse ValidateLanguage(IWord word)
+        public IOperationResponse ValidateLanguage(IWord word)
         {
-            Func<IWord, IServiceOperationResponse> validationFunction =
+            Func<IWord, IOperationResponse> validationFunction =
                 parameter =>
                     {
                         if (parameter.Language == null)
@@ -76,9 +79,9 @@ namespace VX.Service.Validators
             return PerformValidation(validationFunction, word);
         }
 
-        public IServiceOperationResponse Validate(IWord word, IWordsRepository wordsRepository)
+        public IOperationResponse Validate(IWord word, IWordsRepository wordsRepository)
         {
-            Func<IWord, IServiceOperationResponse> validationFunction =
+            Func<IWord, IOperationResponse> validationFunction =
                 parameter =>
                     {
                         var result = ValidateSpelling(parameter);
@@ -101,8 +104,8 @@ namespace VX.Service.Validators
             return PerformValidation(validationFunction, word);
         }
 
-        private IServiceOperationResponse PerformValidation(
-            Func<IWord, IServiceOperationResponse> validationFunction, 
+        private IOperationResponse PerformValidation(
+            Func<IWord, IOperationResponse> validationFunction, 
             IWord word)
         {
             return word == null 
@@ -110,41 +113,29 @@ namespace VX.Service.Validators
                 : validationFunction(word);
         }
 
-        private IServiceOperationResponse BuildEmptyWordResponse()
+        private IOperationResponse BuildEmptyWordResponse()
         {
-            return Factory.Create<IServiceOperationResponse>(
-                false, 
-                ServiceOperationAction.Validate, 
-                EmptyWordErrorCode);
+            return ResponsesFactory.Create(false, ServiceOperationAction.Validate, EmptyWordErrorCode);
         }
 
-        private IServiceOperationResponse BuildWrongLanguageResponse()
+        private IOperationResponse BuildWrongLanguageResponse()
         {
-            return Factory.Create<IServiceOperationResponse>(
-                false, 
-                ServiceOperationAction.Validate, 
-                WrongLanguageErrorCode);
+            return ResponsesFactory.Create(false, ServiceOperationAction.Validate, WrongLanguageErrorCode);
         }
 
-        private IServiceOperationResponse BuildWordExistsResponse()
+        private IOperationResponse BuildWordExistsResponse()
         {
-            return Factory.Create<IServiceOperationResponse>(
-                false, 
-                ServiceOperationAction.Validate, 
-                WordAlreadyExistsErrorCode);
+            return ResponsesFactory.Create(false, ServiceOperationAction.Validate, WordAlreadyExistsErrorCode);
         }
 
-        private IServiceOperationResponse BuildEmptySpellingResponse()
+        private IOperationResponse BuildEmptySpellingResponse()
         {
-            return Factory.Create<IServiceOperationResponse>(
-                false, 
-                ServiceOperationAction.Validate, 
-                EmptySpellingErrorCode);
+            return ResponsesFactory.Create(false, ServiceOperationAction.Validate, EmptySpellingErrorCode);
         }
 
-        private IServiceOperationResponse BuildValidationPassedResponse()
+        private IOperationResponse BuildValidationPassedResponse()
         {
-            return Factory.Create<IServiceOperationResponse>(true, ServiceOperationAction.Validate);
+            return ResponsesFactory.Create(true, ServiceOperationAction.Validate);
         }
     }
 }

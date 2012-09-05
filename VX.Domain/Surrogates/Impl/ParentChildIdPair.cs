@@ -1,7 +1,8 @@
-﻿using VX.Service.Infrastructure.Interfaces;
+﻿using System.Runtime.Serialization;
 
-namespace VX.Service.Infrastructure
+namespace VX.Domain.Surrogates.Impl
 {
+    [DataContract]
     public class ParentChildIdPair : IParentChildIdPair
     {
         public ParentChildIdPair(int parentId, int childId)
@@ -11,8 +12,10 @@ namespace VX.Service.Infrastructure
             ChildId = childId;
         }
 
+        [DataMember]
         public int ParentId { get; private set; }
 
+        [DataMember]
         public int ChildId { get; private set; }
     }
 }

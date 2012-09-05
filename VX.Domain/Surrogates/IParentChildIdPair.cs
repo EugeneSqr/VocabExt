@@ -1,4 +1,4 @@
-﻿namespace VX.Service.Infrastructure.Interfaces
+﻿namespace VX.Domain.Surrogates
 {
     public interface IParentChildIdPair
     {

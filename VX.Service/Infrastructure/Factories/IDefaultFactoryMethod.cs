@@ -1,6 +1,6 @@
 ﻿namespace VX.Service.Infrastructure.Factories
 {
-    public interface IFactoryMethod<T>
+    public interface IDefaultFactoryMethod<T>
     {
         T Create();
     }

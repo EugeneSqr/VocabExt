@@ -53,12 +53,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CacheKeyFactoryTests.cs" />
+    <Compile Include="ContractSerializerTests.cs" />
     <Compile Include="DataLayerTestsBase.cs" />
-    <Compile Include="FactoryTests.cs" />
+    <Compile Include="FactoriesTests\DomainItemsCheckTests.cs" />
+    <Compile Include="FactoriesTests\EntitiesFactoryTests.cs" />
+    <Compile Include="FactoriesTests\SerializerFactoryTests.cs" />
+    <Compile Include="FactoriesTests\StreamSerializationTests.cs" />
     <Compile Include="Mocks\ContextFactoryMock.cs" />
-    <Compile Include="Mocks\FactoryMock.cs" />
+    <Compile Include="Mocks\EntitiesFactoryMock.cs" />
     <Compile Include="Mocks\RandomFacadeMock.cs" />
+    <Compile Include="Mocks\ResponsesFactoryMock.cs" />
+    <Compile Include="Mocks\SurrogatesFactoryMock.cs" />
+    <Compile Include="ResponsesFactoryTests.cs" />
     <Compile Include="SearchStringBuilderTests.cs" />
+    <Compile Include="FactoriesTests\SurrogatesFactoryTests.cs" />
     <Compile Include="SynonymSelectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomPickerTests.cs" />

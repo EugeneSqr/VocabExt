@@ -1,18 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
-using VX.Domain.Surrogates;
-using VX.Domain.Surrogates.Impl;
 using VX.Model;
+using VX.Service.Infrastructure.Interfaces;
 
-namespace VX.Service.Infrastructure.Factories
+namespace VX.Service.Infrastructure.Factories.Entities
 {
     [RegisterService]
-    public class Factory : AbstractFactory, 
+    public class EntitiesFactory : AbstractEntitiesFactory, 
         ISourceToTargetFactoryMethod<ILanguage, Language>,
         ISourceToTargetFactoryMethod<ILanguage, Stream>,
         ISourceToTargetFactoryMethod<IWord, Word>,
@@ -20,16 +17,20 @@ namespace VX.Service.Infrastructure.Factories
         ISourceToTargetFactoryMethod<ITranslation, Translation>,
         ISourceToTargetFactoryMethod<ITranslation, Stream>,
         ISourceToTargetFactoryMethod<IVocabBank, VocabBank>,
-        ISourceToTargetFactoryMethod<IVocabBankSummary, Stream>,
         ISourceToTargetFactoryMethod<ITag, Tag>,
-        IFactoryMethod<ILanguage>,
-        IFactoryMethod<IWord>,
-        IFactoryMethod<ITranslation>,
-        IFactoryMethod<IVocabBankSummary>,
-        IFactoryMethod<IVocabBank>,
-        IFactoryMethod<ITag>,
-        IResponseFactoryMethod<IServiceOperationResponse>
+        IDefaultFactoryMethod<ILanguage>,
+        IDefaultFactoryMethod<IWord>,
+        IDefaultFactoryMethod<ITranslation>,
+        IDefaultFactoryMethod<IVocabBank>,
+        IDefaultFactoryMethod<ITag>
     {
+        private readonly IContractSerializer contractSerializer;
+
+        public EntitiesFactory(IContractSerializer contractSerializer)
+        {
+            this.contractSerializer = contractSerializer;
+        }
+
         ILanguage ISourceToTargetFactoryMethod<ILanguage, Language>.Create(Language entity)
         {
             Func<Language, ILanguage> mapping =
@@ -108,11 +109,6 @@ namespace VX.Service.Infrastructure.Factories
             return Convert(mapping, entity);
         }
 
-        IVocabBankSummary ISourceToTargetFactoryMethod<IVocabBankSummary, Stream>.Create(Stream source)
-        {
-            return Parse<IVocabBankSummary, VocabBankSummary>(source);
-        }
-
         ITag ISourceToTargetFactoryMethod<ITag, Tag>.Create(Tag entity)
         {
             Func<Tag, ITag> mapping =
@@ -125,76 +121,43 @@ namespace VX.Service.Infrastructure.Factories
             return Convert(mapping, entity);
         }
 
-        ILanguage IFactoryMethod<ILanguage>.Create()
+        ILanguage IDefaultFactoryMethod<ILanguage>.Create()
         {
             return new LanguageContract();
         }
 
-        IWord IFactoryMethod<IWord>.Create()
+        IWord IDefaultFactoryMethod<IWord>.Create()
         {
             return new WordContract();
         }
 
-        ITranslation IFactoryMethod<ITranslation>.Create()
+        ITranslation IDefaultFactoryMethod<ITranslation>.Create()
         {
             return new TranslationContract();
         }
 
-        IVocabBankSummary IFactoryMethod<IVocabBankSummary>.Create()
-        {
-            return new VocabBankSummary();
-        }
-
-        IVocabBank IFactoryMethod<IVocabBank>.Create()
+        IVocabBank IDefaultFactoryMethod<IVocabBank>.Create()
         {
             return new VocabBankContract();
         }
 
-        ITag IFactoryMethod<ITag>.Create()
+        ITag IDefaultFactoryMethod<ITag>.Create()
         {
             return new TagContract();
         }
 
         private TType Parse<TType, TContract>(Stream data)
         {
-            try
-            {
-                return (TType)new DataContractJsonSerializer(typeof(TContract)).ReadObject(data);
-            }
-            catch (SerializationException)
-            {
-                return Create<TType>();
-            }
-            catch(InvalidCastException)
-            {
-                return Create<TType>();
-            }
+            TType result;
+            return contractSerializer.Deserialize<TType, TContract>(data, out result) 
+                ? result 
+                : Create<TType>();
         }
 
         private TTarget Convert<TSource, TTarget>(Func<TSource, TTarget> mapping, TSource source) 
             where TSource: class
         {
             return source == null ? Create<TTarget>() : mapping(source);
-        }
-
-        public IServiceOperationResponse Create(bool status, ServiceOperationAction action)
-        {
-            return new ServiceOperationResponse(status, action);
-        }
-
-        public IServiceOperationResponse Create(bool status, ServiceOperationAction action, string message)
-        {
-            var result = Create(status, action);
-            if (status)
-            {
-                result.StatusMessage = message;
-            }
-            else
-            {
-                result.ErrorMessage = message;
-            }
-
-            return result;
         }
     }
 }

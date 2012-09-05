@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using VX.Domain.Entities;
-using VX.Domain.Surrogates;
 using VX.Model;
 using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
+using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
@@ -22,7 +21,7 @@ namespace VX.Service.Repositories
 
         public WordsRepository(
             IContextFactory contextFactory, 
-            IAbstractFactory factory, 
+            IAbstractEntitiesFactory factory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
             ISearchStringBuilder searchStringBuilder,
@@ -79,12 +78,12 @@ namespace VX.Service.Repositories
             return Retrieve(retrievalFunction, cacheKey, spelling);
         }
 
-        public IServiceOperationResponse SaveWord(IWord word)
+        public bool SaveWord(IWord word)
         {
             var validationResult = wordValidator.Validate(word, this);
             if (!validationResult.Status)
             {
-                return validationResult;
+                return false;
             }
 
             using (EntitiesContext context = ContextFactory.Build())
@@ -95,10 +94,7 @@ namespace VX.Service.Repositories
                 newWord.Transcription = word.Transcription;
                 context.Words.AddObject(newWord);
                 context.SaveChanges();
-                return Factory.Create<IServiceOperationResponse>(
-                    true, 
-                    ServiceOperationAction.Create, 
-                    newWord.Id.ToString(CultureInfo.InvariantCulture));
+                return true;
             }
         }
 

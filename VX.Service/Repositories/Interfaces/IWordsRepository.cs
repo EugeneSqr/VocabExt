@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using VX.Domain;
 using VX.Domain.Entities;
-using VX.Domain.Surrogates;
 
 namespace VX.Service.Repositories.Interfaces
 {
@@ -13,6 +11,6 @@ namespace VX.Service.Repositories.Interfaces
 
         bool CheckWordExists(string spelling);
 
-        IServiceOperationResponse SaveWord(IWord word);
+        bool SaveWord(IWord word);
     }
 }

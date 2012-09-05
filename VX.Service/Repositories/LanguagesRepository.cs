@@ -6,6 +6,7 @@ using VX.Model;
 using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
+using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
@@ -16,7 +17,7 @@ namespace VX.Service.Repositories
     {
         public LanguagesRepository(
             IContextFactory contextFactory, 
-            IAbstractFactory factory, 
+            IAbstractEntitiesFactory factory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
         {
