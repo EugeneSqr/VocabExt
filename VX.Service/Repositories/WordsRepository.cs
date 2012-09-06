@@ -6,6 +6,7 @@ using VX.Model;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Factories.Entities;
+using VX.Service.Infrastructure.Factories.SearchStrings;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
@@ -15,7 +16,7 @@ namespace VX.Service.Repositories
     [RegisterService]
     public class WordsRepository : RepositoryBase, IWordsRepository
     {
-        private readonly ISearchStringBuilder searchStringBuilder;
+        private readonly ISearchStringFactory searchStringFactory;
         private readonly IWordValidator wordValidator;
 
         public WordsRepository(
@@ -23,10 +24,10 @@ namespace VX.Service.Repositories
             IAbstractEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
-            ISearchStringBuilder searchStringBuilder,
+            ISearchStringFactory searchStringFactory,
             IWordValidator wordValidator) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory)
         {
-            this.searchStringBuilder = searchStringBuilder;
+            this.searchStringFactory = searchStringFactory;
             this.wordValidator = wordValidator;
         }
 
@@ -36,7 +37,7 @@ namespace VX.Service.Repositories
             var cacheKey = CacheKeyFactory.BuildKey("WordsRepository.GetWords", searchString);
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
-                var actualSearchString = searchStringBuilder.BuildSearchString(searchString);
+                var actualSearchString = searchStringFactory.Create(searchString);
                 if (!string.IsNullOrEmpty(actualSearchString))
                 {
                     using (EntitiesContext context = ContextFactory.Build())

@@ -2,10 +2,9 @@
 using Autofac;
 using NUnit.Framework;
 using VX.IntegrationTests.Mocks;
-using VX.Service.Infrastructure;
 using VX.Service.Infrastructure.Factories.Responses;
+using VX.Service.Infrastructure.Factories.SearchStrings;
 using VX.Service.Infrastructure.Factories.Surrogates;
-using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators;
@@ -28,8 +27,8 @@ namespace VX.IntegrationTests.RepositoriesTests
                 .As<ITranslationValidator>()
                 .InstancePerLifetimeScope();
 
-            ContainerBuilder.RegisterType<SearchStringBuilder>()
-                .As<ISearchStringBuilder>()
+            ContainerBuilder.RegisterType<SearchStringFactory>()
+                .As<ISearchStringFactory>()
                 .InstancePerLifetimeScope();
 
             ContainerBuilder.RegisterType<WordValidatorMock>()

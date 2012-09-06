@@ -148,7 +148,6 @@ namespace VX.Service
             return responsesFactory.Create(
                 wordsRepository.SaveWord(entitiesFactory.Create<IWord, Stream>(data)),
                 ServiceOperationAction.Create);
-
         }
 
         public IOperationResponse ValidateWord(Stream data)

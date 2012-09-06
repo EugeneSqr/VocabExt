@@ -61,7 +61,7 @@
     <Compile Include="Mocks\ResponsesFactoryMock.cs" />
     <Compile Include="Mocks\SurrogatesFactoryMock.cs" />
     <Compile Include="ResponsesFactoryTests.cs" />
-    <Compile Include="SearchStringBuilderTests.cs" />
+    <Compile Include="FactoriesTests\SearchStringFactoryTests.cs" />
     <Compile Include="FactoriesTests\SurrogatesFactoryTests.cs" />
     <Compile Include="SynonymSelectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

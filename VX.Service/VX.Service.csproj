@@ -91,10 +91,10 @@
     <Compile Include="Infrastructure\Factories\Tasks\ITasksFactory.cs" />
     <Compile Include="Infrastructure\CacheFacade.cs" />
     <Compile Include="Infrastructure\Interfaces\ICacheFacade.cs" />
-    <Compile Include="Infrastructure\Interfaces\ISearchStringBuilder.cs" />
+    <Compile Include="Infrastructure\Factories\SearchStrings\ISearchStringFactory.cs" />
     <Compile Include="Infrastructure\Interfaces\ISynonymSelector.cs" />
     <Compile Include="Infrastructure\Interfaces\ITaskValidator.cs" />
-    <Compile Include="Infrastructure\SearchStringBuilder.cs" />
+    <Compile Include="Infrastructure\Factories\SearchStrings\SearchStringFactory.cs" />
     <Compile Include="Infrastructure\SynonymSelector.cs" />
     <Compile Include="Infrastructure\TaskValidator.cs" />
     <Compile Include="Infrastructure\Interfaces\IRandomPicker.cs" />

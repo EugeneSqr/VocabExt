@@ -5,7 +5,7 @@ using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
 using VX.Domain.Responses.Impl;
 using VX.Domain.Surrogates;
-using VX.Service.Infrastructure.Interfaces;
+using VX.Service.Infrastructure.Factories.SearchStrings;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators.Interfaces;
@@ -30,7 +30,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         public WordsRepositoryTests()
         {
             ContainerBuilder.RegisterInstance(MockSearchStringBuilder())
-                .As<ISearchStringBuilder>()
+                .As<ISearchStringFactory>()
                 .SingleInstance();
             ContainerBuilder.RegisterInstance(MockWordValidator())
                 .As<IWordValidator>()
@@ -135,10 +135,10 @@ namespace VX.IntegrationTests.RepositoriesTests
             Assert.IsFalse(actual);
         }
 
-        private static ISearchStringBuilder MockSearchStringBuilder()
+        private static ISearchStringFactory MockSearchStringBuilder()
         {
-            var mock = new Mock<ISearchStringBuilder>();
-            mock.Setup(item => item.BuildSearchString(It.IsAny<string>()))
+            var mock = new Mock<ISearchStringFactory>();
+            mock.Setup(item => item.Create(It.IsAny<string>()))
                 .Returns((string item) => item == null || item.Length < 2 ? string.Empty : item);
             return mock.Object;
         }
