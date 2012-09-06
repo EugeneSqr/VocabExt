@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using VX.Domain.Surrogates;
+using VX.Model;
 
 namespace VX.Service.Infrastructure.Factories.Surrogates
 {
@@ -14,6 +15,8 @@ namespace VX.Service.Infrastructure.Factories.Surrogates
         IParentChildIdPair CreateParentChildIdPair();
 
         IVocabBankSummary CreateVocabBankSummary(Stream data);
+
+        IVocabBankSummary CreateVocabBankSummary(VocabBank modelData);
 
         IVocabBankSummary CreateVocabBankSummary();
 

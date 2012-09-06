@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.IO;
+using Autofac;
 using NUnit.Framework;
 using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Factories.Surrogates;
@@ -32,7 +33,7 @@ namespace VX.Tests.FactoriesTests
         [Description("Creates empty language from incorrect stream")]
         public void CreateEmptyLanguageIncorrectStreamTest()
         {
-            CheckVocabBankSummary(0, null, null, SystemUnderTest.CreateVocabBankSummary(null));
+            CheckVocabBankSummary(0, null, null, SystemUnderTest.CreateVocabBankSummary((Stream) null));
         }
 
         [Test]

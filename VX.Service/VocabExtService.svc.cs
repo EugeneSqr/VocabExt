@@ -79,15 +79,16 @@ namespace VX.Service
                 : GetTasks();
         }
 
-        public IList<IVocabBank> GetVocabBanksList()
+        public IList<IVocabBankSummary> GetVocabBanksSummary()
         {
-            return vocabBanksRepository.GetListWithoutTranslations();
+            return vocabBanksRepository.GetSummary();
         }
 
         public IList<ITranslation> GetTranslations(string vocabBankId)
         {
-            // TODO: parse safely
-            return translationsRepository.GetTranslations(int.Parse(vocabBankId));
+            int parsedId;
+            int.TryParse(vocabBankId, out parsedId);
+            return translationsRepository.GetTranslations(parsedId);
         }
 
         public IList<IWord> GetWords(string searchString)
@@ -107,9 +108,10 @@ namespace VX.Service
 
         public IOperationResponse DeleteVocabularyBank(string vocabBankId)
         {
-            // TODO: parse safely
+            int parsedId;
+            int.TryParse(vocabBankId, out parsedId);
             return responsesFactory.Create(
-                vocabBanksRepository.Delete(int.Parse(vocabBankId)), 
+                vocabBanksRepository.Delete(parsedId), 
                 ServiceOperationAction.Delete);
         }
 
@@ -136,10 +138,9 @@ namespace VX.Service
 
         public IOperationResponse UpdateBankHeaders(Stream data)
         {
-            /*var aaa = entitiesFactory.Create<IVocabBankSummary, Stream>(data);
-            return vocabBanksRepository.UpdateHeaders(
-                inputDataConverter.ParseBankSummary(data));*/
-            return null;
+            return responsesFactory.Create(
+                    vocabBanksRepository.UpdateSummary(surrogatesFactory.CreateVocabBankSummary(data)), 
+                    ServiceOperationAction.Update);
         }
 
         public IOperationResponse SaveWord(Stream data)

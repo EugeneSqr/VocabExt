@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.Objects.DataClasses;
+﻿using System.Data.Objects.DataClasses;
 using System.IO;
 using NUnit.Framework;
 using VX.Domain.Entities;
-using VX.Domain.Surrogates;
 using VX.Model;
 using VX.Service.Infrastructure.Factories.Entities;
 

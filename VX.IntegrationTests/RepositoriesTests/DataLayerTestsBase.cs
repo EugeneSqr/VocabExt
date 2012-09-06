@@ -2,7 +2,6 @@
 using Autofac;
 using Moq;
 using NUnit.Framework;
-using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Factories.Entities;

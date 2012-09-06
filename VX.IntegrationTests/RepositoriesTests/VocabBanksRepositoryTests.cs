@@ -1,16 +1,16 @@
 ﻿using System.Linq;
 using Autofac;
 using NUnit.Framework;
-using VX.Domain.Entities;
-using VX.Domain.Surrogates;
 using VX.IntegrationTests.Mocks;
 using VX.Service.Infrastructure;
 using VX.Service.Infrastructure.Factories.Responses;
+using VX.Service.Infrastructure.Factories.Surrogates;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories;
 using VX.Service.Repositories.Interfaces;
 using VX.Service.Validators;
 using VX.Service.Validators.Interfaces;
+using VX.Tests.Mocks;
 
 namespace VX.IntegrationTests.RepositoriesTests
 {
@@ -45,6 +45,10 @@ namespace VX.IntegrationTests.RepositoriesTests
                 .InstancePerLifetimeScope();
             #endregion
 
+            ContainerBuilder.RegisterType<SurrogatesFactoryMock>()
+                .As<ISurrogatesFactory>()
+                .InstancePerLifetimeScope();
+            
             BuildContainer();
         }
 
@@ -82,17 +86,11 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("VocabBanksRepositoryTests")]
-        [Description("Checks if GetListWithoutTranslations returns list without translations and still with tags")]
-        public void GetVocabBanksListPositiveTest()
+        [Description("Checks if GetSummary returns list without translations")]
+        public void GetSummaryPositiveTest()
         {
-            var actual = SystemUnderTest.GetListWithoutTranslations();
+            var actual = SystemUnderTest.GetSummary();
             Assert.AreEqual(7, actual.Count);
-            foreach (IVocabBank vocabBank in actual)
-            {
-                Assert.AreEqual(0, vocabBank.Translations.Count);
-            }
-
-            Assert.Greater(actual[0].Tags.Count, 0);
         }
 
         [Test]
@@ -127,13 +125,13 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("VocabBanksRepositoryTests")]
-        [Description("Check if UpdateHeaders updates Name and Description of the bank")]
-        public void UpdateHeadersTest()
+        [Description("Check if UpdateSummary updates Name and Description of the bank")]
+        public void UpdateSummaryTest()
         {
-            var bankForUpdate = SystemUnderTest.Get()[0];
+            var bankForUpdate = SystemUnderTest.GetSummary()[0];
             bankForUpdate.Name = "new name";
             bankForUpdate.Description = "new description";
-            SystemUnderTest.UpdateHeaders(bankForUpdate);
+            SystemUnderTest.UpdateSummary(bankForUpdate);
             var actual = SystemUnderTest.Get()[0];
             Assert.AreEqual("new name", actual.Name);
             Assert.AreEqual("new description", actual.Description);

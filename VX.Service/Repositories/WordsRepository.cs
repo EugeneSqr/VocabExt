@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using VX.Domain.Entities;
 using VX.Model;
-using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Factories.Entities;
@@ -21,11 +20,11 @@ namespace VX.Service.Repositories
 
         public WordsRepository(
             IContextFactory contextFactory, 
-            IAbstractEntitiesFactory factory, 
+            IAbstractEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
             ISearchStringBuilder searchStringBuilder,
-            IWordValidator wordValidator) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
+            IWordValidator wordValidator) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory)
         {
             this.searchStringBuilder = searchStringBuilder;
             this.wordValidator = wordValidator;
@@ -45,7 +44,7 @@ namespace VX.Service.Repositories
                         result = context.Words
                             .Where(word => word.Spelling.StartsWith(actualSearchString))
                             .ToList()
-                            .Select(item => Factory.Create<IWord, Word>(item))
+                            .Select(item => EntitiesFactory.Create<IWord, Word>(item))
                             .ToList();
                     }
                 }
@@ -63,7 +62,7 @@ namespace VX.Service.Repositories
         public IWord GetWord(int id)
         {
             var cacheKey = CacheKeyFactory.BuildKey("WordsRepository.GetWord", id);
-            Func<EntitiesContext, int, IWord> retrievalFunction = (context, parameter) => Factory.Create<IWord, Word>(
+            Func<EntitiesContext, int, IWord> retrievalFunction = (context, parameter) => EntitiesFactory.Create<IWord, Word>(
                 context.Words.FirstOrDefault(item => item.Id == id));
 
             return Retrieve(retrievalFunction, cacheKey, id);

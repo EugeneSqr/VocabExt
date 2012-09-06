@@ -2,7 +2,6 @@
 using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using VX.Domain;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
 using VX.Domain.Responses;
@@ -15,6 +14,7 @@ namespace VX.Service
     [ServiceContract]
     [ServiceKnownType(typeof(TaskContract))]
     [ServiceKnownType(typeof(VocabBankContract))]
+    [ServiceKnownType(typeof(VocabBankSummary))]
     [ServiceKnownType(typeof(TranslationContract))]
     [ServiceKnownType(typeof(WordContract))]
     [ServiceKnownType(typeof(ServiceOperationResponse))]
@@ -31,7 +31,7 @@ namespace VX.Service
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json)]
-        IList<IVocabBank> GetVocabBanksList();
+        IList<IVocabBankSummary> GetVocabBanksSummary();
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json, UriTemplate = "GetTranslations/{vocabBankId}")]

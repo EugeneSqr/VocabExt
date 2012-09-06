@@ -5,7 +5,6 @@ using VX.Domain.Entities;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
 using VX.Model;
-using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Factories.Entities;
@@ -22,10 +21,10 @@ namespace VX.Service.Repositories
 
         public TranslationsRepository(
             IContextFactory contextFactory, 
-            IAbstractEntitiesFactory factory, 
+            IAbstractEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
             ICacheKeyFactory cacheKeyFactory, 
-            ITranslationValidator translationValidator) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
+            ITranslationValidator translationValidator) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory)
         {
             this.translationValidator = translationValidator;
         }
@@ -46,7 +45,7 @@ namespace VX.Service.Repositories
                     result = context.VocabBanksTranslations
                         .Where(item => item.VocabularyId == vocabBankId)
                         .ToList()
-                        .Select(item => Factory.Create<ITranslation, Translation>(item.Translation))
+                        .Select(item => EntitiesFactory.Create<ITranslation, Translation>(item.Translation))
                         .ToList();
                 }
 

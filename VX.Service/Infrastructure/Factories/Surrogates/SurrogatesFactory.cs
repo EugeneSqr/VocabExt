@@ -3,6 +3,7 @@ using System.IO;
 using VX.Domain.Entities;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
+using VX.Model;
 using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Interfaces;
 
@@ -51,6 +52,18 @@ namespace VX.Service.Infrastructure.Factories.Surrogates
         public IVocabBankSummary CreateVocabBankSummary(Stream data)
         {
             return Create<IVocabBankSummary, VocabBankSummary>(data, CreateVocabBankSummary);
+        }
+
+        public IVocabBankSummary CreateVocabBankSummary(VocabBank modelData)
+        {
+            return modelData == null
+                       ? null
+                       : new VocabBankSummary
+                             {
+                                 Id = modelData.Id,
+                                 Name = modelData.Name,
+                                 Description = modelData.Description
+                             };
         }
 
         public IVocabBankSummary CreateVocabBankSummary()

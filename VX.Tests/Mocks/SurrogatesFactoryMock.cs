@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
+using VX.Model;
 using VX.Service.Infrastructure.Factories.Surrogates;
 
 namespace VX.Tests.Mocks
@@ -35,6 +36,18 @@ namespace VX.Tests.Mocks
         public IVocabBankSummary CreateVocabBankSummary(Stream data)
         {
             return new VocabBankSummary();
+        }
+
+        public IVocabBankSummary CreateVocabBankSummary(VocabBank modelData)
+        {
+            return modelData == null
+                       ? null
+                       : new VocabBankSummary
+                             {
+                                 Id = modelData.Id,
+                                 Name = modelData.Name,
+                                 Description = modelData.Description
+                             };
         }
 
         public IVocabBankSummary CreateVocabBankSummary()

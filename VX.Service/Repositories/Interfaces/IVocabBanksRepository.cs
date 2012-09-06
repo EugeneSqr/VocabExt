@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using VX.Domain.Entities;
+using VX.Domain.Surrogates;
 
 namespace VX.Service.Repositories.Interfaces
 {
@@ -15,13 +16,13 @@ namespace VX.Service.Repositories.Interfaces
 
         IList<IVocabBank> GetWithTranslationsOnly(int[] vocabBanksIds);
 
-        IList<IVocabBank> GetListWithoutTranslations();
+        IList<IVocabBankSummary> GetSummary();
 
         IVocabBank Create();
 
         bool Delete(int vocabBankId);
 
-        bool UpdateHeaders(IVocabBank vocabBank);
+        bool UpdateSummary(IVocabBankSummary vocabBankSummary);
             
         bool DetachTranslation(int vocabBankId, int translationId);
 

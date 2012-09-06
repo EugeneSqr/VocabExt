@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using VX.Domain.Entities;
 using VX.Model;
-using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Factories.Entities;
@@ -17,9 +16,9 @@ namespace VX.Service.Repositories
     {
         public LanguagesRepository(
             IContextFactory contextFactory, 
-            IAbstractEntitiesFactory factory, 
+            IAbstractEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
+            ICacheKeyFactory cacheKeyFactory) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory)
         {
         }
 
@@ -28,7 +27,7 @@ namespace VX.Service.Repositories
             var cacheKey = CacheKeyFactory.BuildKey("LanguageRepository", languageId);
             Func<EntitiesContext, ILanguage> retrievalFunction = context =>
                                                               {
-                                                                  var result = Factory.Create
+                                                                  var result = EntitiesFactory.Create
                                                                       <ILanguage, Language>(
                                                                           context.Languages.FirstOrDefault(
                                                                               lang => lang.Id == languageId));
@@ -46,7 +45,7 @@ namespace VX.Service.Repositories
                                                                          var result = context.Languages.ToList()
                                                                              .Select(
                                                                                  item =>
-                                                                                 Factory.Create
+                                                                                 EntitiesFactory.Create
                                                                                      <ILanguage, Language>(item)).
                                                                              ToList();
                                                                          CacheFacade.PutIntoCache(result, cacheKey);

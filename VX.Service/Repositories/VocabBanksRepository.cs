@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Data.Objects;
 using System.Linq;
 using VX.Domain.Entities;
+using VX.Domain.Surrogates;
 using VX.Model;
-using VX.Service.Infrastructure.Factories;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Factories.Entities;
+using VX.Service.Infrastructure.Factories.Surrogates;
 using VX.Service.Infrastructure.Interfaces;
 using VX.Service.Repositories.Interfaces;
 
@@ -19,13 +20,16 @@ namespace VX.Service.Repositories
         private const string ServiceName = "vocabBanksRepositoy";
         private const string TagsQueryPath = "VocabBanksTags.Tag";
 
+        private readonly ISurrogatesFactory surrogatesFactory;
+
         public VocabBanksRepository(
             IContextFactory contextFactory, 
-            IAbstractEntitiesFactory factory, 
+            IAbstractEntitiesFactory entitiesFactory, 
             ICacheFacade cacheFacade, 
-            ICacheKeyFactory cacheKeyFactory
-            ) : base(contextFactory, factory, cacheFacade, cacheKeyFactory)
+            ICacheKeyFactory cacheKeyFactory, 
+            ISurrogatesFactory surrogatesFactory) : base(contextFactory, entitiesFactory, cacheFacade, cacheKeyFactory)
         {
+            this.surrogatesFactory = surrogatesFactory;
         }
 
         public string NewVocabBankName
@@ -53,13 +57,13 @@ namespace VX.Service.Repositories
             return Get(vocabBanksIds, false);
         }
 
-        public IList<IVocabBank> GetListWithoutTranslations()
+        public IList<IVocabBankSummary> GetSummary()
         {
             var cacheKey = CacheKeyFactory.BuildKey(ServiceName, string.Empty);
-            Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction =
+            Func<ObjectSet<VocabBank>, IList<IVocabBankSummary>> retrievingFunction =
                 vocabBanks => vocabBanks.Include(TagsQueryPath)
                     .ToList()
-                    .Select(bank => Factory.Create<IVocabBank, VocabBank>(bank))
+                    .Select(bank => surrogatesFactory.CreateVocabBankSummary(bank))
                     .ToList();
 
             return GetMultipleBanks(cacheKey, retrievingFunction, false);
@@ -74,7 +78,7 @@ namespace VX.Service.Repositories
                 newVocabBank.Name = NewVocabBankName;
                 context.VocabBanks.AddObject(newVocabBank);
                 context.SaveChanges();
-                result = Factory.Create<IVocabBank, VocabBank>(newVocabBank);
+                result = EntitiesFactory.Create<IVocabBank, VocabBank>(newVocabBank);
             }
 
             return result;
@@ -101,15 +105,15 @@ namespace VX.Service.Repositories
             return result;
         }
 
-        public bool UpdateHeaders(IVocabBank vocabBank)
+        public bool UpdateSummary(IVocabBankSummary vocabBankSummary)
         {
             using (var context = ContextFactory.Build())
             {
-                var bankToUpdate = context.VocabBanks.FirstOrDefault(bank => bank.Id == vocabBank.Id);
+                var bankToUpdate = context.VocabBanks.FirstOrDefault(bank => bank.Id == vocabBankSummary.Id);
                 if (bankToUpdate != null)
                 {
-                    bankToUpdate.Name = vocabBank.Name;
-                    bankToUpdate.Description = vocabBank.Description;
+                    bankToUpdate.Name = vocabBankSummary.Name;
+                    bankToUpdate.Description = vocabBankSummary.Description;
                     context.SaveChanges();
                 }
             }
@@ -171,7 +175,7 @@ namespace VX.Service.Repositories
                                                        .Where(bank => vocabBanksIds.Contains(bank.Id))
                                                        .ToList()
                                                        .Where(emptyTranslationsFilterExpression)
-                                                       .Select(entity => Factory.Create<IVocabBank, VocabBank>(entity))
+                                                       .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
                                                        .ToList();
             }
             else
@@ -179,19 +183,19 @@ namespace VX.Service.Repositories
                 retrievingFunction = vocabBanks => vocabBanks
                                                        .ToList()
                                                        .Where(emptyTranslationsFilterExpression)
-                                                       .Select(entity => Factory.Create<IVocabBank, VocabBank>(entity))
+                                                       .Select(entity => EntitiesFactory.Create<IVocabBank, VocabBank>(entity))
                                                        .ToList();
             }
 
             return GetMultipleBanks(cacheKey, retrievingFunction, true);
         }
 
-        private IList<IVocabBank> GetMultipleBanks(
+        private IList<TType> GetMultipleBanks<TType>(
             string cacheKey, 
-            Func<ObjectSet<VocabBank>, IList<IVocabBank>> retrievingFunction,
+            Func<ObjectSet<VocabBank>, IList<TType>> retrievingFunction,
             bool useLazyLoading)
         {
-            IList<IVocabBank> result;
+            IList<TType> result;
             if (!CacheFacade.GetFromCache(cacheKey, out result))
             {
                 using (var context = ContextFactory.Build())

@@ -1,7 +1,6 @@
 ﻿using VX.Domain.Responses;
 using VX.Domain.Responses.Impl;
 using VX.Domain.Surrogates;
-using VX.Domain.Surrogates.Impl;
 
 namespace VX.Service.Infrastructure.Factories.Responses
 {
