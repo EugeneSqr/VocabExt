@@ -92,7 +92,7 @@ namespace VX.Service
             return wordsRepository.GetWords(searchString);
         }
 
-        public IVocabBank CreateNewVocabularyBank()
+        public IVocabBank CreateVocabularyBank()
         {
             return vocabBanksRepository.Create();
         }
@@ -132,7 +132,7 @@ namespace VX.Service
                 ServiceOperationAction.Detach);
         }
 
-        public IOperationResponse UpdateBankHeaders(Stream data)
+        public IOperationResponse UpdateBankSummary(Stream data)
         {
             return responsesFactory.Create(
                     vocabBanksRepository.UpdateSummary(surrogatesFactory.CreateVocabBankSummary(data)), 

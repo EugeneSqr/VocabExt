@@ -43,7 +43,7 @@ namespace VX.Service
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json)]
-        IVocabBank CreateNewVocabularyBank();
+        IVocabBank CreateVocabularyBank();
 
         [OperationContract]
         [WebGet(ResponseFormat = WebMessageFormat.Json)]
@@ -63,7 +63,7 @@ namespace VX.Service
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
-        IOperationResponse UpdateBankHeaders(Stream data);
+        IOperationResponse UpdateBankSummary(Stream data);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json)]
