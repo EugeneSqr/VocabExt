@@ -59,16 +59,12 @@ namespace VX.Service
 
         public IList<ITask> GetTasks()
         {
-            IList<ITask> result = new List<ITask>();
             var banks = vocabBanksRepository.GetWithTranslationsOnly();
-            if (banks.Any())
-            {
-                result = tasksFactory.BuildTasks(
-                    vocabBanksRepository.GetWithTranslationsOnly(),
-                    serviceSettings.DefaultTasksCount);
-            }
-
-            return result;
+            return banks.Any()
+                       ? tasksFactory.BuildTasks(
+                           vocabBanksRepository.GetWithTranslationsOnly(),
+                           serviceSettings.DefaultTasksCount)
+                       : new List<ITask>();
         }
 
         public IList<ITask> GetTasks(int[] vocabBanksIds)

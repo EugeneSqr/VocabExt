@@ -72,6 +72,9 @@
     <Compile Include="ValidatorsTests\TranslationValidatorTests.cs" />
     <Compile Include="ValidatorsTests\ValidatorTestsBase.cs" />
     <Compile Include="ValidatorsTests\WordValidatorTests.cs" />
+    <Compile Include="VocabExtServiceTests\EmptyRepositoriesFixture.cs" />
+    <Compile Include="VocabExtServiceTests\VocabExtServiceMainFixture.cs" />
+    <Compile Include="VocabExtServiceTests\VocabExtServiceBaseFixture.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VX.Domain\VX.Domain.csproj">
