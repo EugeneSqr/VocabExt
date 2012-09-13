@@ -137,10 +137,8 @@ namespace VX.Tests.ValidatorsTests
         [Description("Checks if ValidateExist returns false if word already exists (by id)")]
         public void ValidateExistIdNegativeTest()
         {
-            CheckValidationResult(
-                false,
-                "3",
-                SystemUnderTest.ValidateExist(new WordContract {Id = ExistId}, wordsRepository));
+            var actual = SystemUnderTest.ValidateExist(new WordContract {Id = ExistId}, wordsRepository);
+            CheckValidationResult(false, "3", actual);
         }
 
         [Test]
@@ -268,8 +266,8 @@ namespace VX.Tests.ValidatorsTests
         private static IWordsRepository MockWordsRepository()
         {
             var mock = new Mock<IWordsRepository>();
-            mock.Setup(item => item.GetWord(ExistId)).Returns(new WordContract());
-            mock.Setup(item => item.GetWord(NonExistId)).Returns((IWord)null);
+            mock.Setup(item => item.GetWord(ExistId)).Returns(new WordContract {Id = ExistId});
+            mock.Setup(item => item.GetWord(NonExistId)).Returns(new WordContract());
             mock.Setup(item => item.CheckWordExists(ExistSpelling)).Returns(true);
             mock.Setup(item => item.CheckWordExists(NonExistSpelling)).Returns(false);
             return mock.Object;

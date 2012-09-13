@@ -30,7 +30,8 @@ namespace VX.Service.Validators
             Func<IWord, IOperationResponse> validationFunction =
                 parameter =>
                     {
-                        if (wordsRepository.GetWord(parameter.Id) == null)
+                        var retrievedWord = wordsRepository.GetWord(parameter.Id);
+                        if (retrievedWord == null || retrievedWord.Id == default(int))
                         {
                             return wordsRepository.CheckWordExists(parameter.Spelling)
                                        ? BuildWordExistsResponse()

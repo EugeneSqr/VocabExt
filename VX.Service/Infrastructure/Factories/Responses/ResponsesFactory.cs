@@ -4,6 +4,7 @@ using VX.Domain.Surrogates;
 
 namespace VX.Service.Infrastructure.Factories.Responses
 {
+    [RegisterService]
     public class ResponsesFactory : IResponsesFactory
     {
         public IOperationResponse Create(bool status, ServiceOperationAction action)
