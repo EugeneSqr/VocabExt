@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using VX.Domain.Entities.Impl;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
 using VX.Model;
@@ -10,7 +11,7 @@ namespace VX.Tests.Mocks
     {
         public IBankTranslationPair CreateBankTranslationPair(Stream data)
         {
-            throw new System.NotImplementedException();
+            return new BankTranslationPair(1, new TranslationContract {Id = 1});
         }
 
         public IBankTranslationPair CreateBankTranslationPair()

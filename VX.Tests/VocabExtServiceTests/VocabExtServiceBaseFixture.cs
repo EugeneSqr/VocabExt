@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using Autofac;
 using Moq;
+using NUnit.Framework;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
+using VX.Domain.Responses;
+using VX.Domain.Surrogates;
 using VX.Service;
 using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Factories.Responses;
@@ -22,9 +25,6 @@ namespace VX.Tests.VocabExtServiceTests
             ContainerBuilder.RegisterInstance(MockTasksFactory())
                 .As<ITasksFactory>().SingleInstance();
 
-            ContainerBuilder.RegisterInstance(MockTranslationsRepository())
-                .As<ITranslationsRepository>().SingleInstance();
-
             ContainerBuilder.RegisterInstance(MockWordsRepository())
                 .As<IWordsRepository>().SingleInstance();
 
@@ -42,9 +42,15 @@ namespace VX.Tests.VocabExtServiceTests
 
             ContainerBuilder.RegisterType<ResponsesFactoryMock>()
                 .As<IResponsesFactory>().InstancePerLifetimeScope();
+        }
 
-            ContainerBuilder.RegisterType<SurrogatesFactoryMock>()
-                .As<ISurrogatesFactory>().InstancePerLifetimeScope();
+        protected static void CheckResponse(
+            bool expectedStatus,
+            ServiceOperationAction expectedAction,
+            IOperationResponse actual)
+        {
+            Assert.AreEqual(expectedStatus, actual.Status);
+            Assert.AreEqual((int)expectedAction, actual.OperationActionCode);
         }
 
         private static ITasksFactory MockTasksFactory()
@@ -53,14 +59,6 @@ namespace VX.Tests.VocabExtServiceTests
             mock.Setup(item => item.BuildTask(It.IsAny<IList<IVocabBank>>())).Returns(new TaskContract());
             mock.Setup(factory => factory.BuildTasks(It.IsAny<IList<IVocabBank>>(), It.IsAny<int>())).Returns(
                 new List<ITask> {new TaskContract()});
-            return mock.Object;
-        }
-
-        private static ITranslationsRepository MockTranslationsRepository()
-        {
-            var mock = new Mock<ITranslationsRepository>();
-            mock.Setup(repo => repo.GetTranslations(1)).Returns(new List<ITranslation> {new TranslationContract()});
-            mock.Setup(repo => repo.GetTranslations(0)).Returns(new List<ITranslation>());
             return mock.Object;
         }
 

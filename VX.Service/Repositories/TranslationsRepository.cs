@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using VX.Domain.Entities;
 using VX.Domain.Surrogates;
@@ -62,32 +61,31 @@ namespace VX.Service.Repositories
         {
             resultTranslation = null;
             action = ServiceOperationAction.Update;
+            if (!translationValidator.Validate(translation).Status)
+            {
+                return false;
+            }
+
             using (var context = ContextFactory.Build())
             {
-                var targetTranslation = GetTranslation(translation.Id);
+                var targetTranslation = GetTranslation(translation.Id) ??
+                                        GetTranslation(translation.Source.Id, translation.Target.Id);
+
                 if (targetTranslation == null)
                 {
-                    targetTranslation = GetTranslation(translation.Source.Id, translation.Target.Id);
-                    if (targetTranslation == null)
-                    {
-                        targetTranslation = context.Translations.CreateObject<Translation>();
-                        action = ServiceOperationAction.Create;
-                    }
-                }
-                
-                targetTranslation.SourceId = translation.Source.Id;
-                targetTranslation.TargetId = translation.Target.Id;
-                
-                if (!translationValidator.Validate(translation).Status)
-                {
-                    return false;
-                }
-
-                if (targetTranslation.EntityState == EntityState.Detached)
-                {
+                    targetTranslation = context.Translations.CreateObject<Translation>();
                     context.Translations.AddObject(targetTranslation);
+                    action = ServiceOperationAction.Create;
                 }
-
+                else
+                {
+                    context.Attach(targetTranslation);
+                    action = ServiceOperationAction.Update;
+                }
+                
+                targetTranslation.Source = context.Words.Single(item => item.Id == translation.Source.Id);
+                targetTranslation.Target = context.Words.Single(item => item.Id == translation.Target.Id);
+                
                 context.SaveChanges();
                 // TODO: to factory
                 resultTranslation = new ManyToManyRelationship

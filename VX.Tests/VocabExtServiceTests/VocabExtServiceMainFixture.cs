@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Autofac;
 using Moq;
 using NUnit.Framework;
@@ -7,6 +8,7 @@ using VX.Domain.Entities.Impl;
 using VX.Domain.Responses;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
+using VX.Service.Infrastructure.Factories.Surrogates;
 using VX.Service.Repositories.Interfaces;
 
 namespace VX.Tests.VocabExtServiceTests
@@ -15,10 +17,20 @@ namespace VX.Tests.VocabExtServiceTests
     [TestFixture]
     public class VocabExtServiceMainFixture : VocabExtServiceBaseFixture
     {
+        private readonly ITranslation testTranslation = new TranslationContract {Id = 1};
+        private IManyToManyRelationship manyToMany = new ManyToManyRelationship();
+        private ServiceOperationAction action = ServiceOperationAction.Update;
+        
         public VocabExtServiceMainFixture()
         {
             ContainerBuilder.RegisterInstance(MockVocabBankRepository())
                 .As<IVocabBanksRepository>().SingleInstance();
+
+            ContainerBuilder.RegisterInstance(MockTranslationsRepository())
+                .As<ITranslationsRepository>().SingleInstance();
+
+            ContainerBuilder.RegisterInstance(MockSurrogatesFactory())
+                .As<ISurrogatesFactory>().SingleInstance();
             
             BuildContainer();
         }
@@ -101,13 +113,13 @@ namespace VX.Tests.VocabExtServiceTests
             CheckResponse(false, ServiceOperationAction.Delete, actual);
         }
 
-        private static void CheckResponse(
-            bool expectedStatus, 
-            ServiceOperationAction expectedAction, 
-            IOperationResponse actual)
+        [Test]
+        [Category("VocabExtServiceTests.Main")]
+        [Description("SaveTranslation creates update success response")]
+        public void SaveTranslationErrorTest()
         {
-            Assert.AreEqual(expectedStatus, actual.Status);
-            Assert.AreEqual((int)expectedAction, actual.OperationActionCode);
+            var actual = SystemUnderTest.SaveTranslation(new MemoryStream());
+            CheckResponse(true, ServiceOperationAction.Update, actual);
         }
 
         private static IVocabBanksRepository MockVocabBankRepository()
@@ -133,6 +145,23 @@ namespace VX.Tests.VocabExtServiceTests
             mock.Setup(repo => repo.Delete(It.IsInRange(0, int.MaxValue, Range.Exclusive)))
                 .Returns(true);
             
+            return mock.Object;
+        }
+
+        private ITranslationsRepository MockTranslationsRepository()
+        {
+            var mock = new Mock<ITranslationsRepository>();
+            mock.Setup(repo => repo.GetTranslations(1)).Returns(new List<ITranslation> { new TranslationContract() });
+            mock.Setup(repo => repo.GetTranslations(0)).Returns(new List<ITranslation>());
+            mock.Setup(repo => repo.SaveTranslation(testTranslation, out manyToMany, out action)).Returns(true);
+            return mock.Object;
+        }
+
+        private ISurrogatesFactory MockSurrogatesFactory()
+        {
+            var mock = new Mock<ISurrogatesFactory>();
+            mock.Setup(factory => factory.CreateBankTranslationPair(It.IsAny<Stream>()))
+                .Returns(new BankTranslationPair(1, testTranslation));
             return mock.Object;
         }
     }

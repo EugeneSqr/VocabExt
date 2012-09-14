@@ -116,12 +116,16 @@ namespace VX.Service
             var parsedPair = surrogatesFactory.CreateBankTranslationPair(data);
             IManyToManyRelationship translation;
             ServiceOperationAction action;
-            translationsRepository.SaveTranslation(parsedPair.Translation, out translation, out action);
-            return translation != null
-                       ? responsesFactory.Create(
-                           vocabBanksRepository.AttachTranslation(parsedPair.VocabBankId, translation.Id),
-                           ServiceOperationAction.Attach)
-                       : responsesFactory.Create(false, ServiceOperationAction.Create);
+            if (translationsRepository.SaveTranslation(parsedPair.Translation, out translation, out action) && translation != null)
+            {
+                return action == ServiceOperationAction.Create
+                           ? responsesFactory.Create(
+                               vocabBanksRepository.AttachTranslation(parsedPair.VocabBankId, translation.Id),
+                               ServiceOperationAction.Attach)
+                           : responsesFactory.Create(true, ServiceOperationAction.Update);
+            }
+
+            return responsesFactory.Create(false, ServiceOperationAction.Create);
         }
 
         public IOperationResponse DetachTranslation(Stream data)
