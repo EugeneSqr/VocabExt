@@ -152,7 +152,9 @@ namespace VX.Service
 
         public IOperationResponse ValidateWord(Stream data)
         {
-            return wordValidator.Validate(entitiesFactory.Create<IWord, Stream>(data), wordsRepository);
+            return wordValidator.Validate(
+                entitiesFactory.Create<IWord, Stream>(data), 
+                wordsRepository);
         }
     }
 }

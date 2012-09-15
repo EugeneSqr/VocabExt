@@ -48,7 +48,7 @@ namespace VX.Tests.Mocks
 
         IWord ISourceToTargetFactoryMethod<IWord, Stream>.Create(Stream source)
         {
-            throw new System.NotImplementedException();
+            return new WordContract();
         }
 
         ITranslation ISourceToTargetFactoryMethod<ITranslation, Translation>.Create(Translation entity)

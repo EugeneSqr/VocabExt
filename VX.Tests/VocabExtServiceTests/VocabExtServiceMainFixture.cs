@@ -5,7 +5,6 @@ using Moq;
 using NUnit.Framework;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
-using VX.Domain.Responses;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
 using VX.Service.Infrastructure.Factories.Surrogates;
@@ -13,7 +12,6 @@ using VX.Service.Repositories.Interfaces;
 
 namespace VX.Tests.VocabExtServiceTests
 {
-    // TODO: finish unit tests
     [TestFixture]
     public class VocabExtServiceMainFixture : VocabExtServiceBaseFixture
     {
@@ -122,6 +120,42 @@ namespace VX.Tests.VocabExtServiceTests
             CheckResponse(true, ServiceOperationAction.Update, actual);
         }
 
+        [Test]
+        [Category("VocabExtServiceTests.Main")]
+        [Description("Detach translation return success on detach")]
+        public void DetachTranslationTest()
+        {
+            var actual = SystemUnderTest.DetachTranslation(new MemoryStream());
+            CheckResponse(true, ServiceOperationAction.Detach, actual);
+        }
+
+        [Test]
+        [Category("VocabExtServiceTests.Main")]
+        [Description("Update bank summary returns success update")]
+        public void UpdateBankSummaryTest()
+        {
+            var actual = SystemUnderTest.UpdateBankSummary(new MemoryStream());
+            CheckResponse(true, ServiceOperationAction.Update, actual);
+        }
+
+        [Test]
+        [Category("VocabExtServiceTests.Main")]
+        [Description("SaveWord returns success create status")]
+        public void SaveWordTest()
+        {
+            var actual = SystemUnderTest.SaveWord(new MemoryStream());
+            CheckResponse(true, ServiceOperationAction.Create, actual);
+        }
+
+        [Test]
+        [Category("VocabExtServiceTests.Main")]
+        [Description("ValidateWord returns success validate status")]
+        public void ValidateWordTest()
+        {
+            var actual = SystemUnderTest.ValidateWord(new MemoryStream());
+            CheckResponse(true, ServiceOperationAction.Validate, actual);
+        }
+
         private static IVocabBanksRepository MockVocabBankRepository()
         {
             var mock = new Mock<IVocabBanksRepository>();
@@ -144,9 +178,12 @@ namespace VX.Tests.VocabExtServiceTests
             mock.Setup(repo => repo.Delete(0)).Returns(false);
             mock.Setup(repo => repo.Delete(It.IsInRange(0, int.MaxValue, Range.Exclusive)))
                 .Returns(true);
+            mock.Setup(repo => repo.DetachTranslation(It.IsAny<int>(), It.IsAny<int>()))
+                .Returns(true);
+            mock.Setup(repo => repo.UpdateSummary(It.IsAny<IVocabBankSummary>())).Returns(true);            
             
             return mock.Object;
-        }
+        }   
 
         private ITranslationsRepository MockTranslationsRepository()
         {
@@ -162,6 +199,8 @@ namespace VX.Tests.VocabExtServiceTests
             var mock = new Mock<ISurrogatesFactory>();
             mock.Setup(factory => factory.CreateBankTranslationPair(It.IsAny<Stream>()))
                 .Returns(new BankTranslationPair(1, testTranslation));
+            mock.Setup(repo => repo.CreateParentChildIdPair(It.IsAny<Stream>()))
+                .Returns(new ParentChildIdPair(1, 1));
             return mock.Object;
         }
     }

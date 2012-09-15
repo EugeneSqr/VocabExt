@@ -5,6 +5,7 @@ using NUnit.Framework;
 using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
 using VX.Domain.Responses;
+using VX.Domain.Responses.Impl;
 using VX.Domain.Surrogates;
 using VX.Service;
 using VX.Service.Infrastructure.Factories.Entities;
@@ -66,6 +67,7 @@ namespace VX.Tests.VocabExtServiceTests
         {
             var mock = new Mock<IWordsRepository>();
             mock.Setup(repo => repo.GetWords(It.IsAny<string>())).Returns(new List<IWord> {new WordContract()});
+            mock.Setup(repo => repo.SaveWord(It.IsAny<IWord>())).Returns(true);
             return mock.Object;
         }
 
@@ -85,6 +87,8 @@ namespace VX.Tests.VocabExtServiceTests
         private static IWordValidator MockWordsValidator()
         {
             var mock = new Mock<IWordValidator>();
+            mock.Setup(validator => validator.Validate(It.IsAny<IWord>(), It.IsAny<IWordsRepository>()))
+                .Returns(new ServiceOperationResponse(true, ServiceOperationAction.Validate));
             return mock.Object;
         }
     }
