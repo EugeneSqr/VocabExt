@@ -7,6 +7,7 @@ using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
+using VX.Service.Infrastructure.Exceptions;
 using VX.Service.Infrastructure.Factories.Surrogates;
 using VX.Service.Repositories.Interfaces;
 
@@ -16,8 +17,7 @@ namespace VX.Tests.VocabExtServiceTests
     public class VocabExtServiceMainFixture : VocabExtServiceBaseFixture
     {
         private readonly ITranslation testTranslation = new TranslationContract {Id = 1};
-        private IManyToManyRelationship manyToMany = new ManyToManyRelationship();
-        private ServiceOperationAction action = ServiceOperationAction.Update;
+        private ServiceOperationAction action = ServiceOperationAction.Create;
         
         public VocabExtServiceMainFixture()
         {
@@ -113,11 +113,11 @@ namespace VX.Tests.VocabExtServiceTests
 
         [Test]
         [Category("VocabExtServiceTests.Main")]
-        [Description("SaveTranslation creates update success response")]
+        [Description("SaveTranslation creates update success response without attaching")]
         public void SaveTranslationErrorTest()
         {
             var actual = SystemUnderTest.SaveTranslation(new MemoryStream());
-            CheckResponse(true, ServiceOperationAction.Update, actual);
+            CheckResponse(true, ServiceOperationAction.Create, actual);
         }
 
         [Test]
@@ -180,7 +180,9 @@ namespace VX.Tests.VocabExtServiceTests
                 .Returns(true);
             mock.Setup(repo => repo.DetachTranslation(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(true);
-            mock.Setup(repo => repo.UpdateSummary(It.IsAny<IVocabBankSummary>())).Returns(true);            
+            mock.Setup(repo => repo.UpdateSummary(It.IsAny<IVocabBankSummary>())).Returns(true);
+            mock.Setup(repo => repo.AttachTranslation(It.IsAny<int>(), It.IsAny<int>())).Throws
+                <ItemAlreadyExistsException>();
             
             return mock.Object;
         }   
@@ -190,7 +192,7 @@ namespace VX.Tests.VocabExtServiceTests
             var mock = new Mock<ITranslationsRepository>();
             mock.Setup(repo => repo.GetTranslations(1)).Returns(new List<ITranslation> { new TranslationContract() });
             mock.Setup(repo => repo.GetTranslations(0)).Returns(new List<ITranslation>());
-            mock.Setup(repo => repo.SaveTranslation(testTranslation, out manyToMany, out action)).Returns(true);
+            mock.Setup(repo => repo.SaveTranslation(testTranslation, out action)).Returns(new ManyToManyRelationship {Id = 1});
             return mock.Object;
         }
 

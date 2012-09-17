@@ -26,6 +26,6 @@ namespace VX.Service.Repositories.Interfaces
             
         bool DetachTranslation(int vocabBankId, int translationId);
 
-        bool AttachTranslation(int vocabBankId, int translationId);
+        void AttachTranslation(int vocabBankId, int translationId);
     }
 }

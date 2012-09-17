@@ -7,6 +7,7 @@ using VX.Domain.Entities;
 using VX.Domain.Entities.Impl;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
+using VX.Service.Infrastructure.Exceptions;
 using VX.Service.Infrastructure.Factories.Surrogates;
 using VX.Service.Repositories.Interfaces;
 
@@ -15,16 +16,13 @@ namespace VX.Tests.VocabExtServiceTests
     [TestFixture(Description = "Repositories are empty")]
     public class EmptyRepositoriesFixture : VocabExtServiceBaseFixture
     {
-        private readonly Stream falseSaveTranslationStream = new MemoryStream();
-        private readonly Stream emptyTranslationSaveTranslationStream = new MemoryStream();
-        private readonly Stream createSaveTranslationStream = new MemoryStream();
-        private IManyToManyRelationship manyToMany;
-        private IManyToManyRelationship emptyManyToMany;
-        private IManyToManyRelationship createManyToMany = new ManyToManyRelationship();
+        private readonly Stream incorrectTranslationStream = new MemoryStream();
+        private readonly Stream incorrectSavedTranslationStream = new MemoryStream();
+        private readonly Stream notAttachedTranalstionStream = new MemoryStream();
         private ServiceOperationAction action = ServiceOperationAction.Create;
-        private readonly ITranslation falseSaveTranaltionTranslation = new TranslationContract {Id = -1};
-        private readonly ITranslation emptyTranslationSaveTranslationTranslation;
-        private readonly ITranslation createSaveTranslationTranslation = new TranslationContract{Id = 1};
+        private readonly ITranslation incorrectTranslation = new TranslationContract {Id = -1};
+        private readonly ITranslation incorrectSavedTranslation = new TranslationContract {Id = 1};
+        private readonly ITranslation notAttachedTranslation = new TranslationContract{Id = 2};
         
         public EmptyRepositoriesFixture()
         {
@@ -66,28 +64,28 @@ namespace VX.Tests.VocabExtServiceTests
 
         [Test]
         [Category("VocabExtServiceTests.EmptyRepos")]
-        [Description("SaveTranslation returns false if input is incorrect")]
+        [Description("SaveTranslation throws ValidaionFailedException if input translation is incorrect")]
+        public void SaveTranslationValidationFailedTest()
+        {
+            var actual = SystemUnderTest.SaveTranslation(incorrectTranslationStream);
+            CheckResponse(false, ServiceOperationAction.Create, actual);
+        }
+
+        [Test]
+        [Category("VocabExtServiceTests.EmptyRepos")]
+        [Description("SaveTranslation returns false response if input is incorrect")]
         public void SaveTranslationFalseTest()
         {
-            var actual = SystemUnderTest.SaveTranslation(falseSaveTranslationStream);
+            var actual = SystemUnderTest.SaveTranslation(incorrectSavedTranslationStream);
             CheckResponse(false, ServiceOperationAction.Create, actual);
         }
 
         [Test]
         [Category("VocabExtServiceTests.EmptyRepos")]
-        [Description("SaveTranslation returns empty translation id input is incorrect")]
-        public void SaveTranslationEmptyTest()
+        [Description("SaveTranslation saves and attaches translation")]
+        public void SaveTranslationSaveAndAttachTest()
         {
-            var actual = SystemUnderTest.SaveTranslation(emptyTranslationSaveTranslationStream);
-            CheckResponse(false, ServiceOperationAction.Create, actual);
-        }
-
-        [Test]
-        [Category("VocabExtServiceTests.EmptyRepos")]
-        [Description("SaveTranslation returns setted translation on success")]
-        public void SaveTranslationTest()
-        {
-            var actual = SystemUnderTest.SaveTranslation(createSaveTranslationStream);
+            var actual = SystemUnderTest.SaveTranslation(notAttachedTranalstionStream);
             CheckResponse(true, ServiceOperationAction.Attach, actual);
         }
 
@@ -97,33 +95,34 @@ namespace VX.Tests.VocabExtServiceTests
             mock.Setup(repo => repo.Get()).Returns(new List<IVocabBank>());
             mock.Setup(repo => repo.GetWithTranslationsOnly()).Returns(new List<IVocabBank>());
             mock.Setup(repo => repo.GetWithTranslationsOnly(It.IsAny<int[]>())).Returns(new List<IVocabBank>());
-            mock.Setup(repo => repo.AttachTranslation(It.IsAny<int>(), It.IsAny<int>())).Returns(true);
+            mock.Setup(repo => repo.AttachTranslation(It.IsAny<int>(), It.IsAny<int>()));
             return mock.Object;
         }
 
         private ITranslationsRepository MockTranslationsRepository()
         {
             var mock = new Mock<ITranslationsRepository>();
-            mock.Setup(repo => repo.SaveTranslation(falseSaveTranaltionTranslation, out manyToMany, out action))
-                .Returns(false);
+            mock.Setup(repo => repo.SaveTranslation(incorrectTranslation, out action))
+                .Throws<ValidationFailedException>();
 
-            mock.Setup(repo => repo.SaveTranslation(emptyTranslationSaveTranslationTranslation, out emptyManyToMany, out action))
-                .Returns(true);
+            mock.Setup(repo => repo.SaveTranslation(incorrectSavedTranslation, out action))
+                .Returns(new ManyToManyRelationship());
 
-            mock.Setup(repo => repo.SaveTranslation(createSaveTranslationTranslation, out createManyToMany, out action))
-                .Returns(true);
+            mock.Setup(repo => repo.SaveTranslation(notAttachedTranslation, out action)).Returns(
+                new ManyToManyRelationship{Id = 1});
+            
             return mock.Object;
         }
 
         private ISurrogatesFactory MockSurrogatesFactory()
         {
             var mock = new Mock<ISurrogatesFactory>();
-            mock.Setup(factory => factory.CreateBankTranslationPair(falseSaveTranslationStream))
-                .Returns(new BankTranslationPair(-1, falseSaveTranaltionTranslation));
-            mock.Setup(factory => factory.CreateBankTranslationPair(emptyTranslationSaveTranslationStream))
-                .Returns(new BankTranslationPair(0, emptyTranslationSaveTranslationTranslation));
-            mock.Setup(factory => factory.CreateBankTranslationPair(createSaveTranslationStream))
-                .Returns(new BankTranslationPair(1, createSaveTranslationTranslation));
+            mock.Setup(factory => factory.CreateBankTranslationPair(incorrectTranslationStream))
+                .Returns(new BankTranslationPair(-1, incorrectTranslation));
+            mock.Setup(factory => factory.CreateBankTranslationPair(incorrectSavedTranslationStream))
+                .Returns(new BankTranslationPair(0, incorrectSavedTranslation));
+            mock.Setup(factory => factory.CreateBankTranslationPair(notAttachedTranalstionStream))
+                .Returns(new BankTranslationPair(0, notAttachedTranslation));
             return mock.Object;
         }
     }

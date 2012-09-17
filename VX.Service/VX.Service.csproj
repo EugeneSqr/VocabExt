@@ -70,6 +70,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\ContractSerializer.cs" />
+    <Compile Include="Infrastructure\Exceptions\ItemAlreadyExistsException.cs" />
+    <Compile Include="Infrastructure\Exceptions\ValidationFailedException.cs" />
     <Compile Include="Infrastructure\Factories\Entities\AbstractEntitiesFactory.cs" />
     <Compile Include="Infrastructure\Factories\IDefaultFactoryMethod.cs" />
     <Compile Include="Infrastructure\Factories\Entities\IAbstractEntitiesFactory.cs" />

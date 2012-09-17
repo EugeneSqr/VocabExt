@@ -4,6 +4,7 @@ using System.Linq;
 using VX.Domain.Entities;
 using VX.Domain.Responses;
 using VX.Domain.Surrogates;
+using VX.Service.Infrastructure.Exceptions;
 using VX.Service.Infrastructure.Factories.Entities;
 using VX.Service.Infrastructure.Factories.Responses;
 using VX.Service.Infrastructure.Factories.Surrogates;
@@ -114,15 +115,26 @@ namespace VX.Service
         public IOperationResponse SaveTranslation(Stream data)
         {
             var parsedPair = surrogatesFactory.CreateBankTranslationPair(data);
-            IManyToManyRelationship translation;
-            ServiceOperationAction action;
-            if (translationsRepository.SaveTranslation(parsedPair.Translation, out translation, out action) && translation != null)
+            try
             {
-                return action == ServiceOperationAction.Create
-                           ? responsesFactory.Create(
-                               vocabBanksRepository.AttachTranslation(parsedPair.VocabBankId, translation.Id),
-                               ServiceOperationAction.Attach)
-                           : responsesFactory.Create(true, ServiceOperationAction.Update);
+                ServiceOperationAction action;
+                IManyToManyRelationship translation = translationsRepository.SaveTranslation(parsedPair.Translation, out action);
+                if (translation.Id != 0)
+                {
+                    try
+                    {
+                        vocabBanksRepository.AttachTranslation(parsedPair.VocabBankId, translation.Id);
+                        return responsesFactory.Create(true, ServiceOperationAction.Attach);
+
+                    }
+                    catch (ItemAlreadyExistsException)
+                    {
+                        return responsesFactory.Create(true, action);
+                    }
+                }
+            }
+            catch (ValidationFailedException)
+            {
             }
 
             return responsesFactory.Create(false, ServiceOperationAction.Create);

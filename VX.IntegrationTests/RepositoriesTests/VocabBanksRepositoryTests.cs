@@ -2,6 +2,7 @@
 using Autofac;
 using NUnit.Framework;
 using VX.IntegrationTests.Mocks;
+using VX.Service.Infrastructure.Exceptions;
 using VX.Service.Infrastructure.Factories.Responses;
 using VX.Service.Infrastructure.Factories.SearchStrings;
 using VX.Service.Infrastructure.Factories.Surrogates;
@@ -97,7 +98,7 @@ namespace VX.IntegrationTests.RepositoriesTests
         [Description("Checks if attach translation attaches new translation")]
         public void AttachTranslationTest()
         {
-            Assert.IsTrue(SystemUnderTest.AttachTranslation(2, 1));
+            SystemUnderTest.AttachTranslation(2, 1);
             var repositoryForCheckingResultOfAttach = Container.Resolve<ITranslationsRepository>();
             Assert.IsNotNull(
                 repositoryForCheckingResultOfAttach.GetTranslations(2).FirstOrDefault(item => item.Id == 1));
@@ -105,10 +106,10 @@ namespace VX.IntegrationTests.RepositoriesTests
 
         [Test]
         [Category("VocabBanksRepositoryTests")]
-        [Description("Checks if attach translation does not attach translation that already exist in a bank")]
+        [Description("Checks if attach translation throws an exception if translation already exists in a bank")]
         public void AttachExistTranslationTest()
         {
-            Assert.IsFalse(SystemUnderTest.AttachTranslation(1, 1));
+            Assert.Throws<ItemAlreadyExistsException>(() => SystemUnderTest.AttachTranslation(1, 1));
         }
 
         [Test]

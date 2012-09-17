@@ -8,9 +8,8 @@ namespace VX.Service.Repositories.Interfaces
     {
         IList<ITranslation> GetTranslations(int vocabBankId);
 
-        bool SaveTranslation(
+        IManyToManyRelationship SaveTranslation(
             ITranslation translation, 
-            out IManyToManyRelationship resultTranslation,
             out ServiceOperationAction action);
     }
 }

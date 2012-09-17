@@ -5,6 +5,7 @@ using System.Linq;
 using VX.Domain.Entities;
 using VX.Domain.Surrogates;
 using VX.Model;
+using VX.Service.Infrastructure.Exceptions;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Factories.Entities;
@@ -141,13 +142,12 @@ namespace VX.Service.Repositories
             }
         }
 
-        public bool AttachTranslation(int vocabBankId, int translationId)
+        public void AttachTranslation(int vocabBankId, int translationId)
         {
             using (var context = ContextFactory.Build())
             {
-                var translation =
-                    context.VocabBanksTranslations.FirstOrDefault(
-                        item => item.VocabularyId == vocabBankId && item.TranslationId == translationId);
+                var translation = context.VocabBanksTranslations
+                    .FirstOrDefault(item => item.VocabularyId == vocabBankId && item.TranslationId == translationId);
                 if (translation == null)
                 {
                     translation = context.VocabBanksTranslations.CreateObject<VocabBanksTranslation>();
@@ -155,11 +155,12 @@ namespace VX.Service.Repositories
                     translation.TranslationId = translationId;
                     context.VocabBanksTranslations.AddObject(translation);
                     context.SaveChanges();
-                    return true;
+                }
+                else
+                {
+                    throw new ItemAlreadyExistsException();
                 }
             }
-
-            return false;
         }
 
         private IList<IVocabBank> Get(int[] vocabBanksIds, bool keepEmptyTranslations)

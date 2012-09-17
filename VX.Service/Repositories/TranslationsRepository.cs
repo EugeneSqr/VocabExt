@@ -4,6 +4,7 @@ using VX.Domain.Entities;
 using VX.Domain.Surrogates;
 using VX.Domain.Surrogates.Impl;
 using VX.Model;
+using VX.Service.Infrastructure.Exceptions;
 using VX.Service.Infrastructure.Factories.CacheKeys;
 using VX.Service.Infrastructure.Factories.Context;
 using VX.Service.Infrastructure.Factories.Entities;
@@ -54,16 +55,14 @@ namespace VX.Service.Repositories
             return result;
         }
 
-        public bool SaveTranslation(
+        public IManyToManyRelationship SaveTranslation(
             ITranslation translation, 
-            out IManyToManyRelationship resultTranslation, 
             out ServiceOperationAction action)
         {
-            resultTranslation = null;
             action = ServiceOperationAction.Update;
             if (!translationValidator.Validate(translation).Status)
             {
-                return false;
+                throw new ValidationFailedException();
             }
 
             using (var context = ContextFactory.Build())
@@ -88,15 +87,13 @@ namespace VX.Service.Repositories
                 
                 context.SaveChanges();
                 // TODO: to factory
-                resultTranslation = new ManyToManyRelationship
+                return new ManyToManyRelationship
                                         {
                                             Id = targetTranslation.Id,
                                             SourceId = targetTranslation.SourceId,
                                             TargetId = targetTranslation.TargetId
                                         };
             }
-
-            return true;
         }
 
         private Translation GetTranslation(int translationId)
