@@ -86,6 +86,8 @@
     <Compile Include="Infrastructure\Factories\Responses\ResponsesFactory.cs" />
     <Compile Include="Infrastructure\Factories\Surrogates\ISurrogatesFactory.cs" />
     <Compile Include="Infrastructure\Factories\Surrogates\SurrogatesFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Tasks\MultiDirectionsTasksFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Tasks\TasksFactoryBase.cs" />
     <Compile Include="Infrastructure\Interfaces\IContractSerializer.cs" />
     <Compile Include="RegisterServiceAttribute.cs" />
     <Compile Include="ServiceHostFactory.cs" />
@@ -106,7 +108,7 @@
     <Compile Include="Infrastructure\TaskValidator.cs" />
     <Compile Include="Infrastructure\Interfaces\IRandomPicker.cs" />
     <Compile Include="Infrastructure\Interfaces\IServiceSettings.cs" />
-    <Compile Include="Infrastructure\Factories\Tasks\TasksFactory.cs" />
+    <Compile Include="Infrastructure\Factories\Tasks\ForwardDirectionTasksFactory.cs" />
     <Compile Include="Infrastructure\Interfaces\IRandomFacade.cs" />
     <Compile Include="Infrastructure\RandomFacade.cs" />
     <Compile Include="Infrastructure\RandomPicker.cs" />

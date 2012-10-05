@@ -80,7 +80,6 @@ namespace VX.Service.Infrastructure
         {
             if (list == null)
             {
-                // todo localize
                 throw new ArgumentNullException("list", "Can't pick index to insert from null list");
             }
 

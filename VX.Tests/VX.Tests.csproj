@@ -70,7 +70,13 @@
     <Compile Include="SynonymSelectorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomPickerTests.cs" />
-    <Compile Include="TasksFactoryTests.cs" />
+    <Compile Include="TastsFactoryTests\MultiDirectionsBackwardFixture.cs" />
+    <Compile Include="TastsFactoryTests\MultiDirectionsBackwardInvalidFixture.cs" />
+    <Compile Include="TastsFactoryTests\MultiDirectionsBackwardValidFixture.cs" />
+    <Compile Include="TastsFactoryTests\MultidirectionsFixture.cs" />
+    <Compile Include="TastsFactoryTests\MultiDirectionsForwardFixture.cs" />
+    <Compile Include="TastsFactoryTests\MultiDirectionsForwardInvalidFixture.cs" />
+    <Compile Include="TastsFactoryTests\MultiDirectionsForwardValidFixture.cs" />
     <Compile Include="TaskValidatorTests.cs" />
     <Compile Include="TestsBase.cs" />
     <Compile Include="ValidatorsTests\TranslationValidatorTests.cs" />
