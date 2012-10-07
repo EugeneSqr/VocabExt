@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VX.Model", "VX.Model\VX.Mod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VX.IntegrationTests", "VX.IntegrationTests\VX.IntegrationTests.csproj", "{DB94CD5A-8F59-4966-8D44-DA4F2EDC23CF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{DF9507D7-7386-43FE-97BB-37A5EA16FFAA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{795EBE5F-2C75-4481-8FBF-E33D4E1FBF23}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
